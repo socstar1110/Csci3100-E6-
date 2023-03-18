@@ -1,0 +1,43 @@
+body {
+    background-color: hsl(0, 0%, 96%);
+  }
+
+.icon {
+    width: 30px;
+    height: 30px;
+}
+
+.icon-container {
+  display: flex;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.line {
+  border: none;
+  border-top: 4px solid black;
+  margin: 20px 0;
+}
+
+h6{
+  font-weight: bold;
+}
+
+.Drop{
+  width: 20px;
+  height: 20px;
+}
+
+
+.option {
+  width: 500px;
+  height: 500px;
+}
+
+.admin-button {
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: 1px solid grey;
+}
