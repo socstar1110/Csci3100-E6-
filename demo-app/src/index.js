@@ -249,7 +249,7 @@ const Admin =() =>{
     <div>
       <h4>Admin</h4>
       <hr className="line"/>
-      <div className="icon-container">
+      <div className="icon-container"> // show the secarh and exit icon one the right hand side
         <button>
           <Exit className="icon"/>
         </button>
