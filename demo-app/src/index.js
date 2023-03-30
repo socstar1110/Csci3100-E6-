@@ -163,7 +163,7 @@ const Profile = () =>{
     setPage("Selected")
   }
 
-  const data = [
+  const data = [ //temp data for display 
     {name:"Software Engineering", id:"4912",code: 'Csci3100', venue:"Lsk", time:"12:30 - 2:15",department:"Computer Science",instructor:"Micheal",capacity:200},
     {name:"Data Structures", id:"4469",code: 'Csci2100', venue:"Yia", time:"9:30 - 11:15",department:"Computer Science",instructor:"Allen",capacity:200}
   ];
@@ -171,8 +171,8 @@ const Profile = () =>{
   return(
     <div >
       <h4>{username}</h4>
-      <div className="icon-container">
-        <button >
+      <div className="icon-container"> {/* show the button on top right corner*/}
+        <button > 
           <Exit className="icon"/>
         </button>
         <button >
@@ -184,7 +184,7 @@ const Profile = () =>{
       </div>
       <hr className="line"/>
       
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">  {/* nav bar for chosing what you would like to see in profile page */}
         <div class="collapse navbar-collapse container d-flex justify-content-center align-items-center" id="navbarNavAltMarkup">
           <div class="navbar-nav">
             <button style={{margin:'10px'}} type="button" class="btn btn-primary" onClick={sethome}>Home </button>
@@ -202,8 +202,8 @@ const Profile = () =>{
         <div>
           <h6 className = "container d-flex justify-content-center align-items-center">View Select Course</h6>
           <div class="collapse navbar-collapse container d-flex justify-content-center align-items-center">
-            <table>
-            <thead>
+            <table> {/* show thh selected crouse by a table  */}
+            <thead> {/* header of the a table  */}
               <tr>
                 <th style={{padding: '30px'}}>CourseCode</th>
                 <th style={{padding: '30px'}}>CourseName</th>
@@ -215,10 +215,10 @@ const Profile = () =>{
                 <th style={{padding: '30px'}}>Capacity</th>
               </tr>
             </thead>
-            <tbody>
-              {data.map((course) => (
+            <tbody> {/* mapping the data to a table  */}
+              {data.map((course) => ( 
                 <tr>
-                  <td style={{padding: '30px'}}><Link to={'/'}>{course.code}</Link></td>
+                  <td style={{padding: '30px'}}><Link to={'/'}>{course.code}</Link></td> {/* a link to a acces crouse detail )*/}
                   <td style={{padding: '30px'}}>{course.name}</td>
                   <td style={{padding: '30px'}}>{course.id}</td>
                   <td style={{padding: '30px'}}>{course.venue}</td>
@@ -249,7 +249,7 @@ const Admin =() =>{
     <div>
       <h4>Admin</h4>
       <hr className="line"/>
-      <div className="icon-container"> // show the secarh and exit icon one the right hand side
+      <div className="icon-container"> {/* show the button on top right corner*/}
         <button>
           <Exit className="icon"/>
         </button>
@@ -257,6 +257,7 @@ const Admin =() =>{
           <SearchIcon className="icon"/>
         </button>
       </div>
+      {/* a button for admim to access the crouselist*/}
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <div style = {{marginRight: '10px' }}>
           <button className="admin-button" >
@@ -266,6 +267,7 @@ const Admin =() =>{
           <span>All Crouse</span>
         </div>
         
+        {/* a button for admim to access the userlist*/}
         <div>
           <button className="admin-button">
             <AllUser className="option"/>
@@ -279,12 +281,12 @@ const Admin =() =>{
 }
 
 const Userlist =() =>{
-  const data = [
+  const data = [ //temp data for display 
     {name: 'testuser', password:"csci3100",ID:"1234"},
   ];
   return(
     <div>
-      <div className="icon-container">
+      <div className="icon-container"> {/* show the button on top right corner*/}
         <button>
           <Exit className="icon"/>
         </button>
@@ -296,6 +298,8 @@ const Userlist =() =>{
       <hr className="line"/>
       <h6>Userlist</h6>
 
+
+      {/* display all user information by a table (the logic of this code is similar to the table of profile )*/}
       <div className="row">
         <div className="col-6">
           <table>
@@ -308,8 +312,8 @@ const Userlist =() =>{
             </thead>
             <tbody>
               {data.map((user) => (
-                <tr>
-                  <td style={{padding: '20px'}}><Link to={'/'}>{user.name}</Link></td>
+                <tr> 
+                  <td style={{padding: '20px'}}><Link to={'/'}>{user.name}</Link></td> {/* a link to a acces user detail )*/}
                   <td style={{padding: '20px'}}>{user.password}</td>
                   <td style={{padding: '20px'}}>{user.ID}</td>
                   <td style={{padding: '20px'}}>
@@ -324,6 +328,7 @@ const Userlist =() =>{
           </table>
         </div>
 
+        {/* a form for a admin to modify user information*/}
         <div className="col-3">
           <form >
             <h5>Modify user Information</h5>
@@ -353,9 +358,11 @@ const Userlist =() =>{
             </label>
           </form>
           <br></br>
+          {/*click this button to modify */}
           <button type="submit" class="btn btn-primary">modify</button>         
         </div>
-
+        
+        {/* a form for a admin to add a new user*/}
         <div className="col-3">
           <form >
             <h5>Add new user</h5>
@@ -379,6 +386,7 @@ const Userlist =() =>{
             </label>
           </form>
           <br></br>
+          {/*click this button to add */}
           <button type="submit" class="btn btn-success">add</button>         
         </div>
       </div>
@@ -388,14 +396,14 @@ const Userlist =() =>{
 }
 
 const Courslist = () =>{
-  const data = [
+  const data = [ //temp data for display 
     {name:"Software Engineering", id:"4912",code: 'Csci3100', venue:"Lsk", time:"12:30 - 2:15",department:"Computer Science",instructor:"Micheal",capacity:200},
     {name:"Data Structures", id:"4469",code: 'Csci2100', venue:"Yia", time:"9:30 - 11:15",department:"Computer Science",instructor:"Allen",capacity:200}
   ];
 
   return(
     <div>
-      <div className="icon-container">
+      <div className="icon-container"> {/* show the button on top right corner*/}
         <button>
           <Exit className="icon"/>
         </button>
@@ -407,12 +415,13 @@ const Courslist = () =>{
       <hr className="line"/>
       <h6>Courslist</h6>
 
+      {/* display all user information by a table (the logic of this code is similar to the table of profile )*/}
       <div className="row">
         <div className="col-7">
           <table>
             <thead>
               <tr>
-                <th style={{padding: '30px'}}>CourseCode</th>
+                <th style={{padding: '30px'}}>CourseCode</th> {/* add a padding for a clear ui )*/}
                 <th style={{padding: '30px'}}>CourseName</th>
                 <th style={{padding: '30px'}}>CourseID</th>
                 <th style={{padding: '30px'}}>Venue</th>
@@ -425,7 +434,7 @@ const Courslist = () =>{
             <tbody>
               {data.map((course) => (
                 <tr>
-                  <td style={{padding: '30px'}}><Link to={'/'}>{course.code}</Link></td>
+                  <td style={{padding: '30px'}}><Link to={'/'}>{course.code}</Link></td> {/* a link to a acces crouse detail )*/}
                   <td style={{padding: '30px'}}>{course.name}</td>
                   <td style={{padding: '30px'}}>{course.id}</td>
                   <td style={{padding: '30px'}}>{course.venue}</td>
@@ -443,7 +452,8 @@ const Courslist = () =>{
             </tbody>
           </table>
         </div>
-
+        
+        {/* a link to a form to modify crouse detail )*/}
         <div className="col-2">
           <form >
           <h5>Modify course Information</h5>
@@ -507,6 +517,7 @@ const Courslist = () =>{
           <button type="submit" class="btn btn-primary">modify</button>
         </div>
 
+        {/* a link to a form to add crouse detail )*/}
         <div className="col-2">
           <form >
           <h5>Add new course</h5>
@@ -571,8 +582,8 @@ const Courslist = () =>{
 
 const Search =() =>{
   const [username, setUsername] = useState(''); 
-  const [selectedValue, setSelectedValue] = useState(''); 
-  const [action, setAction] = useState(''); 
+  const [selectedValue, setSelectedValue] = useState(''); // this variable indicate which conditon would like to use to serach
+  const [action, setAction] = useState(''); // this variable indicate which page we would like to display (course cart or search)
   useEffect(() => {
     // This function will execute automatically
     setUsername("testuser")
@@ -584,22 +595,22 @@ const Search =() =>{
     setSelectedValue(event.target.value); // update selectedValue with the new value
   }
 
-  const toCart= () =>{
-    setAction("Cart")
+  const toCart= () =>{ 
+    setAction("Cart") //go to course cart page 
   }
 
   const toSearch= () =>{
-    setAction("Search")
+    setAction("Search") //go to search cart page 
   }
 
   
 
-  const data = [
+  const data = [ //temp data for display 
     {name:"Software Engineering", id:"4912",code: 'Csci3100', venue:"Lsk", time:"12:30 - 2:15",department:"Computer Science",instructor:"Micheal",capacity:200},
     {name:"Data Structures", id:"4469",code: 'Csci2100', venue:"Yia", time:"9:30 - 11:15",department:"Computer Science",instructor:"Allen",capacity:200}
   ];
   return(
-    <div>
+    <div> {/* show the button on top right corner*/}
       <h4>{username}</h4>  
       <div className="icon-container">
         <button>
@@ -615,6 +626,7 @@ const Search =() =>{
         <hr className="line"/>
 
 
+      {/* a nav bar to chose which page the user would like to acces */}
       <div>
         <nav class="navbar navbar-expand-lg navbar-light bg-light" >
           <div class="collapse navbar-collapse container d-flex justify-content-center align-items-center" id="navbarNavAltMarkup " >
@@ -627,7 +639,8 @@ const Search =() =>{
         
       </div>
 
-      {action == "Cart" &&
+      {/* show the course cart */}
+      {action == "Cart" && 
         <div>
           <h6 className = "container d-flex justify-content-center align-items-center">Your Course Cart</h6>
           <div className = "container d-flex justify-content-center align-items-center">
@@ -674,59 +687,60 @@ const Search =() =>{
         </div>
       }
 
-
-      {action == "Search" && selectedValue == "other"&&
-      <div className = "container d-flex justify-content-center align-items-center" >
-      <div className="search" style={{ display: 'block' }}> 
-        <h6 style={{ display: 'block' }}>Select Search Condition</h6>
-        <select value={selectedValue} onChange={handleSelectChange}>
-              <option value="other"> other </option>
-              <option value="department"> department </option>
-              <option value="instructor"> instructor </option>
-              <option value="place"> place </option>
-        </select>
-        <h6 style={{ display: 'block' }}>Search by keywords...</h6>
-        <label>
-            <input className="search " type="type" placeholder="Search by the course's keywords..." required="required" style={{ width: '300px' }}></input>
-        </label>
-        <button style={{ width: '30px', height: '30px', padding: '0px' }}> <SearchIcon style={{ width: '25px', height: '25px', padding: '0px' }}/> </button>
-        <table>
-          <thead>
-            <tr>
-              <th style={{padding: '20px'}}>CourseCode</th>
-              <th style={{padding: '20px'}}>CourseName</th>
-              <th style={{padding: '20px'}}>CourseID</th>
-              <th style={{padding: '20px'}}>Venue</th>
-              <th style={{padding: '20px'}}>Time</th>
-              <th style={{padding: '20px'}}>Department</th>
-              <th style={{padding: '20px'}}>Instructor</th>
-              <th style={{padding: '20px'}}>Capacity</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((course) => (
+      {/* serach by keyword */}
+        {action == "Search" && selectedValue == "other"&&
+        <div className = "container d-flex justify-content-center align-items-center" >
+        <div className="search" style={{ display: 'block' }}> 
+          <h6 style={{ display: 'block' }}>Select Search Condition</h6>
+          {/* select the condition */}
+          <select value={selectedValue} onChange={handleSelectChange}>
+                <option value="other"> other </option>
+                <option value="department"> department </option>
+                <option value="instructor"> instructor </option>
+                <option value="place"> place </option>
+          </select>
+          {/* let user input the keyword in here */}
+          <h6 style={{ display: 'block' }}>Search by keywords...</h6>
+          <label>
+              <input className="search " type="type" placeholder="Search by the course's keywords..." required="required" style={{ width: '300px' }}></input>
+          </label>
+          <button style={{ width: '30px', height: '30px', padding: '0px' }}> <SearchIcon style={{ width: '25px', height: '25px', padding: '0px' }}/> </button>
+          {/* show the search result by a table  */}
+          <table>
+            <thead>
               <tr>
-                <td style={{padding: '20px'}}><Link to={'/'}>{course.code}</Link></td>
-                <td style={{padding: '20px'}}>{course.name}</td>
-                <td style={{padding: '20px'}}>{course.id}</td>
-                <td style={{padding: '20px'}}>{course.venue}</td>
-                <td style={{padding: '20px'}}>{course.time}</td>
-                <td style={{padding: '20px'}}>{course.department}</td>
-                <td style={{padding: '20px'}}>{course.instructor}</td>
-                <td style={{padding: '20px'}}>{course.capacity}</td>
-                <td style={{padding: '20px'}}>
-                  <button className="addCrouse" style={{ width: '40px', height: '40px', padding: '0px' }} >
-                    <AddIcon className="icon"/>
-                  </button>
-                </td>
+                <th style={{padding: '20px'}}>CourseCode</th>
+                <th style={{padding: '20px'}}>CourseName</th>
+                <th style={{padding: '20px'}}>CourseID</th>
+                <th style={{padding: '20px'}}>Venue</th>
+                <th style={{padding: '20px'}}>Time</th>
+                <th style={{padding: '20px'}}>Department</th>
+                <th style={{padding: '20px'}}>Instructor</th>
+                <th style={{padding: '20px'}}>Capacity</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {data.map((course) => (
+                <tr>
+                  <td style={{padding: '20px'}}><Link to={'/'}>{course.code}</Link></td>
+                  <td style={{padding: '20px'}}>{course.name}</td>
+                  <td style={{padding: '20px'}}>{course.id}</td>
+                  <td style={{padding: '20px'}}>{course.venue}</td>
+                  <td style={{padding: '20px'}}>{course.time}</td>
+                  <td style={{padding: '20px'}}>{course.department}</td>
+                  <td style={{padding: '20px'}}>{course.instructor}</td>
+                  <td style={{padding: '20px'}}>{course.capacity}</td>
+                  <td style={{padding: '20px'}}>
+                    <button className="addCrouse" style={{ width: '40px', height: '40px', padding: '0px' }} >
+                      <AddIcon className="icon"/>
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
-
-
       }
 
       {action == "Search" && selectedValue == "department"&&
@@ -734,12 +748,14 @@ const Search =() =>{
         <div className="search" style={{ display: 'block' }}> 
           <h6 style={{ display: 'block' }}>Search by department...</h6>
           <h6 style={{ display: 'block' }}>Select Search Condition</h6>
+          {/* select the condition */}
           <select value={selectedValue} onChange={handleSelectChange}>
               <option value="other"> other </option>
               <option value="department"> department </option>
               <option value="instructor"> instructor </option>
               <option value="place"> place </option>
           </select>
+          {/* provide a option for user  */}
           <select>
           <option value="">-- Select an option --</option>
             <option value="csci"> Computer Science </option>
@@ -747,6 +763,7 @@ const Search =() =>{
           </select>
           <button style={{ width: '30px', height: '30px', padding: '0px' }}> <SearchIcon style={{ width: '25px', height: '25px', padding: '0px' }}/> </button>
           <table>
+            {/* show the search result by a table  */}
             <thead>
               <tr>
                 <th style={{padding: '20px'}}>CourseCode</th>
@@ -788,18 +805,21 @@ const Search =() =>{
       <div className="search" style={{ display: 'block' }}> 
         <h6 style={{ display: 'block' }}>Search by instructor...</h6>
         <h6 style={{ display: 'block' }}>Select Search Condition</h6>
+        {/* select the condition */}
         <select value={selectedValue} onChange={handleSelectChange}>
           <option value="other"> other </option>
           <option value="department"> department </option>
           <option value="instructor"> instructor </option>
           <option value="place"> place </option>
         </select>
+        {/* provide a option for user  */}
         <select>
           <option value="">-- Select an option --</option>
           <option value="Micheal"> Micheal </option>
           <option value="Ben"> Ben </option>
         </select>
         <button style={{ width: '30px', height: '30px', padding: '0px' }}> <SearchIcon style={{ width: '25px', height: '25px', padding: '0px' }}/> </button>
+        {/* show the search result by a table  */}
         <table>
           <thead>
             <tr>
@@ -842,18 +862,21 @@ const Search =() =>{
         <div className="search" style={{ display: 'block' }}> 
           <h6 style={{ display: 'block' }}>Search by location...</h6>
           <h6 style={{ display: 'block' }}>Select Search Condition</h6>
+          {/* select the condition */}
           <select value={selectedValue} onChange={handleSelectChange}>
               <option value="other"> other </option>
               <option value="department"> department </option>
               <option value="instructor"> instructor </option>
               <option value="place"> place </option>
           </select>
+          {/* provide a option for user  */}
           <select>
             <option value="">-- Select an option --</option>
             <option value="Yia"> Yia </option>
             <option value="Lsk"> Lsk </option>
           </select>
           <button style={{ width: '30px', height: '30px', padding: '0px' }}> <SearchIcon style={{ width: '25px', height: '25px', padding: '0px' }}/> </button>
+          {/* show the search result by a table  */}
           <table>
             <thead>
               <tr>
