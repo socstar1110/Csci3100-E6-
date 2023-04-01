@@ -35,20 +35,7 @@ import { ReactComponent as AllUser } from './icon/user.svg';
 import { ReactComponent as AddIcon } from './icon/plus.svg';
 
 /* use window. to create a global function */
-
-
-//window.PopUpbox = function(title,text,icon,confirmButtonText) { /* a box will show up when the function is called */
-//  Swal.fire({
-//    title: title,
-//    text: text,
-//    icon: icon,
-//    confirmButtonColor: '#3085d6',
-//    confirmButtonText: confirmButtonText,
-//  })
-//};
-
-
-window.PopUpbox = async function(title, text, icon, confirmButtonText) {
+window.PopUpbox = async function(title, text, icon, confirmButtonText) {  /* a box will show up when the function is called */
   const result = await Swal.fire({
     title: title,
     text: text,
@@ -58,11 +45,6 @@ window.PopUpbox = async function(title, text, icon, confirmButtonText) {
   });
   return result;
 };
-
-
-
-
-
 
 function App() {
   return ( /* BrowserRouter asign each functional component as a link, each component will render a page */
@@ -458,7 +440,7 @@ const Courselist = () =>{
     capacity:10,
     outline:'',});
 
-  function handleSubmit(event) { // submit the Object addCourse to the backend
+  function handleSubmitAddCourse(event) { // submit the Object addCourse to the backend
       event.preventDefault();
       fetch('http://localhost:2000/addcourse',{
       method:'POST',
@@ -488,52 +470,85 @@ const Courselist = () =>{
   }
 
   // the below function is use to modeify the object addcourse by the form  
-  function handleNameChange(event) {
-    setaddCourse(prevState => ({ ...prevState, name: event.target.value }));
-  }
-
-  function handleCodeChange(event) {
-    setaddCourse(prevState => ({ ...prevState, code: event.target.value }));
-  }
-
-  function handleIdChange(event) {
-    setaddCourse(prevState => ({ ...prevState, id: event.target.value }));
-  }
-
-  function handleVenueChange(event) {
-    setaddCourse(prevState => ({ ...prevState, venue: event.target.value }));
-  }
-
-  function handleDepartmentChange(event) {
-    setaddCourse(prevState => ({ ...prevState, department: event.target.value }));
-  }
-
-  function handleInstructorChange(event) {
-    setaddCourse(prevState => ({ ...prevState, instructor: event.target.value }));
-  }
-
-  function handleCapacityChange(event) {
-    setaddCourse(prevState => ({ ...prevState, capacity: event.target.value }));
-  }
-
-  function handleOutlineChange(event) {
-    setaddCourse(prevState => ({ ...prevState, outline: event.target.value }));
-  }
-
-  function handleDataChange(event) {
+ 
+  function handleAddCourseDataChange(event) {
     setaddCourse(prevState => ({ ...prevState, Data: event.target.value }));
   }
 
-  function handleStartTimeChange(event) {
+  function handleAddCourseStartTimeChange(event) {
     setaddCourse(prevState => ({ ...prevState, StartTime: event.target.value }));
   }
 
-  function handleEndTimeChange(event) {
+  function handleAddCourseEndTimeChange(event) {
     setaddCourse(prevState => ({ ...prevState, EndTime: event.target.value }));
   }
+
+  function handleAddCourseChange(event) {
+    const { name, value } = event.target;
+    setaddCourse(prevState => ({
+      ...prevState,
+      [name]: value,
+    }));
+  }
+
+
+  // below a for modify a course 
+  const [modifyCourse, setmodifyCourse] = useState({ 
+    oldId:'',
+    CourseName: '', 
+    CourseCode: '',
+    CourseId: '',
+    Venue:'',
+    Data:'Monday',
+    StartTime:'8:30',
+    EndTime:'9:15',
+    Department:'',
+    Instructor:'',
+    Capacity:10,
+    Outline:'',});
+
+    function handleSubmitModifyCourse(event){
+      event.preventDefault();
+      fetch('http://localhost:2000/modifycourse',{
+      method:'POST',
+      model:'cors',
+      headers:{
+        'Content-Type':'application/json'
+    },body: JSON.stringify((modifyCourse)) // send modifyCourse object to backend
+    })
+    .then(res => res.text())
+    .then(data => {
+        if(data == 'Updated'){ // the modify process is success
+          window.PopUpbox('Modify course successfully','Please click OK to continue','success','OK')
+          .then((result) => {
+            window.location.reload()
+          })
+        }else if (data == 'Not exist'){ // this course do not exist 
+          window.PopUpbox('Wrong Original CourseID','Please check carefully','error','OK')
+        }else{ // the time slot is not reasonable 
+          window.PopUpbox('Invaild time slot','Please check carefully','error','OK')
+        }
+      })
+    }
+    function handleModifyCourseDataChange(event) {
+      setmodifyCourse(prevState => ({ ...prevState, Data: event.target.value }));
+    }
   
-
-
+    function handleModifyCourseStartTimeChange(event) {
+      setmodifyCourse(prevState => ({ ...prevState, StartTime: event.target.value }));
+    }
+  
+    function handleModifyCourseEndTimeChange(event) {
+      setmodifyCourse(prevState => ({ ...prevState, EndTime: event.target.value }));
+    }
+  
+    function handleModifyCourseChange(event) {
+      const { name, value } = event.target;
+      setmodifyCourse(prevState => ({
+        ...prevState,
+        [name]: value,
+      }));
+    }
 
   return(
     <div>
@@ -602,34 +617,34 @@ const Courselist = () =>{
           <br></br>
           <label>
             Original CourseID
-            <MDBInput type="text"/> 
+            <MDBInput type="text" name="oldId" value={modifyCourse.oldId} onChange={handleModifyCourseChange}/>  {/* modify modifyCourse.oldId by onChange*/}
           </label>
           <br></br>
           <label>
             New CourseID:
-            <MDBInput type="text"/>
+            <MDBInput type="text"name="CourseId" value={modifyCourse.CourseId} onChange={handleModifyCourseChange}/>{/* modify modifyCourse.CourseId by onChange*/}
           </label>
           <br></br>
           <label>
             New CourseCode:
-            <MDBInput type="text"/>
+            <MDBInput type="text" name="CourseCode" value={modifyCourse.CourseCode} onChange={handleModifyCourseChange}/>{/* modify modifyCourse.CourseCode by onChange*/}
           </label>
           <br></br>
           <label>
             New CourseName:
-            <MDBInput type="text"/>
+            <MDBInput type="text" name="CourseName" value={modifyCourse.CourseName} onChange={handleModifyCourseChange}/>{/* modify modifyCourse.CourseName by onChange*/}
           </label>
           <br></br>
           <label>
             New Venue:
-            <MDBInput type="text"/>
+            <MDBInput type="text" name="Venue" value={modifyCourse.Venue} onChange={handleModifyCourseChange}/>{/* modify modifyCourse.Venue by onChange*/}
           </label>
           <br></br>
           <label>
             New Data:
           </label>
           <br></br>
-          <select>
+          <select name="data" value={modifyCourse.Data} onChange={handleModifyCourseDataChange}> {/* modify modifyCourse.Data by onChange*/}
             <option value="Monday">Monday</option>
             <option value="Tuesday">Tuesday</option>
             <option value="Wednesday">Wednesday</option>
@@ -642,7 +657,7 @@ const Courselist = () =>{
             New Time:
           </label>
           <br></br>
-          <select>
+          <select name="starttime" value={modifyCourse.StartTime} onChange={handleModifyCourseStartTimeChange}>{/* modify modifyCourse.StartTime by onChange*/}
             <option value="8:30">8:30</option>
             <option value="9:30">9:30</option>
             <option value="10:30">10:30</option>
@@ -655,97 +670,7 @@ const Courselist = () =>{
             <option value="17:30">17:30</option>
           </select>
           <p style={{display: 'inline-block'}}> - </p>
-          <select>
-            <option value="9:15">9:15</option>
-            <option value="10:15">10:15</option>
-            <option value="11:15">11:15</option>
-            <option value="12:15">12:15</option>
-            <option value="13:15">13:15</option>
-            <option value="14:15">14:15</option>
-            <option value="15:15">15:15</option>
-            <option value="16:15">16:15</option>
-            <option value="17:15">17:15</option>
-            <option value="18:15">18:15</option>
-          </select>
-          <br></br>
-          <label>
-            New Instructor:
-            <MDBInput type="text"/>
-          </label>
-          <br></br>
-          <label>
-            New Capacity:
-            <MDBInput type="text"/>
-          </label>
-          <br></br>
-          <label>
-            New Outline:
-            <br></br>
-            <textarea rows={4} cols={30} />
-          </label>
-          </form>
-          <br></br>
-          <button type="submit" class="btn btn-primary">modify</button>
-        </div>
-      </div>
-
-      {/* a link to a form to add crouse detail )*/}
-      <div className="col-xxl-2">
-        <div class="sticky-top"> {/* fix the form on a position )*/}
-        <form >
-          <h5>Add new course</h5>
-          <br></br>
-          <label>
-            New CourseID:
-            <MDBInput type="text" name="id" value={addCourse.id} onChange={handleIdChange}/> {/* modify addCourse. id by onChange*/}
-          </label>
-          <br></br>
-          <label>
-            New CourseCode:
-            <MDBInput type="text" name="code" value={addCourse.code} onChange={handleCodeChange}/>{/* modify addCourse.code by onChange*/}
-          </label>
-          <br></br>
-          <label>
-            New CourseName:
-            <MDBInput type="text" name="name" value={addCourse.name} onChange={handleNameChange} />{/* modify addCourse.name by onChange*/}
-          </label>
-          <br></br>
-          <label>
-            New Venue:
-            <MDBInput type="text" name="venue" value={addCourse.venue} onChange={handleVenueChange}/>{/* modify addCourse.venue by onChange*/}
-          </label>
-          <br></br>
-          <label>
-            New Data:
-          </label>
-          <br></br>
-          <select name="data" value={addCourse.Data} onChange={handleDataChange}>{/* modify addCourse.data by onChange*/}
-            <option value="Monday">Monday</option>
-            <option value="Tuesday">Tuesday</option>
-            <option value="Wednesday">Wednesday</option>
-            <option value="Thursday">Thursday</option>
-            <option value="Friday">Friday</option>
-          </select>
-
-          <br></br>
-          <label>
-            New Time:
-          </label>
-          <br></br>
-          <select name="starttime" value={addCourse.StartTime} onChange={handleStartTimeChange}>{/* modify addCourse.StartTime by onChange*/}
-            <option value="8:30">8:30</option>
-            <option value="9:30">9:30</option>
-            <option value="10:30">10:30</option>
-            <option value="11:30">11:30</option>
-            <option value="12:30">12:30</option>
-            <option value="13:30">13:30</option>
-            <option value="14:30">14:30</option>
-            <option value="15:30">15:30</option>
-            <option value="16:30">16:30</option>
-            <option value="17:30">17:30</option>
-          </select>
-          <p style={{display: 'inline-block'}}> - </p>
-          <select name="endtime" value={addCourse.EndTime} onChange={handleEndTimeChange}>{/* modify addCourse.EndTime by onChange*/}
+          <select name="endtime" value={modifyCourse.EndTime} onChange={handleModifyCourseEndTimeChange}>{/* modify modifyCourse.EndTime by onChange*/}
             <option value="9:15">9:15</option>
             <option value="10:15">10:15</option>
             <option value="11:15">11:15</option>
@@ -760,28 +685,123 @@ const Courselist = () =>{
           <br></br>
           <label>
             New Department:
-            <MDBInput type="text" name="instructor" value={addCourse.department} onChange={handleDepartmentChange}/>{/* modify addCourse.instructor by onChange*/}
+            <MDBInput type="text" name="Department" value={modifyCourse.Department} onChange={handleModifyCourseChange}/>{/* modify modifyCourse.Department by onChange*/}
           </label>
           <br></br>
           <label>
             New Instructor:
-            <MDBInput type="text" name="instructor" value={addCourse.instructor} onChange={handleInstructorChange}/>{/* modify addCourse.instructor by onChange*/}
+            <MDBInput type="text" name="Instructor" value={modifyCourse.Instructor} onChange={handleModifyCourseChange}/>{/* modify modifyCourse.Instructor by onChange*/}
           </label>
           <br></br>
           <label>
             New Capacity:
-            <MDBInput type="text" name="capacity" value={addCourse.capacity} onChange={handleCapacityChange}/>{/* modify addCourse.capacity by onChange*/}
+            <MDBInput type="text" name="Capacity" value={modifyCourse.Capacity} onChange={handleModifyCourseChange}/>{/* modify modifyCourse.Capacity by onChange*/}
           </label>
           <br></br>
           <label>
             New Outline:
             <br></br>
-            <textarea rows={4} cols={30} type="text" name="outline" value={addCourse.outline} onChange={handleOutlineChange}/>{/* modify addCourse.outline by onChange*/}
+            <textarea rows={4} cols={30} type="text" name="Outline" value={modifyCourse.Outline} onChange={handleModifyCourseChange}/>{/* modify modifyCourse.Outline by onChange*/}
+          </label>
+          </form>
+          <br></br>
+          <button type="submit" class="btn btn-primary" onClick={handleSubmitModifyCourse}>modify</button>
+        </div>
+      </div>
+
+      {/* a link to a form to add crouse detail )*/}
+      <div className="col-xxl-2">
+        <div class="sticky-top"> {/* fix the form on a position )*/}
+        <form >
+          <h5>Add new course</h5>
+          <br></br>
+          <label>
+            New CourseID:
+            <MDBInput type="text" name="id" value={addCourse.id} onChange={handleAddCourseChange}/> {/* modify addCourse. id by onChange*/}
+          </label>
+          <br></br>
+          <label>
+            New CourseCode:
+            <MDBInput type="text" name="code" value={addCourse.code} onChange={handleAddCourseChange}/>{/* modify addCourse.code by onChange*/}
+          </label>
+          <br></br>
+          <label>
+            New CourseName:
+            <MDBInput type="text" name="name" value={addCourse.name} onChange={handleAddCourseChange} />{/* modify addCourse.name by onChange*/}
+          </label>
+          <br></br>
+          <label>
+            New Venue:
+            <MDBInput type="text" name="venue" value={addCourse.venue} onChange={handleAddCourseChange}/>{/* modify addCourse.venue by onChange*/}
+          </label>
+          <br></br>
+          <label>
+            New Data:
+          </label>
+          <br></br>
+          <select name="data" value={addCourse.Data} onChange={handleAddCourseDataChange}>{/* modify addCourse.data by onChange*/}
+            <option value="Monday">Monday</option>
+            <option value="Tuesday">Tuesday</option>
+            <option value="Wednesday">Wednesday</option>
+            <option value="Thursday">Thursday</option>
+            <option value="Friday">Friday</option>
+          </select>
+
+          <br></br>
+          <label>
+            New Time:
+          </label>
+          <br></br>
+          <select name="starttime" value={addCourse.StartTime} onChange={handleAddCourseStartTimeChange}>{/* modify addCourse.StartTime by onChange*/}
+            <option value="8:30">8:30</option>
+            <option value="9:30">9:30</option>
+            <option value="10:30">10:30</option>
+            <option value="11:30">11:30</option>
+            <option value="12:30">12:30</option>
+            <option value="13:30">13:30</option>
+            <option value="14:30">14:30</option>
+            <option value="15:30">15:30</option>
+            <option value="16:30">16:30</option>
+            <option value="17:30">17:30</option>
+          </select>
+          <p style={{display: 'inline-block'}}> - </p>
+          <select name="endtime" value={addCourse.EndTime} onChange={handleAddCourseEndTimeChange}>{/* modify addCourse.EndTime by onChange*/}
+            <option value="9:15">9:15</option>
+            <option value="10:15">10:15</option>
+            <option value="11:15">11:15</option>
+            <option value="12:15">12:15</option>
+            <option value="13:15">13:15</option>
+            <option value="14:15">14:15</option>
+            <option value="15:15">15:15</option>
+            <option value="16:15">16:15</option>
+            <option value="17:15">17:15</option>
+            <option value="18:15">18:15</option>
+          </select>
+          <br></br>
+          <label>
+            New Department:
+            <MDBInput type="text" name="department" value={addCourse.department} onChange={handleAddCourseChange}/>{/* modify addCourse.instructor by onChange*/}
+          </label>
+          <br></br>
+          <label>
+            New Instructor:
+            <MDBInput type="text" name="instructor" value={addCourse.instructor} onChange={handleAddCourseChange}/>{/* modify addCourse.instructor by onChange*/}
+          </label>
+          <br></br>
+          <label>
+            New Capacity:
+            <MDBInput type="text" name="capacity" value={addCourse.capacity} onChange={handleAddCourseChange}/>{/* modify addCourse.capacity by onChange*/}
+          </label>
+          <br></br>
+          <label>
+            New Outline:
+            <br></br>
+            <textarea rows={4} cols={30} type="text" name="outline" value={addCourse.outline} onChange={handleAddCourseChange}/>{/* modify addCourse.outline by onChange*/}
           </label>
           
           </form>
           <br></br>
-          <button type="submit" class="btn btn-success" onClick={handleSubmit}>add</button>
+          <button type="submit" class="btn btn-success" onClick={handleSubmitAddCourse}>add</button>
         </div>
       </div>
     </div>
