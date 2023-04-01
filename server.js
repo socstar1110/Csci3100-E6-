@@ -10,6 +10,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcryptjs');
 const { name } = require('ejs');
+const { count } = require('console');
 
 
 mongoose.connect('mongodb+srv://stu003:p947642W@cluster0.wenbhsm.mongodb.net/stu003');
@@ -44,7 +45,7 @@ const User = mongoose.model('User', UserSchema)
 const Course = mongoose.model('Course', CourseSchema)
 
 
-app.post('/allcourse',(req,res) =>{
+app.post('/allcourse',(req,res) =>{ // access all course 
     Course.find((err,result) =>{
         const obj =[]
         for (let i = 0; i< result.length;i++){
@@ -68,7 +69,7 @@ app.post('/allcourse',(req,res) =>{
     })
 })
 
-app.post('/coursedetail',(req,res) =>{
+app.post('/coursedetail',(req,res) =>{ // access course information in detail
     const obj = {}
     console.log(req.body['id'])
     Course.findOne({CourseId:req.body['id']}, (err,result) =>{
@@ -86,20 +87,20 @@ app.post('/coursedetail',(req,res) =>{
 })
 
 
-app.post('/addcourse',(req,res) =>{
-    //console.log(req.body['id'] == '')
-    for (const property in req.body) {
+app.post('/addcourse',(req,res) =>{ //add a new course
+    console.log(req.body)
+    for (const property in req.body) { // loop the object to see another value is empty 
         if(req.body[property] == ''){
             console.log(property)
             res.send(property)
             return
         }
       }
-    if(parseInt(req.body['StartTime']) >= parseInt(req.body['EndTime'])){
+    if(parseInt(req.body['StartTime']) >= parseInt(req.body['EndTime'])){ // check any invaild time ie : ie : 10:30 - 9:15
         res.send('Invaild time')
     }else{
         Course.create({
-            CourseCode:req.body['code'],
+            CourseCode:req.body['code'], 
             CourseName:req.body['name'],
             CourseId:req.body['id'],
             Venue:req.body['venue'],
@@ -111,15 +112,43 @@ app.post('/addcourse',(req,res) =>{
             Capacity:req.body['capacity'],
             Outline:req.body['outline']
         },(err , result) =>{
-            console.log(result)
+            //console.log(result)
             if(result == null){
-                res.send('Repeated')
+                res.send('Repeated') // this course already exist in this system
             }else{
                 res.send('Added')
             }
         })
     }
 })
+
+
+app.post('/modifycourse' , (req,res) =>{
+    //console.log(req.body)
+    let counter = 0;
+    //console.log(req.body['oldId'])
+    Course.findOne({CourseId:req.body['oldId']} ,(err,result) =>{ // find the course we need and modify it 
+        if(result == null){ 
+            res.send('Not exist') // this course is not in the system 
+        }else if(parseInt(req.body['StartTime']) >= parseInt(req.body['EndTime'])){
+            res.send('Invaild time') // unresonable time slot 
+        }else{
+            for (const property in req.body){
+                if(counter > 0 && req.body[property] != ''){ // the input is empty we do not modify it
+                    result[property] = req.body[property] 
+                }
+                counter++;
+            }
+            result.save()
+            res.send('Updated')
+        }
+        
+    })
+})
+
+
+
+
 
 
 app.use('/', function (req, res) { // make sure the the server is work
