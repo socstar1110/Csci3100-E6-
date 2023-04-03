@@ -409,6 +409,7 @@ const Userlist =() =>{
 const Courselist = () =>{
   const obj = {useless:'00'} // meaningless body for fetch
   const [isLoading, setLoading] = useState(true); // set a loading term to make sure the system fetch the required data before return
+  const [isModify, setModify] = useState(false); // set a loading term to make sure the system fetch the required data before return
   useEffect(() => {
     // This function will execute automatically when your access this page 
       fetch('http://localhost:2000/allcourse',{ // fetch all course information from back-end
@@ -550,6 +551,17 @@ const Courselist = () =>{
       }));
     }
 
+    function showform() {
+      if (isModify == true){
+        setModify(false)
+      }else{
+        setModify(true)
+      }
+    }
+
+
+
+
   return(
     <div>
       <div className="icon-container"> {/* show the button on top right corner*/}
@@ -563,248 +575,256 @@ const Courselist = () =>{
       <AllCourse className="icon"/>
       <hr className="line"/>
       <h6 style={{padding: '10px'}}>Courselist</h6>
+      <button type="submit" class="btn btn-info" onClick={showform}>Add/Modify</button>
 
       {/* display all course information by a table (the logic of this code is similar to the table of profile )*/}
       {isLoading == false && // make sure we retune the data after fetch the a latest data 
-      <div className="row">
-      <div className="col-xxl-8 ">
-        <table>
-          <thead>
-            <tr>
-              <th style={{padding: '10px'}}>CourseCode</th> {/* add a padding for a clear ui )*/}
-              <th style={{padding: '10px'}}>CourseName</th>
-              <th style={{padding: '10px'}}>CourseID</th>
-              <th style={{padding: '10px'}}>Venue</th>
-              <th style={{padding: '10px'}}>Data</th>
-              <th style={{padding: '10px'}}>StartTime</th>
-              <th style={{padding: '10px'}}>EndTime</th>
-              <th style={{padding: '10px'}}>Department</th>
-              <th style={{padding: '10px'}}>Instructor</th>
-              <th style={{padding: '10px'}}>Capacity</th>
-              <th style={{padding: '10px'}}>Available</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((course) => (
-              <tr>
-                <td style={{padding: '10px'}}><Link to={'/coursedetail/' + course.id}>{course.code}</Link></td> {/* a link to a acces crouse detail )*/}
-                <td style={{padding: '10px'}}>{course.name}</td>
-                <td style={{padding: '10px'}}>{course.id}</td>
-                <td style={{padding: '10px'}}>{course.venue}</td>
-                <td style={{padding: '10px'}}>{course.Data}</td>
-                <td style={{padding: '10px'}}>{course.StartTime}</td>
-                <td style={{padding: '10px'}}>{course.EndTime}</td>
-                <td style={{padding: '10px'}}>{course.department}</td>
-                <td style={{padding: '10px'}}>{course.instructor}</td>
-                <td style={{padding: '10px'}}>{course.capacity}</td>
-                <td style={{padding: '10px'}}>{course.available}</td>
-                <td style={{padding: '10px'}}>
-                  <button className="dropCrouse" style={{ width: '40px', height: '40px', padding: '0px' }} >
-                    <Drop className="icon"/>
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      
-      {/* a link to a form to modify crouse detail )*/}
-      <div className="col-xxl-2">
-        <div class="sticky-top"> {/* fix the form on a position )*/}
-          <form >
-          <h5>Modify course Information</h5>
-          <br></br>
-          <label>
-            Original CourseID
-            <MDBInput type="text" name="oldId" value={modifyCourse.oldId} onChange={handleModifyCourseChange}/>  {/* modify modifyCourse.oldId by onChange*/}
-          </label>
-          <br></br>
-          <label>
-            New CourseID:
-            <MDBInput type="text"name="CourseId" value={modifyCourse.CourseId} onChange={handleModifyCourseChange}/>{/* modify modifyCourse.CourseId by onChange*/}
-          </label>
-          <br></br>
-          <label>
-            New CourseCode:
-            <MDBInput type="text" name="CourseCode" value={modifyCourse.CourseCode} onChange={handleModifyCourseChange}/>{/* modify modifyCourse.CourseCode by onChange*/}
-          </label>
-          <br></br>
-          <label>
-            New CourseName:
-            <MDBInput type="text" name="CourseName" value={modifyCourse.CourseName} onChange={handleModifyCourseChange}/>{/* modify modifyCourse.CourseName by onChange*/}
-          </label>
-          <br></br>
-          <label>
-            New Venue:
-            <MDBInput type="text" name="Venue" value={modifyCourse.Venue} onChange={handleModifyCourseChange}/>{/* modify modifyCourse.Venue by onChange*/}
-          </label>
-          <br></br>
-          <label>
-            New Data:
-          </label>
-          <br></br>
-          <select name="data" value={modifyCourse.Data} onChange={handleModifyCourseDataChange}> {/* modify modifyCourse.Data by onChange*/}
-            <option value="Monday">Monday</option>
-            <option value="Tuesday">Tuesday</option>
-            <option value="Wednesday">Wednesday</option>
-            <option value="Thursday">Thursday</option>
-            <option value="Friday">Friday</option>
-          </select>
+      <div>
+        <div className="row">
+          <div className="col-lg-10">
+            <table>
+              <thead>
+                <tr>
+                  <th style={{padding: '10px'}}>CourseCode</th> {/* add a padding for a clear ui )*/}
+                  <th style={{padding: '10px'}}>CourseName</th>
+                  <th style={{padding: '10px'}}>CourseID</th>
+                  <th style={{padding: '10px'}}>Venue</th>
+                  <th style={{padding: '10px'}}>Data</th>
+                  <th style={{padding: '10px'}}>StartTime</th>
+                  <th style={{padding: '10px'}}>EndTime</th>
+                  <th style={{padding: '10px'}}>Department</th>
+                  <th style={{padding: '10px'}}>Instructor</th>
+                  <th style={{padding: '10px'}}>Capacity</th>
+                  <th style={{padding: '10px'}}>Available</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.map((course) => (
+                  <tr>
+                    <td style={{padding: '10px'}}><Link to={'/coursedetail/' + course.id}>{course.code}</Link></td> {/* a link to a acces crouse detail )*/}
+                    <td style={{padding: '10px'}}>{course.name}</td>
+                    <td style={{padding: '10px'}}>{course.id}</td>
+                    <td style={{padding: '10px'}}>{course.venue}</td>
+                    <td style={{padding: '10px'}}>{course.Data}</td>
+                    <td style={{padding: '10px'}}>{course.StartTime}</td>
+                    <td style={{padding: '10px'}}>{course.EndTime}</td>
+                    <td style={{padding: '10px'}}>{course.department}</td>
+                    <td style={{padding: '10px'}}>{course.instructor}</td>
+                    <td style={{padding: '10px'}}>{course.capacity}</td>
+                    <td style={{padding: '10px'}}>{course.available}</td>
+                    <td style={{padding: '10px'}}>
+                      <button className="dropCrouse" style={{ width: '40px', height: '40px', padding: '0px' }} >
+                        <Drop className="icon"/>
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
-          <br></br>
-          <label>
-            New Time:
-          </label>
-          <br></br>
-          <select name="starttime" value={modifyCourse.StartTime} onChange={handleModifyCourseStartTimeChange}>{/* modify modifyCourse.StartTime by onChange*/}
-            <option value="8:30">8:30</option>
-            <option value="9:30">9:30</option>
-            <option value="10:30">10:30</option>
-            <option value="11:30">11:30</option>
-            <option value="12:30">12:30</option>
-            <option value="13:30">13:30</option>
-            <option value="14:30">14:30</option>
-            <option value="15:30">15:30</option>
-            <option value="16:30">16:30</option>
-            <option value="17:30">17:30</option>
-          </select>
-          <p style={{display: 'inline-block'}}> - </p>
-          <select name="endtime" value={modifyCourse.EndTime} onChange={handleModifyCourseEndTimeChange}>{/* modify modifyCourse.EndTime by onChange*/}
-            <option value="9:15">9:15</option>
-            <option value="10:15">10:15</option>
-            <option value="11:15">11:15</option>
-            <option value="12:15">12:15</option>
-            <option value="13:15">13:15</option>
-            <option value="14:15">14:15</option>
-            <option value="15:15">15:15</option>
-            <option value="16:15">16:15</option>
-            <option value="17:15">17:15</option>
-            <option value="18:15">18:15</option>
-          </select>
-          <br></br>
-          <label>
-            New Department:
-            <MDBInput type="text" name="Department" value={modifyCourse.Department} onChange={handleModifyCourseChange}/>{/* modify modifyCourse.Department by onChange*/}
-          </label>
-          <br></br>
-          <label>
-            New Instructor:
-            <MDBInput type="text" name="Instructor" value={modifyCourse.Instructor} onChange={handleModifyCourseChange}/>{/* modify modifyCourse.Instructor by onChange*/}
-          </label>
-          <br></br>
-          <label>
-            New Capacity:
-            <MDBInput type="text" name="Capacity" value={modifyCourse.Capacity} onChange={handleModifyCourseChange}/>{/* modify modifyCourse.Capacity by onChange*/}
-          </label>
-          <br></br>
-          <label>
-            New Outline:
-            <br></br>
-            <textarea rows={4} cols={30} type="text" name="Outline" value={modifyCourse.Outline} onChange={handleModifyCourseChange}/>{/* modify modifyCourse.Outline by onChange*/}
-          </label>
-          </form>
-          <br></br>
-          <button type="submit" class="btn btn-primary" onClick={handleSubmitModifyCourse}>modify</button>
-        </div>
-      </div>
+          {/* a link to a form to modify crouse detail )*/}
+          {isModify &&
+          <div className="col-lg-2">
+            <div class="sticky-top"> {/* fix the form on a position )*/}
+              <form >
+              <h5>Modify course Information</h5>
+              <br></br>
+              <label>
+                Original CourseID
+                <MDBInput type="text" name="oldId" value={modifyCourse.oldId} onChange={handleModifyCourseChange}/>  {/* modify modifyCourse.oldId by onChange*/}
+              </label>
+              <br></br>
+              <label>
+                New CourseID:
+                <MDBInput type="text"name="CourseId" value={modifyCourse.CourseId} onChange={handleModifyCourseChange}/>{/* modify modifyCourse.CourseId by onChange*/}
+              </label>
+              <br></br>
+              <label>
+                New CourseCode:
+                <MDBInput type="text" name="CourseCode" value={modifyCourse.CourseCode} onChange={handleModifyCourseChange}/>{/* modify modifyCourse.CourseCode by onChange*/}
+              </label>
+              <br></br>
+              <label>
+                New CourseName:
+                <MDBInput type="text" name="CourseName" value={modifyCourse.CourseName} onChange={handleModifyCourseChange}/>{/* modify modifyCourse.CourseName by onChange*/}
+              </label>
+              <br></br>
+              <label>
+                New Venue:
+                <MDBInput type="text" name="Venue" value={modifyCourse.Venue} onChange={handleModifyCourseChange}/>{/* modify modifyCourse.Venue by onChange*/}
+              </label>
+              <br></br>
+              <label>
+                New Data:
+              </label>
+              <br></br>
+              <select name="data" value={modifyCourse.Data} onChange={handleModifyCourseDataChange}> {/* modify modifyCourse.Data by onChange*/}
+                <option value="Monday">Monday</option>
+                <option value="Tuesday">Tuesday</option>
+                <option value="Wednesday">Wednesday</option>
+                <option value="Thursday">Thursday</option>
+                <option value="Friday">Friday</option>
+              </select>
 
-      {/* a link to a form to add crouse detail )*/}
-      <div className="col-xxl-2">
-        <div class="sticky-top"> {/* fix the form on a position )*/}
-        <form >
-          <h5>Add new course</h5>
-          <br></br>
-          <label>
-            New CourseID:
-            <MDBInput type="text" name="id" value={addCourse.id} onChange={handleAddCourseChange}/> {/* modify addCourse. id by onChange*/}
-          </label>
-          <br></br>
-          <label>
-            New CourseCode:
-            <MDBInput type="text" name="code" value={addCourse.code} onChange={handleAddCourseChange}/>{/* modify addCourse.code by onChange*/}
-          </label>
-          <br></br>
-          <label>
-            New CourseName:
-            <MDBInput type="text" name="name" value={addCourse.name} onChange={handleAddCourseChange} />{/* modify addCourse.name by onChange*/}
-          </label>
-          <br></br>
-          <label>
-            New Venue:
-            <MDBInput type="text" name="venue" value={addCourse.venue} onChange={handleAddCourseChange}/>{/* modify addCourse.venue by onChange*/}
-          </label>
-          <br></br>
-          <label>
-            New Data:
-          </label>
-          <br></br>
-          <select name="data" value={addCourse.Data} onChange={handleAddCourseDataChange}>{/* modify addCourse.data by onChange*/}
-            <option value="Monday">Monday</option>
-            <option value="Tuesday">Tuesday</option>
-            <option value="Wednesday">Wednesday</option>
-            <option value="Thursday">Thursday</option>
-            <option value="Friday">Friday</option>
-          </select>
+              <br></br>
+              <label>
+                New Time:
+              </label>
+              <br></br>
+              <select name="starttime" value={modifyCourse.StartTime} onChange={handleModifyCourseStartTimeChange}>{/* modify modifyCourse.StartTime by onChange*/}
+                <option value="8:30">8:30</option>
+                <option value="9:30">9:30</option>
+                <option value="10:30">10:30</option>
+                <option value="11:30">11:30</option>
+                <option value="12:30">12:30</option>
+                <option value="13:30">13:30</option>
+                <option value="14:30">14:30</option>
+                <option value="15:30">15:30</option>
+                <option value="16:30">16:30</option>
+                <option value="17:30">17:30</option>
+              </select>
+              <p style={{display: 'inline-block'}}> - </p>
+              <select name="endtime" value={modifyCourse.EndTime} onChange={handleModifyCourseEndTimeChange}>{/* modify modifyCourse.EndTime by onChange*/}
+                <option value="9:15">9:15</option>
+                <option value="10:15">10:15</option>
+                <option value="11:15">11:15</option>
+                <option value="12:15">12:15</option>
+                <option value="13:15">13:15</option>
+                <option value="14:15">14:15</option>
+                <option value="15:15">15:15</option>
+                <option value="16:15">16:15</option>
+                <option value="17:15">17:15</option>
+                <option value="18:15">18:15</option>
+              </select>
+              <br></br>
+              <label>
+                New Department:
+                <MDBInput type="text" name="Department" value={modifyCourse.Department} onChange={handleModifyCourseChange}/>{/* modify modifyCourse.Department by onChange*/}
+              </label>
+              <br></br>
+              <label>
+                New Instructor:
+                <MDBInput type="text" name="Instructor" value={modifyCourse.Instructor} onChange={handleModifyCourseChange}/>{/* modify modifyCourse.Instructor by onChange*/}
+              </label>
+              <br></br>
+              <label>
+                New Capacity:
+                <MDBInput type="text" name="Capacity" value={modifyCourse.Capacity} onChange={handleModifyCourseChange}/>{/* modify modifyCourse.Capacity by onChange*/}
+              </label>
+              <br></br>
+              <label>
+                New Outline:
+                <br></br>
+                <textarea rows={4} cols={30} type="text" name="Outline" value={modifyCourse.Outline} onChange={handleModifyCourseChange}/>{/* modify modifyCourse.Outline by onChange*/}
+              </label>
+              </form>
+              <br></br>
+              <button type="submit" class="btn btn-primary" onClick={handleSubmitModifyCourse}>modify</button>
+            </div>
+          </div>
+          }
 
-          <br></br>
-          <label>
-            New Time:
-          </label>
-          <br></br>
-          <select name="starttime" value={addCourse.StartTime} onChange={handleAddCourseStartTimeChange}>{/* modify addCourse.StartTime by onChange*/}
-            <option value="8:30">8:30</option>
-            <option value="9:30">9:30</option>
-            <option value="10:30">10:30</option>
-            <option value="11:30">11:30</option>
-            <option value="12:30">12:30</option>
-            <option value="13:30">13:30</option>
-            <option value="14:30">14:30</option>
-            <option value="15:30">15:30</option>
-            <option value="16:30">16:30</option>
-            <option value="17:30">17:30</option>
-          </select>
-          <p style={{display: 'inline-block'}}> - </p>
-          <select name="endtime" value={addCourse.EndTime} onChange={handleAddCourseEndTimeChange}>{/* modify addCourse.EndTime by onChange*/}
-            <option value="9:15">9:15</option>
-            <option value="10:15">10:15</option>
-            <option value="11:15">11:15</option>
-            <option value="12:15">12:15</option>
-            <option value="13:15">13:15</option>
-            <option value="14:15">14:15</option>
-            <option value="15:15">15:15</option>
-            <option value="16:15">16:15</option>
-            <option value="17:15">17:15</option>
-            <option value="18:15">18:15</option>
-          </select>
-          <br></br>
-          <label>
-            New Department:
-            <MDBInput type="text" name="department" value={addCourse.department} onChange={handleAddCourseChange}/>{/* modify addCourse.instructor by onChange*/}
-          </label>
-          <br></br>
-          <label>
-            New Instructor:
-            <MDBInput type="text" name="instructor" value={addCourse.instructor} onChange={handleAddCourseChange}/>{/* modify addCourse.instructor by onChange*/}
-          </label>
-          <br></br>
-          <label>
-            New Capacity:
-            <MDBInput type="text" name="capacity" value={addCourse.capacity} onChange={handleAddCourseChange}/>{/* modify addCourse.capacity by onChange*/}
-          </label>
-          <br></br>
-          <label>
-            New Outline:
-            <br></br>
-            <textarea rows={4} cols={30} type="text" name="outline" value={addCourse.outline} onChange={handleAddCourseChange}/>{/* modify addCourse.outline by onChange*/}
-          </label>
+          {isModify == false &&
+            <div className="col-lg-2">
+              <div class="sticky-top"> {/* fix the form on a position )*/}
+              <form >
+                <h5>Add new course</h5>
+                <br></br>
+                <label>
+                  New CourseID:
+                  <MDBInput type="text" name="id" value={addCourse.id} onChange={handleAddCourseChange}/> {/* modify addCourse. id by onChange*/}
+                </label>
+                <br></br>
+                <label>
+                  New CourseCode:
+                  <MDBInput type="text" name="code" value={addCourse.code} onChange={handleAddCourseChange}/>{/* modify addCourse.code by onChange*/}
+                </label>
+                <br></br>
+                <label>
+                  New CourseName:
+                  <MDBInput type="text" name="name" value={addCourse.name} onChange={handleAddCourseChange} />{/* modify addCourse.name by onChange*/}
+                </label>
+                <br></br>
+                <label>
+                  New Venue:
+                  <MDBInput type="text" name="venue" value={addCourse.venue} onChange={handleAddCourseChange}/>{/* modify addCourse.venue by onChange*/}
+                </label>
+                <br></br>
+                <label>
+                  New Data:
+                </label>
+                <br></br>
+                <select name="data" value={addCourse.Data} onChange={handleAddCourseDataChange}>{/* modify addCourse.data by onChange*/}
+                  <option value="Monday">Monday</option>
+                  <option value="Tuesday">Tuesday</option>
+                  <option value="Wednesday">Wednesday</option>
+                  <option value="Thursday">Thursday</option>
+                  <option value="Friday">Friday</option>
+                </select>
+
+                <br></br>
+                <label>
+                  New Time:
+                </label>
+                <br></br>
+                <select name="starttime" value={addCourse.StartTime} onChange={handleAddCourseStartTimeChange}>{/* modify addCourse.StartTime by onChange*/}
+                  <option value="8:30">8:30</option>
+                  <option value="9:30">9:30</option>
+                  <option value="10:30">10:30</option>
+                  <option value="11:30">11:30</option>
+                  <option value="12:30">12:30</option>
+                  <option value="13:30">13:30</option>
+                  <option value="14:30">14:30</option>
+                  <option value="15:30">15:30</option>
+                  <option value="16:30">16:30</option>
+                  <option value="17:30">17:30</option>
+                </select>
+                <p style={{display: 'inline-block'}}> - </p>
+                <select name="endtime" value={addCourse.EndTime} onChange={handleAddCourseEndTimeChange}>{/* modify addCourse.EndTime by onChange*/}
+                  <option value="9:15">9:15</option>
+                  <option value="10:15">10:15</option>
+                  <option value="11:15">11:15</option>
+                  <option value="12:15">12:15</option>
+                  <option value="13:15">13:15</option>
+                  <option value="14:15">14:15</option>
+                  <option value="15:15">15:15</option>
+                  <option value="16:15">16:15</option>
+                  <option value="17:15">17:15</option>
+                  <option value="18:15">18:15</option>
+                </select>
+                <br></br>
+                <label>
+                  New Department:
+                  <MDBInput type="text" name="department" value={addCourse.department} onChange={handleAddCourseChange}/>{/* modify addCourse.instructor by onChange*/}
+                </label>
+                <br></br>
+                <label>
+                  New Instructor:
+                  <MDBInput type="text" name="instructor" value={addCourse.instructor} onChange={handleAddCourseChange}/>{/* modify addCourse.instructor by onChange*/}
+                </label>
+                <br></br>
+                <label>
+                  New Capacity:
+                  <MDBInput type="text" name="capacity" value={addCourse.capacity} onChange={handleAddCourseChange}/>{/* modify addCourse.capacity by onChange*/}
+                </label>
+                <br></br>
+                <label>
+                  New Outline:
+                  <br></br>
+                  <textarea rows={4} cols={30} type="text" name="outline" value={addCourse.outline} onChange={handleAddCourseChange}/>{/* modify addCourse.outline by onChange*/}
+                </label>
+                
+                </form>
+                <br></br>
+                <button type="submit" class="btn btn-success" onClick={handleSubmitAddCourse}>add</button>
+              </div>
+            </div>
+          }
           
-          </form>
-          <br></br>
-          <button type="submit" class="btn btn-success" onClick={handleSubmitAddCourse}>add</button>
+
         </div>
       </div>
-    </div>
       }
     </div>
   )
