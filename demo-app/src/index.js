@@ -427,6 +427,14 @@ const Courselist = () =>{
   }, []);
   const data = JSON.parse(localStorage.getItem('allCourse')) // fetch back the data from local Storage 
 
+  function showform() { // this function indicate which form will show
+    if (isModify == true){
+      setModify(false)
+    }else{
+      setModify(true)
+    }
+  }
+
   // below a for add a new course 
   const [addCourse, setaddCourse] = useState({ 
     name: '', 
@@ -549,18 +557,28 @@ const Courselist = () =>{
         ...prevState,
         [name]: value,
       }));
+    } 
+
+
+    // below a for remove a course 
+    const Removeobj = {id:''} // a object contain a course id the admin would like to remove 
+    function Removecourse(ID){
+      Removeobj.id = ID
+      fetch('http://localhost:2000/removecourse',{ // fetch to del course
+      method:'POST',
+      model:'cors',
+      headers:{
+        'Content-Type':'application/json'
+      },body: JSON.stringify((Removeobj))
+    })
+    .then(res => res.text())
+    .then(data => {
+      window.PopUpbox('Delete course successfully','Please click OK to continue','success','OK')
+      .then((result) => {
+        window.location.reload()
+      })
+    })
     }
-
-    function showform() {
-      if (isModify == true){
-        setModify(false)
-      }else{
-        setModify(true)
-      }
-    }
-
-
-
 
   return(
     <div>
@@ -613,7 +631,7 @@ const Courselist = () =>{
                     <td style={{padding: '10px'}}>{course.capacity}</td>
                     <td style={{padding: '10px'}}>{course.available}</td>
                     <td style={{padding: '10px'}}>
-                      <button className="dropCrouse" style={{ width: '40px', height: '40px', padding: '0px' }} >
+                      <button className="dropCrouse" style={{ width: '40px', height: '40px', padding: '0px' }} onClick={(() => Removecourse(course.id))}>
                         <Drop className="icon"/>
                       </button>
                     </td>
