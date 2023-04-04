@@ -147,6 +147,15 @@ app.post('/modifycourse' , (req,res) =>{
 })
 
 
+app.post('/removecourse' ,(req ,res) =>{
+    //console.log(typeof(req.body['id']))
+    Course.deleteOne({CourseId:req.body['id']},(err,result) =>{ // del course base on the id 
+        //console.log(result)
+        res.send('Deleted')
+    })
+})
+
+
 
 
 
