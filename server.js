@@ -44,7 +44,7 @@ const CourseSchema = mongoose.Schema({
 const User = mongoose.model('User', UserSchema)
 const Course = mongoose.model('Course', CourseSchema)
 
-
+/*
 app.post('/allcourse',(req,res) =>{ // access all course 
     Course.find((err,result) =>{
         const obj =[]
@@ -68,6 +68,33 @@ app.post('/allcourse',(req,res) =>{ // access all course
         console.log("All course inforamtion is sent")
     })
 })
+*/
+app.post('/allcourse',(req,res) =>{
+    Course.find().then(function(result) {
+        const obj =[]
+        for (let i = 0; i< result.length;i++){
+            obj.push({
+                name:result[i].CourseName,
+                id:result[i].CourseId,
+                code:result[i].CourseCode,
+                venue:result[i].Venue,
+                Data:result[i].Data,
+                StartTime:result[i].StartTime,
+                EndTime:result[i].EndTime,
+                department:result[i].Department,
+                instructor:result[i].Instructor,
+                capacity:result[i].Capacity,
+                available:(result[i].Capacity - result[i].RegUser.length)
+            })
+        }
+        console.log(obj)
+        res.send(obj)
+        console.log("All course inforamtion is sent")
+      }).catch(function(error) {
+        console.log(error)
+      });
+})
+
 
 app.post('/coursedetail',(req,res) =>{ // access course information in detail
     const obj = {}
@@ -154,10 +181,6 @@ app.post('/removecourse' ,(req ,res) =>{
         res.send('Deleted')
     })
 })
-
-
-
-
 
 
 app.use('/', function (req, res) { // make sure the the server is work
