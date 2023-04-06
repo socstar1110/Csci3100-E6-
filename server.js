@@ -164,6 +164,6 @@ app.use('/', function (req, res) { // make sure the the server is work
     res.send('backend')
 })
 
-app.listen(2000, () => {
-    console.log('Server up at 2000')
+app.listen(80, () => {
+    console.log('Server up at 80')
 })
