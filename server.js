@@ -45,7 +45,7 @@ const User = mongoose.model('User', UserSchema)
 const Course = mongoose.model('Course', CourseSchema)
 
 
-app.use('/allcourse',(req,res) =>{ // access all course 
+app.post('/allcourse',(req,res) =>{ // access all course 
     Course.find((err,result) =>{
         const obj =[]
         for (let i = 0; i< result.length;i++){
