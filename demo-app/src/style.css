@@ -41,3 +41,26 @@ h6{
   font-size: 16px;
   border: 1px solid grey;
 }
+
+.dropCrouse{
+  background-color: firebrick;
+  color: white;
+  padding: 10px 60px;
+  margin: 10px 0px;
+  border-radius: 5px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.addCrouse{
+  background-color: seagreen;
+  color: white;
+  padding: 10px 60px;
+  margin: 10px 0px;
+  border-radius: 5px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
