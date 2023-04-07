@@ -44,31 +44,6 @@ const CourseSchema = mongoose.Schema({
 const User = mongoose.model('User', UserSchema)
 const Course = mongoose.model('Course', CourseSchema)
 
-/*
-app.post('/allcourse',(req,res) =>{ // access all course 
-    Course.find((err,result) =>{
-        const obj =[]
-        for (let i = 0; i< result.length;i++){
-            obj.push({
-                name:result[i].CourseName,
-                id:result[i].CourseId,
-                code:result[i].CourseCode,
-                venue:result[i].Venue,
-                Data:result[i].Data,
-                StartTime:result[i].StartTime,
-                EndTime:result[i].EndTime,
-                department:result[i].Department,
-                instructor:result[i].Instructor,
-                capacity:result[i].Capacity,
-                available:(result[i].Capacity - result[i].RegUser.length)
-            })
-        }
-        //console.log(obj)
-        res.send(obj)
-        console.log("All course inforamtion is sent")
-    })
-})
-*/
 app.post('/allcourse',(req,res) =>{
     Course.find().then(function(result) {
         const obj =[]
@@ -98,8 +73,9 @@ app.post('/allcourse',(req,res) =>{
 
 app.post('/coursedetail',(req,res) =>{ // access course information in detail
     const obj = {}
-    console.log(req.body['id'])
-    Course.findOne({CourseId:req.body['id']}, (err,result) =>{
+    //console.log(req.body['id'])
+
+    Course.findOne({CourseId:req.body['id']}).then(function(result) {
         if(result == null){
             obj.push({outline:"this course did not exist"})
         }else{
@@ -112,7 +88,6 @@ app.post('/coursedetail',(req,res) =>{ // access course information in detail
         }
     })
 })
-
 
 app.post('/addcourse',(req,res) =>{ //add a new course
     console.log(req.body)
@@ -138,8 +113,7 @@ app.post('/addcourse',(req,res) =>{ //add a new course
             Instructor:req.body['instructor'],
             Capacity:req.body['capacity'],
             Outline:req.body['outline']
-        },(err , result) =>{
-            //console.log(result)
+        }).then(function(result) {
             if(result == null){
                 res.send('Repeated') // this course already exist in this system
             }else{
@@ -154,7 +128,7 @@ app.post('/modifycourse' , (req,res) =>{
     //console.log(req.body)
     let counter = 0;
     //console.log(req.body['oldId'])
-    Course.findOne({CourseId:req.body['oldId']} ,(err,result) =>{ // find the course we need and modify it 
+    Course.findOne({CourseId:req.body['oldId']}).then(function(result) {
         if(result == null){ 
             res.send('Not exist') // this course is not in the system 
         }else if(parseInt(req.body['StartTime']) >= parseInt(req.body['EndTime'])){
@@ -166,18 +140,22 @@ app.post('/modifycourse' , (req,res) =>{
                 }
                 counter++;
             }
-            result.save()
-            res.send('Updated')
+            result.save(function(error){
+                if(error){
+                    res.send("duplicate")
+                }else{
+                    res.send('Updated')
+                }
+            })
+            
         }
-        
     })
 })
 
 
 app.post('/removecourse' ,(req ,res) =>{
     //console.log(typeof(req.body['id']))
-    Course.deleteOne({CourseId:req.body['id']},(err,result) =>{ // del course base on the id 
-        //console.log(result)
+    Course.deleteOne({CourseId:req.body['id']}).then(function(result) {// del course base on the id 
         res.send('Deleted')
     })
 })
