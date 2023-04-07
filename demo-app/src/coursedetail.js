@@ -15,7 +15,7 @@ import { ReactComponent as AllCourse } from './icon/open-book-study-svgrepo-com.
 const CourseDetail =() =>{
     const [isLoading, setLoading] = useState(true); // set a loading term to make sure the system fetch the required data before return
     const obj ={id : decodeURI(window.location.href.split('/')[4])}  //get the id by the url
-    fetch('http://localhost:2000/coursedetail',{
+    fetch('http://54.252.45.29/coursedetail',{
       method:'POST',
       model:'cors',
       headers:{

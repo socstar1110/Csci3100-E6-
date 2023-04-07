@@ -23,7 +23,7 @@ const Courselist = () =>{
     const [isModify, setModify] = useState(false); // set a loading term to make sure the system fetch the required data before return
     useEffect(() => {
       // This function will execute automatically when your access this page 
-        fetch('http://localhost:2000/allcourse',{ // fetch all course information from back-end
+        fetch('http://54.252.45.29/allcourse',{ // fetch all course information from back-end (aws : http://54.252.45.29. local :http://localhost:80
         method:'POST',
         model:'cors',
         headers:{
@@ -62,7 +62,7 @@ const Courselist = () =>{
   
     function handleSubmitAddCourse(event) { // submit the Object addCourse to the backend
         event.preventDefault();
-        fetch('http://localhost:2000/addcourse',{
+        fetch('http://54.252.45.29/addcourse',{
         method:'POST',
         model:'cors',
         headers:{
@@ -129,7 +129,7 @@ const Courselist = () =>{
   
       function handleSubmitModifyCourse(event){
         event.preventDefault();
-        fetch('http://localhost:2000/modifycourse',{
+        fetch('http://54.252.45.29/modifycourse',{ //aws : http://54.252.45.29. local :http://localhost:80
         method:'POST',
         model:'cors',
         headers:{
@@ -145,7 +145,10 @@ const Courselist = () =>{
             })
           }else if (data == 'Not exist'){ // this course do not exist 
             window.PopUpbox('Wrong Original CourseID','Please check carefully','error','OK')
-          }else{ // the time slot is not reasonable 
+          }else if (data == 'duplicate'){
+            window.PopUpbox('Duplicate Id/Code/Name','Please check carefully','error','OK')
+          }
+          else{ // the time slot is not reasonable 
             window.PopUpbox('Invaild time slot','Please check carefully','error','OK')
           }
         })
@@ -175,7 +178,7 @@ const Courselist = () =>{
       const Removeobj = {id:''} // a object contain a course id the admin would like to remove 
       function Removecourse(ID){
         Removeobj.id = ID
-        fetch('http://localhost:2000/removecourse',{ // fetch to del course
+        fetch('http://54.252.45.29/removecourse',{ // : http://54.252.45.29. local :http://localhost:80
         method:'POST',
         model:'cors',
         headers:{
