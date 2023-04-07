@@ -1,0 +1,4 @@
+npm install express
+npm install mongoose
+npm install cors
+npm install cookie-parser
