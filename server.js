@@ -8,7 +8,6 @@ const mongoose = require('mongoose')
 //const convert = require('xml-js')
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-const bcrypt = require('bcryptjs');
 const { name } = require('ejs');
 const { count } = require('console');
 
