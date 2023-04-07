@@ -165,5 +165,5 @@ app.use('/', function (req, res) { // make sure the the server is work
 })
 
 app.listen(80, () => {
-    console.log('Server up at 80')
+    console.log('Server up at 80(we should see backend in the page )')
 })
