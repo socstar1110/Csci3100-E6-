@@ -22,7 +22,6 @@ import {
   MDBCheckbox
 }from 'mdb-react-ui-kit';
 import Swal from 'sweetalert2';
-import {View, Switch, StyleSheet, Text} from 'react-native';
 import { CDBBtn ,CDBIcon} from "cdbreact";
 import 'bootstrap/dist/css/bootstrap.css';
 import './style.css'
@@ -42,12 +41,6 @@ import Userlist from './userlist.js';
 import Courselist from './courselist.js';
 import CourseDetail from './coursedetail.js';
 import Search from './search.js';
-
-
-
-
-
-
 
 /* use window. to create a global function */
 window.PopUpbox = async function(title, text, icon, confirmButtonText) {  /* a box will show up when the function is called */

@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import {
   MDBInput,
 }from 'mdb-react-ui-kit';
-
 import 'bootstrap/dist/css/bootstrap.css';
 import './style.css'
 import { ReactComponent as Exit } from './icon/box-arrow-in-left.svg';
@@ -17,13 +16,16 @@ import { ReactComponent as Drop } from './icon/dash.svg';
 import { ReactComponent as AllCourse } from './icon/open-book-study-svgrepo-com.svg';
 
 
+// fetch all course information from back-end (aws : http://54.252.45.29. local :http://localhost:80
+
+
 const Courselist = () =>{
     const obj = {useless:'00'} // meaningless body for fetch
     const [isLoading, setLoading] = useState(true); // set a loading term to make sure the system fetch the required data before return
     const [isModify, setModify] = useState(false); // set a loading term to make sure the system fetch the required data before return
     useEffect(() => {
       // This function will execute automatically when your access this page 
-        fetch('http://54.252.45.29/allcourse',{ // fetch all course information from back-end (aws : http://54.252.45.29. local :http://localhost:80
+        fetch('http://localhost:80/allcourse',{ 
         method:'POST',
         model:'cors',
         headers:{
@@ -62,7 +64,7 @@ const Courselist = () =>{
   
     function handleSubmitAddCourse(event) { // submit the Object addCourse to the backend
         event.preventDefault();
-        fetch('http://54.252.45.29/addcourse',{
+        fetch('http://localhost:80/addcourse',{
         method:'POST',
         model:'cors',
         headers:{
@@ -111,7 +113,6 @@ const Courselist = () =>{
       }));
     }
   
-  
     // below a for modify a course 
     const [modifyCourse, setmodifyCourse] = useState({ 
       oldId:'',
@@ -129,7 +130,7 @@ const Courselist = () =>{
   
       function handleSubmitModifyCourse(event){
         event.preventDefault();
-        fetch('http://54.252.45.29/modifycourse',{ //aws : http://54.252.45.29. local :http://localhost:80
+        fetch('http://localhost:80/modifycourse',{ 
         method:'POST',
         model:'cors',
         headers:{
@@ -178,7 +179,7 @@ const Courselist = () =>{
       const Removeobj = {id:''} // a object contain a course id the admin would like to remove 
       function Removecourse(ID){
         Removeobj.id = ID
-        fetch('http://54.252.45.29/removecourse',{ // : http://54.252.45.29. local :http://localhost:80
+        fetch('http://localhost:80/removecourse',{ 
         method:'POST',
         model:'cors',
         headers:{

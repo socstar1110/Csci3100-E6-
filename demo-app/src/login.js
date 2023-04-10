@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { useEffect, useState } from 'react';
 import {
   MDBBtn,
@@ -19,7 +18,7 @@ import './style.css'
 const Login = () =>{
     const [username, setUsername] = useState(''); /* define two variable in the functional component, this value of two variable will be send to backend */
     const [password, setPassword] = useState('');
-  
+    
     return( // whre the value of the box is changed will updata the username and passowrd  
     <div>
       <MDBContainer fluid className='p-4'>
@@ -59,6 +58,4 @@ const Login = () =>{
     </div>
     )
   }
-
-
 export default Login;

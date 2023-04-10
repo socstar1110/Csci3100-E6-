@@ -11,11 +11,12 @@ import { ReactComponent as SearchIcon } from './icon/search.svg';
 
 import { ReactComponent as AllCourse } from './icon/open-book-study-svgrepo-com.svg';
 
+// fetch all course information from back-end (aws : http://54.252.45.29. local :http://localhost:80
 
 const CourseDetail =() =>{
     const [isLoading, setLoading] = useState(true); // set a loading term to make sure the system fetch the required data before return
     const obj ={id : decodeURI(window.location.href.split('/')[4])}  //get the id by the url
-    fetch('http://54.252.45.29/coursedetail',{
+    fetch('http://localhost:80/coursedetail',{
       method:'POST',
       model:'cors',
       headers:{
