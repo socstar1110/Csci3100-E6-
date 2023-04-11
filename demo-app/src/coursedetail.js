@@ -26,10 +26,10 @@ const CourseDetail =() =>{
     .then(res => res.json()) // save the data as json 
     .then(data => {
       //console.log(data)
-      localStorage.setItem('CourseDetail',JSON.stringify(data)) // stroe the data as string in local Storage
+      sessionStorage.setItem('CourseDetail',JSON.stringify(data)) // stroe the data as string in local Storage
       setLoading(false)
     })
-    const CourseDetail = JSON.parse(localStorage.getItem('CourseDetail'))
+    const CourseDetail = JSON.parse(sessionStorage.getItem('CourseDetail'))
     
     return(
       <div>

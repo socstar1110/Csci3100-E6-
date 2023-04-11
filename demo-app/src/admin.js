@@ -38,7 +38,7 @@ const Admin =() =>{
               <AllCourse className="option" />
             </button>
             <br></br>
-            <span>All Crouse</span>
+            <span>All Course</span>
           </div>
           
           {/* a button for admim to access the userlist*/}

@@ -17,7 +17,6 @@ import { ReactComponent as AddIcon } from './icon/plus.svg';
 const Search =() =>{
     const [username, setUsername] = useState(''); 
     const [selectedValue, setSelectedValue] = useState(''); // this variable indicate which conditon would like to use to serach
-    const [action, setAction] = useState(''); // this variable indicate which page we would like to display (course cart or search)
     const [isLoading, setLoading] = useState(true); // set a loading term to make sure the system fetch the required data before return
 
     const [searchResult , setSearchResult ] = useState(); // final search result 
@@ -32,19 +31,10 @@ const Search =() =>{
       // This function will execute automatically
       setUsername("testuser")
       setSelectedValue("other")
-      setAction("Search")
     }, []);
   
     function handleSelectChange(event) {
       setSelectedValue(event.target.value); // update selectedValue with the new value
-    }
-  
-    const toCart= () =>{ 
-      setAction("Cart") //go to course cart page 
-    }
-  
-    const toSearch= () =>{
-      setAction("Search") //go to search cart page 
     }
 
     function handleSerachByConditonValueChange(event) {
@@ -99,128 +89,89 @@ const Search =() =>{
           <nav class="navbar navbar-expand-lg navbar-light bg-light" >
             <div class="collapse navbar-collapse container d-flex justify-content-center align-items-center" id="navbarNavAltMarkup " >
               <div class="navbar-nav">
-                <button style={{margin:'10px'}} type="button" class="btn btn-primary" onClick={toCart}>Course Cart </button>
-                <button style={{margin:'10px'}} type="button" class="btn btn-success" onClick={toSearch}>Search </button>
+                <button style={{margin:'10px'}} type="button" class="btn btn-primary">Course Cart </button>
+                <button style={{margin:'10px'}} type="button" class="btn btn-success">Search </button>
               </div>
             </div>
           </nav>
-          
         </div>
   
-        {/* show the course cart */}
-        {action == "Cart" && 
-          <div>
-            <h6 className = "container d-flex justify-content-center align-items-center">Your Course Cart</h6>
-            <div className = "container d-flex justify-content-center align-items-center">
-              <table>
-              <thead>
-                <tr>
-                  <th style={{padding: '20px'}}>CourseCode</th>
-                  <th style={{padding: '20px'}}>CourseName</th>
-                  <th style={{padding: '20px'}}>CourseID</th>
-                  <th style={{padding: '20px'}}>Venue</th>
-                  <th style={{padding: '20px'}}>Time</th>
-                  <th style={{padding: '20px'}}>Department</th>
-                  <th style={{padding: '20px'}}>Instructor</th>
-                  <th style={{padding: '20px'}}>Capacity</th>
-                </tr>
-              </thead>
-              <tbody>
-                {temp.map((course) => (
-                  <tr>
-                    <td style={{padding: '20px'}}><Link to={'/'}>{course.code}</Link></td>
-                    <td style={{padding: '20px'}}>{course.name}</td>
-                    <td style={{padding: '20px'}}>{course.id}</td>
-                    <td style={{padding: '20px'}}>{course.venue}</td>
-                    <td style={{padding: '20px'}}>{course.time}</td>
-                    <td style={{padding: '20px'}}>{course.department}</td>
-                    <td style={{padding: '20px'}}>{course.instructor}</td>
-                    <td style={{padding: '20px'}}>{course.capacity}</td>
-                    <td style={{padding: '20px'}}>
-                      <button className="dropCrouse" style={{ width: '40px', height: '40px', padding: '0px' }}>
-                        <Drop className="icon"/>
-                      </button>
-                    </td>
-                    <td style={{padding: '20px'}}>
-                      <input type="checkbox"></input>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-              </table>
-            </div>
-            <div className = "container d-flex justify-content-center align-items-center">
-              <button className = "btn btn-dark"> Select</button>
-            </div>  
+        
+        <div className = "container d-flex justify-content-center align-items-center" >
+          <div className="search" style={{ display: 'block' }}> 
+            <h6 style={{ display: 'block' }}>Search by instructor...</h6>
+            <h6 style={{ display: 'block' }}>Select Search Condition</h6>
+            
+            <select value={selectedValue} onChange={handleSelectChange}>
+              <option value="other"> other </option>
+              <option value="department"> department </option>
+              <option value="instructor"> instructor </option>
+              <option value="place"> place </option>
+            </select>
+            <br></br>
+
+            {selectedValue == "other" &&
+              <div>
+                <h6 style={{ display: 'block' }}>Search by keywords...</h6>
+                <label>
+                    <input className="search " type="type" placeholder="Search by the course's keywords..." required="required" style={{ width: '300px' }}></input>
+                </label>
+              </div>
+            }
+            
+            {selectedValue == "department" && (
+              <select value={serachByConditon.value} onChange={handleSerachByConditonValueChange}> {/*save the selected value into serachByConditon*/}
+              <option >-- Select an option --</option>
+                <option value="Department of Risk Management and Statistics">	Department of Risk Management and Statistics </option>
+                <option value="Department of Computer Science and Engineering"> Department of Computer Science and Engineering </option>
+                <option value="Department of Statistics and Actuarial Science"> Department of Statistics and Actuarial Science </option>
+                <option value="Department of Chemistry"> Department of Chemistry</option>
+                <option value="Department of Economics"> Department of Economics</option>
+                <option value="Department of English"> Department of English</option>
+                <option value="Department of Linguistics and Modern Languages"> Department of Linguistics and Modern Languages</option>
+                <option value="Department of Psychology"> Department of Psychology</option>
+                <option value="Department of History"> Department of History</option>
+                <option value="Department of Mathematics"> Department of Mathematics</option>
+                <option value="Department of Sociology"> Department of Sociology</option>
+                <option value="Department of Urban Planning and Design"> Department of Urban Planning and Design</option>
+                <option value="General Education"> General Education</option>
+              </select>
+            )}
+
+            {selectedValue == "instructor" &&(
+              <select value={serachByConditon.value} onChange={handleSerachByConditonValueChange}>
+              <option value="">-- Select an option --</option>
+              <option value="Dr. LAM Wai Kin"> Dr. LAM Wai Kin</option>
+              <option value="Dr. WONG Ka Yan"> Dr. WONG Ka Yan</option>
+              <option value="Dr. CHAN Tai Man"> Dr. CHAN Tai Man	</option>
+              <option value="Dr. LAM Wai Kin"> Dr. LAM Wai Kin</option>
+              <option value="Dr. LEE Siu Lun"> Dr. LEE Siu Lun</option>
+              <option value="Dr. LEE Wai Ming"> Dr. LEE Wai Ming</option>
+              <option value="Dr. WONG Ka Shing"> Dr. WONG Ka Shing</option>
+              <option value="Dr. LEE Siu Man"> Dr. LEE Siu Man</option>
+              <option value="Dr. LEUNG Sze Him Isaac">Dr. LEUNG Sze Him Isaac</option>
+              <option value="Dr. OUYANG Ming"> Dr. OUYANG Ming</option>
+              <option value="Professor DAI Ben"> Professor DAI Ben</option>
+              <option value="Dr. WONG Tat Wing"> Dr. WONG Tat Wing</option>
+            </select>
+            )}
+
+            {selectedValue == "place"&&(
+              <select>
+              <option value="">-- Select an option --</option>
+              <option value="Yia"> Yia </option>
+              <option value="Lsk"> Lsk </option>
+            </select>
+            )
+            }
+            <button style={{ width: '30px', height: '30px', padding: '0px' }} onClick={SerachByConditon}> <SearchIcon style={{ width: '25px', height: '25px', padding: '0px' }}/> </button>
           </div>
-        }
-
-        {action == "Search" && (
-          <div className = "container d-flex justify-content-center align-items-center" >
-            <div className="search" style={{ display: 'block' }}> 
-              <h6 style={{ display: 'block' }}>Search by instructor...</h6>
-              <h6 style={{ display: 'block' }}>Select Search Condition</h6>
-              
-              <select value={selectedValue} onChange={handleSelectChange}>
-                <option value="other"> other </option>
-                <option value="department"> department </option>
-                <option value="instructor"> instructor </option>
-                <option value="place"> place </option>
-              </select>
-              <br></br>
-
-              {selectedValue == "other" &&
-                <div>
-                 <h6 style={{ display: 'block' }}>Search by keywords...</h6>
-                 <label>
-                     <input className="search " type="type" placeholder="Search by the course's keywords..." required="required" style={{ width: '300px' }}></input>
-                 </label>
-                </div>
-              }
-              
-              {selectedValue == "department" && (
-                <select value={serachByConditon.value} onChange={handleSerachByConditonValueChange}> {/*save the selected value into serachByConditon*/}
-                <option >-- Select an option --</option>
-                  <option value="Department of Risk Management and Statistics">	Department of Risk Management and Statistics </option>
-                  <option value="Department of Computer Science and Engineering"> Department of Computer Science and Engineering </option>
-                  <option value="Department of Statistics and Actuarial Science"> Department of Statistics and Actuarial Science </option>
-                  <option value="Department of Chemistry"> Department of Chemistry</option>
-                  <option value="Department of Economics"> Department of Economics</option>
-                  <option value="Department of English"> Department of English</option>
-                  <option value="Department of Linguistics and Modern Languages"> Department of Linguistics and Modern Languages</option>
-                  <option value="Department of Psychology"> Department of Psychology</option>
-                  <option value="Department of History"> Department of History</option>
-                  <option value="Department of Mathematics"> Department of Mathematics</option>
-                  <option value="Department of Sociology"> Department of Sociology</option>
-                  <option value="Department of Urban Planning and Design"> Department of Urban Planning and Design</option>
-                  <option value="General Education"> General Education</option>
-                </select>
-              )}
-
-              {selectedValue == "instructor" &&(
-                <select>
-                <option value="">-- Select an option --</option>
-                <option value="Micheal"> Micheal </option>
-                <option value="Ben"> Ben </option>
-              </select>
-              )}
-
-              {selectedValue == "place"&&(
-                <select>
-                <option value="">-- Select an option --</option>
-                <option value="Yia"> Yia </option>
-                <option value="Lsk"> Lsk </option>
-              </select>
-              )
-              }
-              <button style={{ width: '30px', height: '30px', padding: '0px' }} onClick={SerachByConditon}> <SearchIcon style={{ width: '25px', height: '25px', padding: '0px' }}/> </button>
-            </div>
-          </div>
-          )}
+        </div>
+          
   
 
 
-        {action == "Search" && isLoading == false &&
+        {isLoading == false &&
           <div className = "container d-flex justify-content-center align-items-center" >
             <table>
                 <thead>

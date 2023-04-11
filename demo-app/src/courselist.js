@@ -25,7 +25,7 @@ const Courselist = () =>{
     const [isModify, setModify] = useState(false); // set a loading term to make sure the system fetch the required data before return
     useEffect(() => {
       // This function will execute automatically when your access this page 
-        fetch('http://localhost:80/allcourse',{ 
+        fetch('http://localhost:80/allcourse',{ // fetch all course information from back-end (aws : http://54.252.45.29. local :http://localhost:80
         method:'POST',
         model:'cors',
         headers:{
@@ -34,11 +34,11 @@ const Courselist = () =>{
       })
       .then(res => res.json())
       .then(data => {
-        localStorage.setItem('allCourse',JSON.stringify(data)) //store the data to local Storage first
+        sessionStorage.setItem('allCourse',JSON.stringify(data)) //store the data to local Storage first
         setLoading(false)
       })
     }, []);
-    const data = JSON.parse(localStorage.getItem('allCourse')) // fetch back the data from local Storage 
+    const data = JSON.parse(sessionStorage.getItem('allCourse')) // fetch back the data from local Storage 
   
     function showform() { // this function indicate which form will show
       if (isModify == true){
