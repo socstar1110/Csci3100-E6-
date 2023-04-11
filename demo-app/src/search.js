@@ -16,35 +16,27 @@ import { ReactComponent as AddIcon } from './icon/plus.svg';
 
 const Search =() =>{
     const [username, setUsername] = useState(''); 
-    const [selectedValue, setSelectedValue] = useState(''); // this variable indicate which conditon would like to use to serach
     const [isLoading, setLoading] = useState(true); // set a loading term to make sure the system fetch the required data before return
-
     const [searchResult , setSearchResult ] = useState(); // final search result 
-    
-
     const [serachByConditon, SetSerachByConditon] = useState({ 
-      Conditon: '', 
+      Conditon: 'other', 
       Value:'',
       });
 
     useEffect(() => {
       // This function will execute automatically
       setUsername("testuser")
-      setSelectedValue("other")
     }, []);
   
-    function handleSelectChange(event) {
-      setSelectedValue(event.target.value); // update selectedValue with the new value
-    }
-
     function handleSerachByConditonValueChange(event) {
       SetSerachByConditon(prevState => ({ ...prevState, Value: event.target.value }));
     }
 
+    function handleConditonChange(event) {
+      SetSerachByConditon(prevState => ({ ...prevState, Conditon: event.target.value }));
+    }
 
-    function SerachByConditon(event){
-      SetSerachByConditon(prevState => ({ ...prevState, Conditon: selectedValue })); // save the conditon into serachByConditon
-      
+    function SerachByConditon(event){      
       event.preventDefault();
         fetch('http://localhost:80/searchbycondition',{ 
         method:'POST',
@@ -59,8 +51,6 @@ const Search =() =>{
         setLoading(false)
       })
     }
-
-    //let data = JSON.parse(localStorage.getItem('MatchCourse')) // fetch back the data from local Storage
 
     const temp = [ //temp data for display 
       {name:"Software Engineering", id:"4912",code: 'Csci3100', venue:"Lsk", time:"12:30 - 2:15",department:"Computer Science",instructor:"Micheal",capacity:200},
@@ -99,18 +89,17 @@ const Search =() =>{
         
         <div className = "container d-flex justify-content-center align-items-center" >
           <div className="search" style={{ display: 'block' }}> 
-            <h6 style={{ display: 'block' }}>Search by instructor...</h6>
             <h6 style={{ display: 'block' }}>Select Search Condition</h6>
             
-            <select value={selectedValue} onChange={handleSelectChange}>
+            <select value={serachByConditon.Conditon} onChange={handleConditonChange}>
               <option value="other"> other </option>
               <option value="department"> department </option>
               <option value="instructor"> instructor </option>
-              <option value="place"> place </option>
+              <option value="data"> data </option>
             </select>
             <br></br>
 
-            {selectedValue == "other" &&
+            {serachByConditon.Conditon == "other" &&
               <div>
                 <h6 style={{ display: 'block' }}>Search by keywords...</h6>
                 <label>
@@ -119,8 +108,8 @@ const Search =() =>{
               </div>
             }
             
-            {selectedValue == "department" && (
-              <select value={serachByConditon.value} onChange={handleSerachByConditonValueChange}> {/*save the selected value into serachByConditon*/}
+            {serachByConditon.Conditon == "department" && (
+            <select value={serachByConditon.value} onChange={handleSerachByConditonValueChange}> {/*save the selected value into serachByConditon*/}
               <option >-- Select an option --</option>
                 <option value="Department of Risk Management and Statistics">	Department of Risk Management and Statistics </option>
                 <option value="Department of Computer Science and Engineering"> Department of Computer Science and Engineering </option>
@@ -135,11 +124,11 @@ const Search =() =>{
                 <option value="Department of Sociology"> Department of Sociology</option>
                 <option value="Department of Urban Planning and Design"> Department of Urban Planning and Design</option>
                 <option value="General Education"> General Education</option>
-              </select>
+            </select>
             )}
 
-            {selectedValue == "instructor" &&(
-              <select value={serachByConditon.value} onChange={handleSerachByConditonValueChange}>
+            {serachByConditon.Conditon == "instructor" &&(
+            <select value={serachByConditon.value} onChange={handleSerachByConditonValueChange}>
               <option value="">-- Select an option --</option>
               <option value="Dr. LAM Wai Kin"> Dr. LAM Wai Kin</option>
               <option value="Dr. WONG Ka Yan"> Dr. WONG Ka Yan</option>
@@ -156,21 +145,21 @@ const Search =() =>{
             </select>
             )}
 
-            {selectedValue == "place"&&(
-              <select>
+            {serachByConditon.Conditon == "data"&&(
+            <select value={serachByConditon.value} onChange={handleSerachByConditonValueChange}>
               <option value="">-- Select an option --</option>
-              <option value="Yia"> Yia </option>
-              <option value="Lsk"> Lsk </option>
+              <option value="Monday">Monday</option>
+              <option value="Tuesday">Tuesday</option>
+              <option value="Wednesday">Wednesday</option>
+              <option value="Thursday">Thursday</option>
+              <option value="Friday">Friday</option>
             </select>
             )
             }
             <button style={{ width: '30px', height: '30px', padding: '0px' }} onClick={SerachByConditon}> <SearchIcon style={{ width: '25px', height: '25px', padding: '0px' }}/> </button>
           </div>
         </div>
-          
-  
-
-
+      
         {isLoading == false &&
           <div className = "container d-flex justify-content-center align-items-center" >
             <table>
