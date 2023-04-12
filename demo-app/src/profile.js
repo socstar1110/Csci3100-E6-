@@ -1,21 +1,14 @@
-import ReactDOM from "react-dom/client";
+
 import React from 'react';
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Link,
-  useParams,
-  useLocation,
-} from 'react-router-dom';
+
 import { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import './style.css'
 import { ReactComponent as Exit } from './icon/box-arrow-in-left.svg';
 import { ReactComponent as SearchIcon } from './icon/search.svg';
 import { ReactComponent as Person } from './icon/person-circle.svg';
-import { ReactComponent as Drop } from './icon/dash.svg';
-
+import SelectCourse from './selectedcourses'
+import TimeTable from './timetable';
 
 const Profile = () =>{
     const [username, setUsername] = useState(''); 
@@ -71,51 +64,12 @@ const Profile = () =>{
           </div>
         </nav>
   
-        {page == "home" && /* show the home  */
+        {page === "home" && /* show the home  */
           <p class="collapse navbar-collapse container d-flex justify-content-center align-items-center"> welcome back</p>
         }
-  
-        {page == "Selected" && /* show the selected course */
-          <div>
-            <h6 className = "container d-flex justify-content-center align-items-center">View Select Course</h6>
-            <div class="collapse navbar-collapse container d-flex justify-content-center align-items-center">
-              <table> {/* show thh selected crouse by a table  */}
-              <thead> {/* header of the a table  */}
-                <tr>
-                  <th style={{padding: '30px'}}>CourseCode</th>
-                  <th style={{padding: '30px'}}>CourseName</th>
-                  <th style={{padding: '30px'}}>CourseID</th>
-                  <th style={{padding: '30px'}}>Venue</th>
-                  <th style={{padding: '30px'}}>Time</th>
-                  <th style={{padding: '30px'}}>Department</th>
-                  <th style={{padding: '30px'}}>Instructor</th>
-                  <th style={{padding: '30px'}}>Capacity</th>
-                </tr>
-              </thead>
-              <tbody> {/* mapping the data to a table  */}
-                {data.map((course) => ( 
-                  <tr>
-                    <td style={{padding: '30px'}}><Link to={'/'}>{course.code}</Link></td> {/* a link to a acces crouse detail )*/}
-                    <td style={{padding: '30px'}}>{course.name}</td>
-                    <td style={{padding: '30px'}}>{course.id}</td>
-                    <td style={{padding: '30px'}}>{course.venue}</td>
-                    <td style={{padding: '30px'}}>{course.time}</td>
-                    <td style={{padding: '30px'}}>{course.department}</td>
-                    <td style={{padding: '30px'}}>{course.instructor}</td>
-                    <td style={{padding: '30px'}}>{course.capacity}</td>
-                    <td style={{padding: '30px'}}>
-                      <button className="dropCrouse" style={{ width: '40px', height: '40px', padding: '0px' }}>
-                        <Drop className="icon"/>
-                      </button>
-                    </td>
-                    
-                  </tr>
-                ))}
-              </tbody>
-              </table>
-            </div>
-          </div>
-        }
+        {/* show the selected course */}
+        {page === "Selected" && <SelectCourse data={data}/>}\
+        {page === "Timetable" && <TimeTable />}
       </div>
     )
   }

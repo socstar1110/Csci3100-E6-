@@ -4,35 +4,11 @@ import {
   BrowserRouter,
   Routes,
   Route,
-  Link,
-  useParams,
-  useLocation,
+
 } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { useNavigate } from "react-router-dom";
-import {
-  MDBBtn,
-  MDBContainer,
-  MDBRow,
-  MDBCol,
-  MDBCard,
-  MDBCardBody,
-  MDBInput,
-  MDBIcon,
-  MDBCheckbox
-}from 'mdb-react-ui-kit';
 import Swal from 'sweetalert2';
-import { CDBBtn ,CDBIcon} from "cdbreact";
 import 'bootstrap/dist/css/bootstrap.css';
 import './style.css'
-import { ReactComponent as Exit } from './icon/box-arrow-in-left.svg';
-import { ReactComponent as SearchIcon } from './icon/search.svg';
-import { ReactComponent as Person } from './icon/person-circle.svg';
-import { ReactComponent as Drop } from './icon/dash.svg';
-import { ReactComponent as AllCourse } from './icon/open-book-study-svgrepo-com.svg';
-import { ReactComponent as AllUser } from './icon/user.svg';
-import { ReactComponent as AddIcon } from './icon/plus.svg';
-
 import Admin from './admin.js';
 import Login from './login.js';
 import Register from './register.js';
@@ -41,7 +17,6 @@ import Userlist from './userlist.js';
 import Courselist from './courselist.js';
 import CourseDetail from './coursedetail.js';
 import Search from './search.js';
-import Coursecart from './coursecart.js';
 
 
 /* use window. to create a global function */
@@ -68,20 +43,10 @@ function App() {
         <Route path="/courselist" element={<RenderCourselist/>}/>
         <Route path="/coursedetail/*" element={<RenderCourseDetail />} />
         <Route path="/search" element={<RenderSearch/>}/>
-        <Route path="/coursecart" element={<RenderCoursecart/>}/>
       </Routes>
     </BrowserRouter>
   );
 }
-
-const RenderCoursecart = () =>{
-  return(
-    <div>
-      < Coursecart/>
-    </div>
-  )
-}
-
 
 const RenderLogin = () =>{
   return(
@@ -98,7 +63,6 @@ const RenderRegister =() =>{
     </div>
   );
 }
-
 
 const RenderProfile = () =>{
   return(
@@ -149,7 +113,6 @@ const RenderSearch =() =>{
       <Search/>
     </div>
   )
-
 }
 
 const root = ReactDOM.createRoot(document.querySelector('#app'));

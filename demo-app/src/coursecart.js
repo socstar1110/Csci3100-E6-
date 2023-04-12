@@ -29,52 +29,25 @@ const Coursecart =() =>{
   
   return(
     <div>
-      <div> {/* show the button on top right corner*/}
-        <h4>{username}</h4>  
-        <div className="icon-container">
-          <button>
-            <Exit className="icon"/>
-          </button>
-          <button>
-            <SearchIcon className="icon"/>
-          </button>
-          <button >
-            <Person className="icon"/>
-          </button>
-          </div> 
-          <hr className="line"/>
-      </div>
-        {/* a nav bar to chose which page the user would like to acces */}
-        <div>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light" >
-          <div class="collapse navbar-collapse container d-flex justify-content-center align-items-center" id="navbarNavAltMarkup " >
-            <div class="navbar-nav">
-              <button style={{margin:'10px'}} type="button" class="btn btn-primary">Course Cart </button>
-              <button style={{margin:'10px'}} type="button" class="btn btn-success">Search </button>
-            </div>
-          </div>
-        </nav>
-      </div>
-
-
-
-
       <div>
         <h6 className = "container d-flex justify-content-center align-items-center">Your Course Cart</h6>
         <div className = "container d-flex justify-content-center align-items-center">
           <table>
           <thead>
-            <tr>
-              <th style={{padding: '20px'}}>CourseCode</th>
-              <th style={{padding: '20px'}}>CourseName</th>
-              <th style={{padding: '20px'}}>CourseID</th>
-              <th style={{padding: '20px'}}>Venue</th>
-              <th style={{padding: '20px'}}>Time</th>
-              <th style={{padding: '20px'}}>Department</th>
-              <th style={{padding: '20px'}}>Instructor</th>
-              <th style={{padding: '20px'}}>Capacity</th>
-            </tr>
-          </thead>
+              <tr> {/*Display the column names */}
+                <th style={{ padding: '10px' }}>CourseCode</th> {/* add a padding for a clear ui )*/}
+                <th style={{ padding: '10px' }}>CourseName</th>
+                <th style={{ padding: '10px' }}>CourseID</th>
+                <th style={{ padding: '10px' }}>Venue</th>
+                <th style={{ padding: '10px' }}>Data</th>
+                <th style={{ padding: '10px' }}>StartTime</th>
+                <th style={{ padding: '10px' }}>EndTime</th>
+                <th style={{ padding: '10px' }}>Department</th>
+                <th style={{ padding: '10px' }}>Instructor</th>
+                <th style={{ padding: '10px' }}>Capacity</th>
+                <th style={{ padding: '10px' }}>Available</th>
+              </tr>
+            </thead>
           <tbody>
             {temp.map((course) => (
               <tr>

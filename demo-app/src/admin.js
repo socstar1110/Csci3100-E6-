@@ -43,7 +43,7 @@ const Admin =() =>{
           
           {/* a button for admim to access the userlist*/}
           <div>
-            <button className="admin-button" onClick = {toCourseList}>
+            <button className="admin-button" onClick = {toUserList}>
               <AllUser className="option"/>
             </button>
             <br></br>
