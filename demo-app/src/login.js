@@ -13,11 +13,49 @@ import {
 }from 'mdb-react-ui-kit';
 import 'bootstrap/dist/css/bootstrap.css';
 import './style.css'
+import CryptoJS from 'crypto-js';
+import { useNavigate } from "react-router-dom";
 
 
 const Login = () =>{
     const [username, setUsername] = useState(''); /* define two variable in the functional component, this value of two variable will be send to backend */
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
+
+    const encryptedUsername = CryptoJS.AES.encrypt(username, 'secret_default_key').toString();
+    const encryptedPassword = CryptoJS.AES.encrypt(password, 'secret_default_key').toString();
+
+    function login(){
+      console.log(username)
+      console.log(password)
+      fetch('http://localhost:80/login', {
+      method: 'POST',
+      model: 'cors',
+      headers: {
+        'Content-Type': 'application/json'
+      }, credentials: 'include', // for receive cookies
+      body: JSON.stringify({
+        encryptedUsername,
+        encryptedPassword
+      })
+    })
+    .then(res => res.text())
+    .then(data => {
+      if(data == 'userVaild'){
+        window.PopUpbox('Login successfully','Please click OK to continue','success','OK')
+        .then((result) => {
+          navigate("/profile")
+          })
+      }else if(data == 'adminVaild'){
+        window.PopUpbox('Login successfully','Please click OK to continue','success','OK')
+        .then((result) => {
+          navigate("/admin")
+          })
+      }else{
+        window.PopUpbox('Login unsuccessfully','Please check carefully','error','OK')
+      }
+    })
+    }
     
     return( // whre the value of the box is changed will updata the username and passowrd  
     <div>
@@ -45,7 +83,7 @@ const Login = () =>{
               </MDBRow>
               <MDBInput wrapperClass='mb-4' label='Password' id='form1' type='password' value={password} onChange={(e) => setPassword(e.target.value)}/>
               {/* change the value of password base on the value of this box */}
-              <button onClick={() => window.PopUpbox('Invalid login credentials','Please type the correct login credentials or register a new account','error','OK')} class="btn btn-primary">
+              <button onClick={() =>login()} class="btn btn-primary">
                 Login
               </button>
               <br></br>

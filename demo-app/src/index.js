@@ -32,6 +32,7 @@ window.PopUpbox = async function(title, text, icon, confirmButtonText) {  /* a b
   return result;
 };
 
+
 function App() {
   return ( /* BrowserRouter asign each functional component as a link, each component will render a page */
     <BrowserRouter> 
