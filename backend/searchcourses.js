@@ -34,7 +34,7 @@ router.post('/searchbycondition', (req, res) => {
 				
 			 // Search field is data
 			case 'date':
-				Course.find({ Data: req.body['Value'] })
+				Course.find({Date: req.body['Value'] })
                     .then((result) => {
                         res.send(result)
                     })

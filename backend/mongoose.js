@@ -12,7 +12,7 @@ const CourseSchema = mongoose.Schema({
     CourseName: { type: String, require: true, unique: true },
     CourseId: { type: String, require: true, unique: true },
     Venue: { type: String, require: true },
-    Data: { type: String, require: true },
+    Date: { type: String, require: true },
     StartTime: { type: String, require: true },
     EndTime: { type: String, require: true },
     Department: { type: String, require: true },

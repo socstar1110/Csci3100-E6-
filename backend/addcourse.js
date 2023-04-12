@@ -19,7 +19,7 @@ router.post('/addcourse', (req, res) => { //add a new course
             CourseName: req.body['name'],
             CourseId: req.body['id'],
             Venue: req.body['venue'],
-            Data: req.body['Data'],
+            Date: req.body['Date'],
             StartTime: req.body['StartTime'],
             EndTime: req.body['EndTime'],
             Department: req.body['department'],
