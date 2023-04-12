@@ -54,7 +54,7 @@ const Courselist = () =>{
       code: '',
       id: '',
       venue:'',
-      Data:'Monday',
+      Date:'Monday',
       StartTime:'8:30',
       EndTime:'9:15',
       department:'',
@@ -93,8 +93,8 @@ const Courselist = () =>{
   
     // the below function is use to modeify the object addcourse by the form  
    
-    function handleAddCourseDataChange(event) {
-      setaddCourse(prevState => ({ ...prevState, Data: event.target.value }));
+    function handleAddCourseDateChange(event) {
+      setaddCourse(prevState => ({ ...prevState, Date: event.target.value }));
     }
   
     function handleAddCourseStartTimeChange(event) {
@@ -120,7 +120,7 @@ const Courselist = () =>{
       CourseCode: '',
       CourseId: '',
       Venue:'',
-      Data:'Monday',
+      Date:'Monday',
       StartTime:'8:30',
       EndTime:'9:15',
       Department:'',
@@ -154,8 +154,8 @@ const Courselist = () =>{
           }
         })
       }
-      function handleModifyCourseDataChange(event) {
-        setmodifyCourse(prevState => ({ ...prevState, Data: event.target.value }));
+      function handleModifyCourseDateChange(event) {
+        setmodifyCourse(prevState => ({ ...prevState, Date: event.target.value }));
       }
     
       function handleModifyCourseStartTimeChange(event) {
@@ -222,7 +222,7 @@ const Courselist = () =>{
                     <th style={{padding: '10px'}}>CourseName</th>
                     <th style={{padding: '10px'}}>CourseID</th>
                     <th style={{padding: '10px'}}>Venue</th>
-                    <th style={{padding: '10px'}}>Data</th>
+                    <th style={{padding: '10px'}}>Date</th>
                     <th style={{padding: '10px'}}>StartTime</th>
                     <th style={{padding: '10px'}}>EndTime</th>
                     <th style={{padding: '10px'}}>Department</th>
@@ -238,7 +238,7 @@ const Courselist = () =>{
                       <td style={{padding: '10px'}}>{course.name}</td>
                       <td style={{padding: '10px'}}>{course.id}</td>
                       <td style={{padding: '10px'}}>{course.venue}</td>
-                      <td style={{padding: '10px'}}>{course.Data}</td>
+                      <td style={{padding: '10px'}}>{course.Date}</td>
                       <td style={{padding: '10px'}}>{course.StartTime}</td>
                       <td style={{padding: '10px'}}>{course.EndTime}</td>
                       <td style={{padding: '10px'}}>{course.department}</td>
@@ -289,10 +289,10 @@ const Courselist = () =>{
                 </label>
                 <br></br>
                 <label>
-                  New Data:
+                  New Date:
                 </label>
                 <br></br>
-                <select name="data" value={modifyCourse.Data} onChange={handleModifyCourseDataChange}> {/* modify modifyCourse.Data by onChange*/}
+                <select name="data" value={modifyCourse.Date} onChange={handleModifyCourseDateChange}> {/* modify modifyCourse.Date by onChange*/}
                   <option value="Monday">Monday</option>
                   <option value="Tuesday">Tuesday</option>
                   <option value="Wednesday">Wednesday</option>
@@ -385,10 +385,10 @@ const Courselist = () =>{
                   </label>
                   <br></br>
                   <label>
-                    New Data:
+                    New Date:
                   </label>
                   <br></br>
-                  <select name="data" value={addCourse.Data} onChange={handleAddCourseDataChange}>{/* modify addCourse.data by onChange*/}
+                  <select name="data" value={addCourse.Date} onChange={handleAddCourseDateChange}>{/* modify addCourse.data by onChange*/}
                     <option value="Monday">Monday</option>
                     <option value="Tuesday">Tuesday</option>
                     <option value="Wednesday">Wednesday</option>

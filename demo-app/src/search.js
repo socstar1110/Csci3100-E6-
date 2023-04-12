@@ -5,6 +5,7 @@ import {
 import { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import './style.css'
+import cookie from 'react-cookies'
 import { ReactComponent as Exit } from './icon/box-arrow-in-left.svg';
 import { ReactComponent as SearchIcon } from './icon/search.svg';
 import { ReactComponent as Person } from './icon/person-circle.svg';
@@ -25,7 +26,7 @@ const Search = () => {
   const [emptyReturn, setEmptyReturn] = useState(false);
   useEffect(() => {
     // This function will execute automatically
-    setUsername("henry")
+    setUsername(cookie.load('username'))
   }, []);
 
   const toCart = () => {
@@ -312,7 +313,7 @@ const Search = () => {
                 <th style={{ padding: '10px' }}>CourseName</th>
                 <th style={{ padding: '10px' }}>CourseID</th>
                 <th style={{ padding: '10px' }}>Venue</th>
-                <th style={{ padding: '10px' }}>Data</th>
+                <th style={{ padding: '10px' }}>Date</th>
                 <th style={{ padding: '10px' }}>StartTime</th>
                 <th style={{ padding: '10px' }}>EndTime</th>
                 <th style={{ padding: '10px' }}>Department</th>
@@ -328,7 +329,7 @@ const Search = () => {
                   <td style={{ padding: '10px' }}>{course.CourseName}</td>
                   <td style={{ padding: '10px' }}>{course.CourseId}</td>
                   <td style={{ padding: '10px' }}>{course.Venue}</td>
-                  <td style={{ padding: '10px' }}>{course.Data}</td>
+                  <td style={{ padding: '10px' }}>{course.Date}</td>
                   <td style={{ padding: '10px' }}>{course.StartTime}</td>
                   <td style={{ padding: '10px' }}>{course.EndTime}</td>
                   <td style={{ padding: '10px' }}>{course.Department}</td>

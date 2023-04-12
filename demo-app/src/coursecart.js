@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
-
+import cookie from 'react-cookies'
 import 'bootstrap/dist/css/bootstrap.css';
 import './style.css'
 import { ReactComponent as Exit } from './icon/box-arrow-in-left.svg';
@@ -15,11 +15,19 @@ import { ReactComponent as Drop } from './icon/dash.svg';
 import { ReactComponent as AddIcon } from './icon/plus.svg';
 
 const Coursecart =() =>{
-  const [username, setUsername] = useState(''); 
+  const obj ={username:cookie.load('username')} // send to the backend 
 
   useEffect(() => {
     // This function will execute automatically
-    setUsername("testuser")
+    fetch('http://localhost:80/showcart', {
+      method: 'POST',
+      model: 'cors',
+      headers: {
+        'Content-Type': 'application/json'
+      }, body: JSON.stringify((obj))
+    })
+      .then(res => res.text())
+      .then(data => console.log(data))
   }, []);
 
   const temp = [ //temp data for display 
@@ -39,7 +47,7 @@ const Coursecart =() =>{
                 <th style={{ padding: '10px' }}>CourseName</th>
                 <th style={{ padding: '10px' }}>CourseID</th>
                 <th style={{ padding: '10px' }}>Venue</th>
-                <th style={{ padding: '10px' }}>Data</th>
+                <th style={{ padding: '10px' }}>Date</th>
                 <th style={{ padding: '10px' }}>StartTime</th>
                 <th style={{ padding: '10px' }}>EndTime</th>
                 <th style={{ padding: '10px' }}>Department</th>

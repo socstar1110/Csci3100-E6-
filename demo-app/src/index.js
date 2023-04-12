@@ -7,6 +7,7 @@ import {
 
 } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import cookie from 'react-cookies'
 import 'bootstrap/dist/css/bootstrap.css';
 import './style.css'
 import Admin from './admin.js';
