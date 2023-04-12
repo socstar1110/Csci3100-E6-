@@ -13,7 +13,10 @@ router.post('/addcourse', (req, res) => { //add a new course
     }
     if (parseInt(req.body['StartTime']) >= parseInt(req.body['EndTime'])) { // check any invaild time ie : ie : 10:30 - 9:15
         res.send('Invaild time')
-    } else {
+    } else if(typeof(req.body['capacity']) != 'number'){
+        res.send('Invaild Capacity')
+    }else {
+        console.log(typeof(req.body['capacity']))
         Course.create({
             CourseCode: req.body['code'],
             CourseName: req.body['name'],

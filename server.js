@@ -12,8 +12,11 @@ const search = require('./backend/searchcourses');
 const modifycourse = require('./backend/modifycourses');
 const removecourse = require('./backend/removecourse');
 const addToCourseCart = require('./backend/addtocart');
-const showcart = require('./backend/showcart');
-
+const showSelected = require('./backend/showSelected');
+const removeSelected = require('./backend/removeSelected');
+const login = require('./backend/login');
+const regCourse = require('./backend/regcourse');
+const dropFromCart = require('./backend/dropfromcart');
 
 mongoose.connect('mongodb+srv://stu003:p947642W@cluster0.wenbhsm.mongodb.net/stu003');
 app.use(cors({ origin: 'http://localhost:3000', credentials: true })); // cors
@@ -27,10 +30,11 @@ app.use(search);
 app.use(modifycourse);
 app.use(removecourse);
 app.use(addToCourseCart);
-app.use(showcart);
-
-
-
+app.use(showSelected)
+app.use(removeSelected)
+app.use(login)
+app.use(regCourse);
+app.use(dropFromCart);
 
 app.use('/', function (req, res) { // make sure the the server is work
     res.send('backend')

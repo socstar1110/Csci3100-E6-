@@ -4,7 +4,12 @@ const UserSchema = mongoose.Schema({
     password: { type: String, require: true },
     permission: { type: Boolean, require: true },
     CartCourse: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course' }],
-    RegCourse: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course' }] 
+    RegCourse: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course'}]
+})
+
+const AdminSchema = mongoose.Schema({
+    adminName: { type: String, require: true, unique: true },
+    password: { type: String, require: true }
 })
 
 const CourseSchema = mongoose.Schema({
@@ -24,4 +29,6 @@ const CourseSchema = mongoose.Schema({
 
 const User = mongoose.model('User', UserSchema)
 const Course = mongoose.model('Course', CourseSchema)
-module.exports ={User, Course}
+const Admin = mongoose.model('Admin', AdminSchema)
+
+module.exports ={User, Course,Admin}
