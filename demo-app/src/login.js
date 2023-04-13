@@ -28,7 +28,7 @@ const Login = () =>{
     function login(){
       console.log(username)
       console.log(password)
-      fetch('http://localhost:80/login', {
+      fetch('http://54.252.45.29/login', {
       method: 'POST',
       model: 'cors',
       headers: {
@@ -56,6 +56,18 @@ const Login = () =>{
       }
     })
     }
+
+    function ToRegister(){
+      navigate("/register")
+    }
+
+    function handleInputKey(event) {
+      // Check if the key pressed was the "Enter" key.
+      if (event.key === 'Enter') {
+        // Activate the search button.
+        login();
+      }
+    }
     
     return( // whre the value of the box is changed will updata the username and passowrd  
     <div>
@@ -77,17 +89,17 @@ const Login = () =>{
             <MDBCardBody className='p-5'>
               <MDBRow>
                 <MDBCol col='6'>
-                  <MDBInput wrapperClass='mb-4' label='User name' id='form1' type='text' value={username} onChange={(e) => setUsername(e.target.value)}/> 
+                  <MDBInput wrapperClass='mb-4' label='User name' id='form1' type='text' value={username} onChange={(e) => setUsername(e.target.value)} onKeyUp={handleInputKey}/> 
                   {/* change the value of username base on the value of this box */}
                 </MDBCol>
               </MDBRow>
-              <MDBInput wrapperClass='mb-4' label='Password' id='form1' type='password' value={password} onChange={(e) => setPassword(e.target.value)}/>
+              <MDBInput wrapperClass='mb-4' label='Password' id='form1' type='password' value={password} onChange={(e) => setPassword(e.target.value)} onKeyUp={handleInputKey}/>
               {/* change the value of password base on the value of this box */}
               <button onClick={() =>login()} class="btn btn-primary">
                 Login
               </button>
               <br></br>
-              <button class="btn btn-link">Register</button>
+              <button class="btn btn-link" onClick={() =>ToRegister()}>Register</button>
             </MDBCardBody>
           </MDBCard>
         </MDBCol>

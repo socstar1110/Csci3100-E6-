@@ -19,7 +19,7 @@ const TimeTable = () => {
     setCourseInfo([]);
     event.preventDefault();
     setLoading(true);
-    fetch('http://localhost:80/timetable', {
+    fetch('http://54.252.45.29/timetable', {
       method: 'POST',
       mode: 'cors',
       headers: { 'Content-Type': 'application/json' },
@@ -32,7 +32,7 @@ const TimeTable = () => {
           setLoading(false);
         } else {
           const courseIds = data.map((id) => id.toString());
-          fetch('http://localhost:80/retrievecourseinfo', {
+          fetch('http://54.252.45.29/retrievecourseinfo', {
             method: 'POST',
             mode: 'cors',
             headers: { 'Content-Type': 'application/json' },

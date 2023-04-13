@@ -3,8 +3,8 @@ body {
   }
 
 .icon {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
 }
 
 .icon-container {
@@ -64,3 +64,35 @@ h6{
   cursor: pointer;
 }
 
+.search_Input {
+  padding: 10px;
+  font-size: 1.6rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  background-color: #fff;
+  color: #0077b6;
+  margin-right: 10px;
+  cursor: pointer;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease-in-out;
+  /* Additional properties to make the input look like the select */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-size: 8px 4px;
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 30px;
+}
+
+.search_button{
+  padding: 80px; 
+  border: none;
+  border-radius: 10px;
+  background-color: #fff;
+  color: #0077b6;
+  cursor: pointer;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease-in-out;
+}

@@ -27,7 +27,7 @@ const Courselist = () => {
   const obj = { useless: '00' } // meaningless body for fetch
   useEffect(() => {
     // This function will execute automatically when your access this page 
-    fetch('http://localhost:80/allcourse', { // fetch all course information from back-end (aws : http://54.252.45.29. local :http://localhost:80
+    fetch('http://54.252.45.29/allcourse', { 
       method: 'POST',
       model: 'cors',
       headers: {
@@ -70,7 +70,7 @@ const Courselist = () => {
 
   function handleSubmitAddCourse(event) { // submit the Object addCourse to the backend
     event.preventDefault();
-    fetch('http://localhost:80/addcourse', {
+    fetch('http://54.252.45.29/addcourse', {
       method: 'POST',
       model: 'cors',
       headers: {
@@ -130,7 +130,6 @@ const Courselist = () => {
     Venue: '',
     Date: 'Monday',
     StartTime: '8:30',
-    EndTime: '9:15',
     Department: '',
     Instructor: '',
     Capacity: 10,
@@ -139,7 +138,7 @@ const Courselist = () => {
 
   function handleSubmitModifyCourse(event) {
     event.preventDefault();
-    fetch('http://localhost:80/modifycourse', {
+    fetch('http://54.252.45.29/modifycourse', {
       method: 'POST',
       model: 'cors',
       headers: {
@@ -199,13 +198,11 @@ const Courselist = () => {
   };
 
 
-
-
   // below a for remove a course 
   const Removeobj = { id: '' } // a object contain a course id the admin would like to remove 
   function Removecourse(ID) {
     Removeobj.id = ID
-    fetch('http://localhost:80/removecourse', {
+    fetch('http://54.252.45.29/removecourse', {
       method: 'POST',
       model: 'cors',
       headers: {
@@ -377,38 +374,22 @@ const Courselist = () => {
                         </select>
                         <br></br>
                         <label>
-                          New Time:
+                          New Start Time:
                         </label>
                         <br></br>
                         <select name="starttime" value={modifyCourse.StartTime} onChange={handleModifyCourseStartTimeChange}>{/* modify modifyCourse.StartTime by onChange*/}
-                          <option value="8:30">8:30</option>
-                          <option value="9:30">9:30</option>
-                          <option value="10:30">10:30</option>
-                          <option value="11:30">11:30</option>
-                          <option value="12:30">12:30</option>
-                          <option value="13:30">13:30</option>
-                          <option value="14:30">14:30</option>
-                          <option value="15:30">15:30</option>
-                          <option value="16:30">16:30</option>
-                          <option value="17:30">17:30</option>
+                          <option value="8:00">8:00</option>
+                          <option value="9:00">9:00</option>
+                          <option value="10:00">10:00</option>
+                          <option value="11:00">11:00</option>
+                          <option value="12:00">12:00</option>
+                          <option value="13:00">13:00</option>
+                          <option value="14:00">14:00</option>
+                          <option value="15:00">15:00</option>
+                          <option value="16:00">16:00</option>
+                          <option value="17:00">17:00</option>
                         </select>
                         <br></br>
-                        to
-                        <br></br>
-                        <select name="endtime" value={modifyCourse.EndTime} onChange={handleModifyCourseEndTimeChange}>{/* modify modifyCourse.EndTime by onChange*/}
-                          <option value="9:15">9:15</option>
-                          <option value="10:15">10:15</option>
-                          <option value="11:15">11:15</option>
-                          <option value="12:15">12:15</option>
-                          <option value="13:15">13:15</option>
-                          <option value="14:15">14:15</option>
-                          <option value="15:15">15:15</option>
-                          <option value="16:15">16:15</option>
-                          <option value="17:15">17:15</option>
-                          <option value="18:15">18:15</option>
-                        </select>
-                        <br></br>
-
 
                       </div>
 
@@ -510,37 +491,23 @@ const Courselist = () => {
 
                         <br></br>
                         <label>
-                          New Time:
+                          New Start Time:
                         </label>
                         <br></br>
                         <select name="starttime" value={addCourse.StartTime} onChange={handleAddCourseStartTimeChange}>{/* modify addCourse.StartTime by onChange*/}
-                          <option value="8:30">8:30</option>
-                          <option value="9:30">9:30</option>
-                          <option value="10:30">10:30</option>
-                          <option value="11:30">11:30</option>
-                          <option value="12:30">12:30</option>
-                          <option value="13:30">13:30</option>
-                          <option value="14:30">14:30</option>
-                          <option value="15:30">15:30</option>
-                          <option value="16:30">16:30</option>
-                          <option value="17:30">17:30</option>
+                          <option value="8:00">8:00</option>
+                          <option value="9:00">9:00</option>
+                          <option value="10:00">10:00</option>
+                          <option value="11:00">11:00</option>
+                          <option value="12:00">12:00</option>
+                          <option value="13:00">13:00</option>
+                          <option value="14:00">14:00</option>
+                          <option value="15:00">15:00</option>
+                          <option value="16:00">16:00</option>
+                          <option value="17:00">17:00</option>
                         </select>
                         <br></br>
-                        to
-                        <br></br>
-                        <select name="endtime" value={addCourse.EndTime} onChange={handleAddCourseEndTimeChange}>{/* modify addCourse.EndTime by onChange*/}
-                          <option value="9:15">9:15</option>
-                          <option value="10:15">10:15</option>
-                          <option value="11:15">11:15</option>
-                          <option value="12:15">12:15</option>
-                          <option value="13:15">13:15</option>
-                          <option value="14:15">14:15</option>
-                          <option value="15:15">15:15</option>
-                          <option value="16:15">16:15</option>
-                          <option value="17:15">17:15</option>
-                          <option value="18:15">18:15</option>
-                        </select>
-                        <br></br>
+                        
                       </div>
 
                       <div className="col-lg-3 " >
