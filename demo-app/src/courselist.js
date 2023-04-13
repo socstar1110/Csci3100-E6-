@@ -18,7 +18,7 @@ import cookie from 'react-cookies'
 
 
 
-// fetch all course information from back-end (aws : http://54.252.45.29. local :http://localhost:80
+// fetch all course information from back-end (aws : http://54.252.45.29. local :http://54.252.45.29
 
 
 const Courselist = () => {
@@ -27,7 +27,7 @@ const Courselist = () => {
   const obj = { useless: '00' } // meaningless body for fetch
   useEffect(() => {
     // This function will execute automatically when your access this page 
-    fetch('http://localhost:80/allcourse', { // fetch all course information from back-end (aws : http://54.252.45.29. local :http://localhost:80
+    fetch('http://54.252.45.29/allcourse', { // fetch all course information from back-end (aws : http://54.252.45.29. local :http://54.252.45.29
       method: 'POST',
       model: 'cors',
       headers: {
@@ -70,7 +70,7 @@ const Courselist = () => {
 
   function handleSubmitAddCourse(event) { // submit the Object addCourse to the backend
     event.preventDefault();
-    fetch('http://localhost:80/addcourse', {
+    fetch('http://54.252.45.29/addcourse', {
       method: 'POST',
       model: 'cors',
       headers: {
@@ -138,7 +138,7 @@ const Courselist = () => {
 
   function handleSubmitModifyCourse(event) {
     event.preventDefault();
-    fetch('http://localhost:80/modifycourse', {
+    fetch('http://54.252.45.29/modifycourse', {
       method: 'POST',
       model: 'cors',
       headers: {
@@ -202,7 +202,7 @@ const Courselist = () => {
   const Removeobj = { id: '' } // a object contain a course id the admin would like to remove 
   function Removecourse(ID) {
     Removeobj.id = ID
-    fetch('http://localhost:80/removecourse', {
+    fetch('http://54.252.45.29/removecourse', {
       method: 'POST',
       model: 'cors',
       headers: {

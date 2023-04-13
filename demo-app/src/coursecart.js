@@ -51,7 +51,7 @@ const Coursecart =() =>{
           body: JSON.stringify(payload)
         };
   
-        const response = await fetch('http://localhost:80/regCourse', options);
+        const response = await fetch('http://54.252.45.29/regCourse', options);
         const data = await response.text();
         setLoading(true);
         responses.push("CourseID "+ courseID +" : " + data);
@@ -85,7 +85,7 @@ const Coursecart =() =>{
       body: JSON.stringify(payload)
     };
     try {
-      const response = await fetch("http://localhost:80/dropfromcart/" + username + "/" + courseID, options);
+      const response = await fetch("http://54.252.45.29/dropfromcart/" + username + "/" + courseID, options);
       const data = await response.text();
       if (windowPop) {
         window.PopUpbox(data, 'Please click OK to continue', 'success', 'OK');
@@ -101,7 +101,7 @@ const Coursecart =() =>{
   };
 
   useEffect(() => {
-    fetch('http://localhost:80/cartcourse/'+username, {
+    fetch('http://54.252.45.29/cartcourse/'+username, {
       method: "GET",
       headers: {
         "Content-Type": "application/json"

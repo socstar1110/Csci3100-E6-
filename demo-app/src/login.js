@@ -28,7 +28,7 @@ const Login = () => {
   function login() {
     console.log(username)
     console.log(password)
-    fetch('http://localhost:80/login', {
+    fetch('http://54.252.45.29/login', {
       method: 'POST',
       model: 'cors',
       headers: {

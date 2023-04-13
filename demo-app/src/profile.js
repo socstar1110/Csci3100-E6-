@@ -41,7 +41,7 @@ const Profile = () => {
     setPage("home")
     const obj = { username: username }
 
-    fetch('http://localhost:80/userdata', { // fetch all course information from back-end (aws : http://54.252.45.29. local :http://localhost:80
+    fetch('http://54.252.45.29/userdata', { // fetch all course information from back-end (aws : http://54.252.45.29. local :http://54.252.45.29
       method: 'POST',
       model: 'cors',
       headers: {

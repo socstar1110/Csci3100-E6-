@@ -100,7 +100,7 @@ const Search = () => {
       window.PopUpbox('Empty Input is not allowed', 'Please enter the keywords for searching', 'error', 'OK')
 
     event.preventDefault();
-    fetch('http://localhost:80/searchbycondition', {
+    fetch('http://54.252.45.29/searchbycondition', {
       method: 'POST',
       model: 'cors',
       headers: {
@@ -124,7 +124,7 @@ const Search = () => {
   function Addcourse(ID) {
     Addobj.id = ID
     //console.log(ID)
-    fetch('http://localhost:80/addToCourseCart', {
+    fetch('http://54.252.45.29/addToCourseCart', {
       method: 'POST',
       model: 'cors',
       headers: {

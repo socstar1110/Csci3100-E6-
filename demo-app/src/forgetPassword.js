@@ -40,7 +40,7 @@ const ForgotPassword = () => {
         event.preventDefault();
 
         try {
-            const res = await fetch('http://localhost:80/checkingprocess', {
+            const res = await fetch('http://54.252.45.29/checkingprocess', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ const ForgotPassword = () => {
     const handleSubmit = async (event) => {
         setPassWordUpdated(false);
         try {
-            const res2 = await fetch('http://localhost:80/changepassword', {
+            const res2 = await fetch('http://54.252.45.29/changepassword', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

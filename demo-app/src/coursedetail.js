@@ -14,13 +14,13 @@ import { ReactComponent as AllCourse } from './icon/open-book-study-svgrepo-com.
 import cookie from 'react-cookies'
 
 
-// fetch all course information from back-end (aws : http://54.252.45.29. local :http://localhost:80
+// fetch all course information from back-end (aws : http://54.252.45.29. local :http://54.252.45.29
 
 const CourseDetail = () => {
   const navigate = useNavigate();
   const [isLoading, setLoading] = useState(true); // set a loading term to make sure the system fetch the required data before return
   const obj = { id: decodeURI(window.location.href.split('/')[4]) }  //get the id by the url
-  fetch('http://localhost:80/coursedetail', {
+  fetch('http://54.252.45.29/coursedetail', {
     method: 'POST',
     model: 'cors',
     headers: {

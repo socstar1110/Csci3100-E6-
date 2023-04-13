@@ -61,7 +61,7 @@ const Register = () => {
 
     e.preventDefault();
     try {
-      const res = await fetch('http://localhost:80/registeringuser', {
+      const res = await fetch('http://54.252.45.29/registeringuser', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -96,7 +96,7 @@ const Register = () => {
 
     // Check if the username is unique
     try {
-      const res = await fetch('http://localhost:80/checkusername', {
+      const res = await fetch('http://54.252.45.29/checkusername', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -125,7 +125,7 @@ const Register = () => {
 
     // Check if the username is unique
     try {
-      const res = await fetch('http://localhost:80/checkusersid', {
+      const res = await fetch('http://54.252.45.29/checkusersid', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
