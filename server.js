@@ -26,6 +26,11 @@ const checkusersid = require('./backend/checkusersid');
 const userdata = require('./backend/userdata');
 const changePassword = require('./backend/changePassword');
 const checkingprocessForgetPw = require('./backend/checkingprocessForgetPw');
+const displayAllUsers = require('./backend/displayalluser');
+const addUser = require('./backend/adduser');
+const modifyUser = require('./backend/modifyuser');
+const removeUser = require('./backend/removeuser');
+
 
 mongoose.connect('mongodb+srv://stu003:p947642W@cluster0.wenbhsm.mongodb.net/stu003');
 app.use(cors({ origin: 'http://localhost:3000', credentials: true })); // cors
@@ -53,6 +58,10 @@ app.use(checkusersid)
 app.use(userdata)
 app.use(changePassword)
 app.use(checkingprocessForgetPw)
+app.use(displayAllUsers);
+app.use(addUser);
+app.use(modifyUser);
+app.use(removeUser);
 
 app.use('/', function (req, res) { // make sure the the server is work
     res.send('backend')

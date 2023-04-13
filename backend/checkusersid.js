@@ -3,10 +3,14 @@ const router = express.Router();
 const { User, Course } = require('./mongoose');
 
 router.post('/checkusersid', (req, res) => {
-
-    User.findOne({Sid: '123456789'})
+    console.log('enter');
+    console.log(req.body);
+    console.log(req.body['Sid'])
+    User.findOne({Sid: req.body['Sid']})
     .then(function(user){
         if(user){
+            console.log("duplicated");
+            console.log(typeof([user.Sid]))
             res.send([user.Sid]);
         }
         else{

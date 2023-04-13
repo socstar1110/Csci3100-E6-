@@ -3,7 +3,7 @@ const router = express.Router();
 const { User, Course } = require('./mongoose');
 
 router.post('/addcourse', (req, res) => { //add a new course
-    //console.log(req.body)
+    console.log(req.body)
     for (const property in req.body) { // loop the object to see another value is empty 
         if (req.body[property] == '') {
             console.log(property)

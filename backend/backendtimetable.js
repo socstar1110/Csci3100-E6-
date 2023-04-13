@@ -20,6 +20,7 @@ router.post('/timetable', (req, res)=>{
         case 'registered':
             User.findOne({username: req.body['Username']})
             .then((result)=>{
+                console.log(result.RegCourse)
                 res.send(result.RegCourse);
             })
             .catch((error) => {

@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const { User, Course ,Admin} = require('./mongoose');
 const CryptoJS = require('crypto-js');
-const bcrypt = require('bcrypt');
 const cookieParser = require('cookie-parser');
 router.use(cookieParser()); //cookies
 
