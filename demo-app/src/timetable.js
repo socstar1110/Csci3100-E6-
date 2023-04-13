@@ -19,7 +19,7 @@ const TimeTable = () => {
     setCourseInfo([]);
     event.preventDefault();
     setLoading(true);
-    fetch('http://54.252.45.29/timetable', {
+    fetch('http://localhost:80/timetable', {
       method: 'POST',
       mode: 'cors',
       headers: { 'Content-Type': 'application/json' },
@@ -32,7 +32,7 @@ const TimeTable = () => {
           setLoading(false);
         } else {
           const courseIds = data.map((id) => id.toString());
-          fetch('http://54.252.45.29/retrievecourseinfo', {
+          fetch('http://localhost:80/retrievecourseinfo', {
             method: 'POST',
             mode: 'cors',
             headers: { 'Content-Type': 'application/json' },
@@ -101,12 +101,13 @@ const TimeTable = () => {
   const handleMouseOut = () => {
     setShowInfo(false);
   };
+
   const notificationTexts = [
-    <span>
+    <span style={{ fontSize: '25px' }}>
       If two or more courses have overlapping time schedules, the grid will turn{' '}
       <span style={{ color: 'red' }}>red</span>.
     </span>,
-    <span>
+    <span style={{ fontSize: '25px' }}>
       If the course has not overlapping time schedules, the grid will become{' '}
       <span style={{ color: 'green' }}>green</span>.
     </span>,
@@ -115,7 +116,7 @@ const TimeTable = () => {
   return (
 
     <div>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <nav className="navbar navbar-expand-lg">
         <div className="collapse navbar-collapse container d-flex justify-content-center align-items-center" id="navbarNavAltMarkup ">
           <div className="navbar-nav">
             <select value={retrieveTB.Condition} onChange={handleConditionChange}>
@@ -130,7 +131,7 @@ const TimeTable = () => {
       {/* Display the schedule matrix */}
       {courseInformation && !isLoading && (
 
-        <div className="container mt-2">
+        <div className="container mt-2" style={{ width: '80%' }}>
           {/* Notification button is added */}
           <div style={{ padding: '20px', backgroundColor: '#f5f5f5', borderRadius: '10px' }}>
             <button onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} className='notificationButton'>More Information</button>
@@ -144,12 +145,12 @@ const TimeTable = () => {
           </div>
           {/* Select the start time and end time of timetable */}
           <div style={{ display: 'inline-block', alignItems: 'center', marginBottom: '1rem', padding: '0.5rem' }}>
-            <label htmlFor="initial-time" style={{ marginRight: '0.5rem', fontSize: '1.7rem' }}>Initial Time:</label>
+            <label htmlFor="initial-time" style={{ marginRight: '0.5rem', fontSize: '1.2rem' }}>Initial Time:</label>
             <select
               id="initial-time"
               value={initialTime}
               onChange={(e) => setInitialTime(e.target.value)}
-              style={{ padding: '0.5rem', borderRadius: '0.25rem', border: '1px solid #ccc', fontSize: '1.7rem' }}
+              style={{ padding: '0.5rem', borderRadius: '0.25rem', border: '1px solid #ccc', fontSize: '1.2rem' }}
             >
               {times.map((time) => (
                 <option key={time} value={time}>{time}</option>
@@ -157,13 +158,13 @@ const TimeTable = () => {
             </select>
           </div>
 
-          <div style={{ display: 'inline-block', alignItems: 'center', padding: '1.7rem' }}>
-            <label htmlFor="end-time" style={{ marginRight: '0.5rem', fontSize: '1.7rem' }}>End Time:</label>
+          <div style={{ display: 'inline-block', alignItems: 'center', padding: '1.2rem' }}>
+            <label htmlFor="end-time" style={{ marginRight: '0.5rem', fontSize: '1.2rem' }}>End Time:</label>
             <select
               id="end-time"
               value={endTime}
               onChange={(e) => setEndTime(e.target.value)}
-              style={{ padding: '0.5rem', borderRadius: '0.25rem', border: '1px solid #ccc', fontSize: '1.7rem' }}
+              style={{ padding: '0.5rem', borderRadius: '0.25rem', border: '1px solid #ccc', fontSize: '1.2rem' }}
             >
               {times.map((time) => (
                 <option key={time} value={time}>{time}</option>
@@ -171,27 +172,20 @@ const TimeTable = () => {
             </select>
           </div>
 
-          {/* Display a notification for user */}
-          {retrieveTB.Condition === 'temporary' && (
-            <div className='notification'>
-              <h2 >Note: If there is a time conflict between two or more courses, the grid will the grid will be colored <b>red</b>.</h2>
-              <br></br>
-            </div>
-          )
-          }
+
           {/* Display a row and column value */}
           <table className="table table-bordered">
             <thead>
               <tr>
-                <th style={{ fontSize: '1.7rem' }}>Time</th>
+                <th style={{ fontSize: '1.2rem' }}>Time</th>
                 {weekdays.map((day) => (
-                  <th key={day} style={{ fontSize: '1.7rem' }}>{day}</th>
+                  <th key={day} style={{ fontSize: '1.2rem' }}>{day}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {displayedTimes.map((time) => (
-                <tr key={time} style={{ fontSize: '1.7rem' }}>
+                <tr key={time} style={{ fontSize: '1.2rem' }}>
                   <td>{time}</td>
                   {weekdays.map((day) => {
                     const { courses, hasMultipleCourses } = getCourseInfo(

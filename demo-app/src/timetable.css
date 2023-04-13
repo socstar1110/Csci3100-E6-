@@ -1,12 +1,16 @@
 td div {
   margin-bottom: 5px;
-  padding: 10px 10px;
+  padding: 3px 3px;
 }
 
 
 .output-text {
   font-family: Arial, sans-serif;
-  font-size: 24px;
+  font-size: 18px;
+}
+
+.output-text div:first-child {
+  margin-top: 10px;
 }
 
 .greencolour {
@@ -87,15 +91,7 @@ select {
   background-color: #f2f2f2;
 }
 
-.output-text {
-  margin-top: 10px;
-}
 
-.output-text div:first-child {
-  font-size: 1.8rem;
-  font-weight: bold;
-  margin-bottom: 5px;
-}
 
 .fontUsed {
   font-size: '1.7rem'

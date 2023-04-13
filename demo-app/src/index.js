@@ -18,6 +18,7 @@ import Userlist from './userlist.js';
 import Courselist from './courselist.js';
 import CourseDetail from './coursedetail.js';
 import Search from './search.js';
+import ForgetPassword from './forgetPassword.js';
 
 
 /* use window. to create a global function */
@@ -44,9 +45,18 @@ function App() {
         <Route path="/courselist" element={<RenderCourselist/>}/>
         <Route path="/coursedetail/*" element={<RenderCourseDetail />} />
         <Route path="/search" element={<RenderSearch/>}/>
+        <Route path="/forgetpassword" element={<ForgetPassword/>}/>
       </Routes>
     </BrowserRouter>
   );
+}
+
+const RenderForestPassword = ()=>{
+  return(
+    <div>
+      < ForgetPassword/>
+    </div>
+  )
 }
 
 const RenderLogin = () =>{

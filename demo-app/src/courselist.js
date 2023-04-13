@@ -27,7 +27,7 @@ const Courselist = () => {
   const obj = { useless: '00' } // meaningless body for fetch
   useEffect(() => {
     // This function will execute automatically when your access this page 
-    fetch('http://54.252.45.29/allcourse', { 
+    fetch('http://localhost:80/allcourse', { // fetch all course information from back-end (aws : http://54.252.45.29. local :http://localhost:80
       method: 'POST',
       model: 'cors',
       headers: {
@@ -60,8 +60,8 @@ const Courselist = () => {
     id: '',
     venue: '',
     Date: 'Monday',
-    StartTime: '8:30',
-    EndTime: '9:15',
+    StartTime: '8:00',
+    EndTime: '9:00',
     department: '',
     instructor: '',
     Capacity: 10,
@@ -70,7 +70,7 @@ const Courselist = () => {
 
   function handleSubmitAddCourse(event) { // submit the Object addCourse to the backend
     event.preventDefault();
-    fetch('http://54.252.45.29/addcourse', {
+    fetch('http://localhost:80/addcourse', {
       method: 'POST',
       model: 'cors',
       headers: {
@@ -129,7 +129,7 @@ const Courselist = () => {
     CourseId: '',
     Venue: '',
     Date: 'Monday',
-    StartTime: '8:30',
+    StartTime: '8:00',
     Department: '',
     Instructor: '',
     Capacity: 10,
@@ -138,7 +138,7 @@ const Courselist = () => {
 
   function handleSubmitModifyCourse(event) {
     event.preventDefault();
-    fetch('http://54.252.45.29/modifycourse', {
+    fetch('http://localhost:80/modifycourse', {
       method: 'POST',
       model: 'cors',
       headers: {
@@ -202,7 +202,7 @@ const Courselist = () => {
   const Removeobj = { id: '' } // a object contain a course id the admin would like to remove 
   function Removecourse(ID) {
     Removeobj.id = ID
-    fetch('http://54.252.45.29/removecourse', {
+    fetch('http://localhost:80/removecourse', {
       method: 'POST',
       model: 'cors',
       headers: {
@@ -284,7 +284,6 @@ const Courselist = () => {
                   <div>
                     <form className=" row col-lg-12 text-center">
                       <div className="col-lg-4 " >
-
                       </div>
                       <div className="col-lg-4 " >
                         <h5 style={{ display: 'inline-block', padding: "10px" }}>Modify Course Information</h5>
@@ -298,7 +297,8 @@ const Courselist = () => {
                           fontWeight: 'bold',
                           boxShadow: '0 2px 5px rgba(0, 0, 0, 0.2)',
                           transition: 'all 0.3s ease',
-                          cursor: 'pointer'
+                          cursor: 'pointer',
+                          marginLeft: '20px'
                         }} onClick={handleSubmitModifyCourse}>Submit Modification</button>
                       </div>
                     </form>

@@ -1,17 +1,24 @@
 body {
-    background-color: hsl(0, 0%, 96%);
-  }
-
-.icon {
-    width: 40px;
-    height: 40px;
+  background-color: hsl(0, 0%, 96%);
 }
 
+.icon {
+  width: 65px;
+  height: 65px;
+}
+
+.Del_Add_icon {
+  width: 40px;
+  height: 40px;
+}
+
+
 .icon-container {
-  display: flex;
-  position: absolute;
-  top: 0;
-  right: 0;
+display: flex;
+position: absolute;
+top: 0;
+right: 0;
+padding: 3px;
 }
 
 .line {
@@ -21,47 +28,55 @@ body {
 }
 
 h6{
-  font-weight: bold;
+font-weight: bold;
 }
 
 .Drop{
-  width: 20px;
-  height: 20px;
+width: 20px;
+height: 20px;
 }
 
 
 .option {
-  width: 500px;
-  height: 500px;
+width: 500px;
+height: 500px;
 }
 
 .admin-button {
-  border-radius: 20px;
-  padding: 10px 20px;
-  font-size: 16px;
-  border: 1px solid grey;
+border-radius: 20px;
+padding: 10px 20px;
+font-size: 16px;
+border: 1px solid grey;
 }
 
 .dropCrouse{
-  background-color: firebrick;
-  color: white;
-  padding: 10px 60px;
-  margin: 10px 0px;
-  border-radius: 5px;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
+background-color: firebrick;
+color: white;
+padding: 10px 60px;
+margin: 10px 0px;
+border-radius: 5px;
+border: none;
+font-size: 16px;
+cursor: pointer;
 }
 
 .addCrouse{
-  background-color: seagreen;
-  color: white;
-  padding: 10px 60px;
-  margin: 10px 0px;
-  border-radius: 5px;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
+background-color: seagreen;
+color: white;
+padding: 10px 60px;
+margin: 10px 0px;
+border-radius: 5px;
+border: none;
+font-size: 16px;
+cursor: pointer;
+}
+
+.white-row {
+background-color: #fff;
+}
+
+.other-row {
+background-color: #f2f2f2;
 }
 
 .search_Input {

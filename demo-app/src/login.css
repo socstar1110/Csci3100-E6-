@@ -1,0 +1,110 @@
+.loginButton {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  background: linear-gradient(to right, #1cb5e0, #000851);
+  color: #fff;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3);
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+.loginButton:hover {
+  background: linear-gradient(to right, #000851, #1cb5e0);
+}
+
+.shocked {
+  animation-name: shake;
+  animation-duration: 3s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(80px); }
+  50% { transform: translateX(0); }
+  75% { transform: translateX(-30px); }
+  100% { transform: translateX(0); }
+}
+
+.color-change {
+  animation: changeColor 5s linear infinite;
+}
+
+@keyframes changeColor {
+  0% {
+    color: #F94144;
+  }
+  25% {
+    color: #F8961E;
+  }
+  50% {
+    color: #F9C74F;
+  }
+  75% {
+    color: #90BE6D;
+  }
+  100% {
+    color: magenta;
+  }
+}
+
+.title{
+  margin-left: 10%;
+}
+
+
+.box{
+  margin-left: 10%;
+
+  position: relative;
+  width: 400px;
+  height: 520px;
+  background:rgba(224, 223, 223, 0.3);
+  border-radius: 8px;
+  overflow: hidden;
+
+}
+
+.box::before{
+  content: '';
+  position: absolute;
+  top: -50%;
+  left:-50%;
+  width: 400px;
+  height: 520px;
+  background: linear-gradient(0deg, transparent, #48adb4, #48adb4);
+  transform-origin: bottom right;
+  animation: animate 6s linear infinite
+}
+
+.box::after{
+  content: '';
+  position: absolute;
+  top: -50%;
+  left:-50%;
+  width: 400px;
+  height: 520px;
+  background: linear-gradient(0deg, transparent, #48adb4, #48adb4);
+  transform-origin: bottom right;
+  animation: animate 6s linear infinite;
+  animation-delay: -3s;
+}
+
+@keyframes animate{
+  0%{
+    transform: rotate(0deg);
+  }
+  100%{
+    transform: rotate(360deg);
+  }
+}
+
+.cardbody{
+  position: absolute;
+  inset:2px;
+  border-radius: 8px;
+  background: #ffffff;
+  z-index: 10;
+}

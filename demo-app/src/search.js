@@ -100,7 +100,7 @@ const Search = () => {
       window.PopUpbox('Empty Input is not allowed', 'Please enter the keywords for searching', 'error', 'OK')
 
     event.preventDefault();
-    fetch('http://54.252.45.29/searchbycondition', {
+    fetch('http://localhost:80/searchbycondition', {
       method: 'POST',
       model: 'cors',
       headers: {
@@ -124,7 +124,7 @@ const Search = () => {
   function Addcourse(ID) {
     Addobj.id = ID
     //console.log(ID)
-    fetch('http://54.252.45.29/addToCourseCart', {
+    fetch('http://localhost:80/addToCourseCart', {
       method: 'POST',
       model: 'cors',
       headers: {
@@ -383,7 +383,7 @@ const Search = () => {
                     <td style={{ padding: '10px' }}>{course.Capacity - course.RegUser.length}</td>
                     <td style={{ padding: '10px' }}>
                       <button className="addCrouse" style={{ width: '40px', height: '40px', padding: '0px' }} onClick={(() => Addcourse(course.CourseId))} >
-                        <AddIcon className="icon" />
+                        <AddIcon className="Del_Add_icon" />
                       </button>
                     </td>
                   </tr>
