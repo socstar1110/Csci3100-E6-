@@ -14,6 +14,14 @@ router.post('/coursedetail', (req, res) => { // access course information in det
             obj.name = result.CourseName
             obj.id = result.CourseId
             obj.code = result.CourseCode
+            obj.venue = result.Venue
+            obj.date = result.Date
+            obj.startTime = result.StartTime
+            obj.endTime = result.EndTime
+            obj.department = result.Department
+            obj.instructor = result.Instructor
+            obj.capacity = result.Capacity
+            obj.available = result.Capacity - result.RegUser.length
             console.log('The required course information is sent')
             res.send(obj)
         }

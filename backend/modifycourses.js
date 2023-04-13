@@ -8,9 +8,7 @@ router.post('/modifycourse', (req, res) => {
     Course.findOne({ CourseId: req.body['oldId'] }).then(function (result) {
         if (result == null) {
             res.send('Not exist') // this course is not in the system 
-        } else if (parseInt(req.body['StartTime']) >= parseInt(req.body['EndTime'])) {
-            res.send('Invaild time') // unresonable time slot 
-        } else if(/^[A-Za-z]+$/.test(req.body['Capacity'])){
+        }else if(/^[A-Za-z]+$/.test(req.body['Capacity'])){
             res.send('Invaild Capacity')
         }else {
             for (const property in req.body) {
@@ -20,6 +18,11 @@ router.post('/modifycourse', (req, res) => {
                 }
                 counter++;
             }
+            const EndTime = ((parseInt(req.body["StartTime"]))+1) + ":00"
+            console.log(EndTime)
+            console.log(result['EndTime'])
+            result.EndTime = EndTime
+            //result.save()
             result.save(function (error) {
                 console.log(typeof(parseInt(req.body['Capacity'])))
                 if (error) {

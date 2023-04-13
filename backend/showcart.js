@@ -1,23 +1,41 @@
+
 const express = require('express');
 const router = express.Router();
 const { User, Course } = require('./mongoose');
-const cookieParser = require('cookie-parser');
-router.use(cookieParser()); //cookies
 
+// Route to get a user's courses in their cart
+router.get("/cartcourse/:username", function(req, res) {
+  // Find the user with the given username and populate their courses in the cart
+  User.findOne({ username: req.params.username }, "CartCourse")
+    .populate({ path: "CartCourse", model: "Course" })
+    .then(function(user) {
+      // If the user is not found, return a message indicating so
+      if (user == null) {
+        res.send("No such user: " + req.params.username);
+      }
+      // Otherwise, format the courses in the cart and return them
+      else {
+        const cartCourses = user.CartCourse.map((course) => ({
+          courseName: course.CourseName,
+          courseId: course.CourseId,
+          courseCode: course.CourseCode,
+          venue: course.Venue,
+          date: course.Date,
+          startTime: course.StartTime,
+          endTime: course.EndTime,
+          department: course.Department,
+          instructor: course.Instructor,
+          capacity: course.Capacity,
+          availability: course.Capacity-course.RegUser.length
+        }));
+        res.json(cartCourses);
+      }
+    })
+    .catch(function(err) {
+      // If there is an error, return a 500 Internal Server Error response
+      console.error(err);
+      res.status(500).send("Error finding user: " + req.params.username);
+    });
+});
 
-router.post('/showcart',(req,res) =>{
-    res.cookie('firstName', "testing");
-    console.log(req.body)
-    /*
-    User.findOne({username: req.body['username']})
-    .populate('CartCourse')
-    .exec(
-        function(err,result){
-            console.log(result)
-        }
-    )
-    */
-    res.send('test')
-})
-
-module.exports = router;
+  module.exports = router;

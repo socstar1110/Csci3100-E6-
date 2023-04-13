@@ -3,7 +3,7 @@ const router = express.Router();
 const { User, Course } = require('./mongoose');
 
 router.post('/addcourse', (req, res) => { //add a new course
-    console.log(req.body)
+    //console.log(req.body)
     for (const property in req.body) { // loop the object to see another value is empty 
         if (req.body[property] == '') {
             console.log(property)
@@ -11,12 +11,12 @@ router.post('/addcourse', (req, res) => { //add a new course
             return
         }
     }
-    if (parseInt(req.body['StartTime']) >= parseInt(req.body['EndTime'])) { // check any invaild time ie : ie : 10:30 - 9:15
-        res.send('Invaild time')
-    } else if(/^[A-Za-z]+$/.test(req.body['Capacity'])){
+    if(/^[A-Za-z]+$/.test(req.body['Capacity'])){
         res.send('Invaild Capacity')
     }else {
-        console.log(typeof(req.body['capacity']))
+        const EndTime = ((parseInt(req.body['StartTime']))+1) + ":00"
+        console.log(EndTime)
+        
         Course.create({
             CourseCode: req.body['code'],
             CourseName: req.body['name'],
@@ -24,7 +24,7 @@ router.post('/addcourse', (req, res) => { //add a new course
             Venue: req.body['venue'],
             Date: req.body['Date'],
             StartTime: req.body['StartTime'],
-            EndTime: req.body['EndTime'],
+            EndTime: EndTime,
             Department: req.body['department'],
             Instructor: req.body['instructor'],
             Capacity: req.body['Capacity'],
@@ -45,6 +45,8 @@ router.post('/addcourse', (req, res) => { //add a new course
               res.status(500).send('An error occurred while adding the course');
             }
           });
+          
+          
     }
 })
 
