@@ -14,7 +14,8 @@ import CourseCart from "./coursecart";
 import { useNavigate } from "react-router-dom";
 import {
   MDBInput
-}from 'mdb-react-ui-kit';
+} from 'mdb-react-ui-kit';
+import { FaShoppingCart, FaSearch } from 'react-icons/fa';
 
 
 const Search = () => {
@@ -43,23 +44,23 @@ const Search = () => {
     setAction("Search") //go to search cart page 
   }
 
-  const logout = ()=>{
-    window.PopUpbox('Logout successfully','Please click OK to continue','success','OK')
-    .then((result) => {
-      cookie.remove('username')
-      cookie.remove('logged')
-      navigate("/")
+  const logout = () => {
+    window.PopUpbox('Logout successfully', 'Please click OK to continue', 'success', 'OK')
+      .then((result) => {
+        cookie.remove('username')
+        cookie.remove('logged')
+        navigate("/")
       })
-    
+
   }
 
-  const ToProfile = ()=>{
-    navigate("/profile")      
+  const ToProfile = () => {
+    navigate("/profile")
   }
 
-  const reload = ()=>{
-    window.location.reload()      
-  }  
+  const reload = () => {
+    window.location.reload()
+  }
 
   function handleSerachByConditonValueChange(event) {
     // When the search field is changed, the conditionvalue will be set to null
@@ -100,7 +101,7 @@ const Search = () => {
       window.PopUpbox('Empty Input is not allowed', 'Please enter the keywords for searching', 'error', 'OK')
 
     event.preventDefault();
-    fetch('http://54.252.45.29/searchbycondition', {
+    fetch('http://localhost:80/searchbycondition', {
       method: 'POST',
       model: 'cors',
       headers: {
@@ -124,7 +125,7 @@ const Search = () => {
   function Addcourse(ID) {
     Addobj.id = ID
     //console.log(ID)
-    fetch('http://54.252.45.29/addToCourseCart', {
+    fetch('http://localhost:80/addToCourseCart', {
       method: 'POST',
       model: 'cors',
       headers: {
@@ -140,7 +141,7 @@ const Search = () => {
         }
       })
   }
-  
+
   function handleInputKey(event) {
     event.preventDefault();
     // Check if the key pressed was the "Enter" key.
@@ -150,10 +151,19 @@ const Search = () => {
     }
   }
 
-  if(cookie.load('logged') == "true"){
+  const [hoveredButton, setHoveredButton] = useState(null);
+
+  const handleMouseEnter = (buttonName) => {
+    setHoveredButton(buttonName);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredButton(null);
+  };
+
+  if (cookie.load('logged') == "true") {
     return (
       <div> {/* show the button on top right corner*/}
-        <h4>{username}</h4>
         <div className="icon-container">
           <button onClick={logout}>
             <Exit className="icon" />
@@ -165,20 +175,44 @@ const Search = () => {
             <Person className="icon" />
           </button>
         </div>
+
+        <div style={{ height: '40px' }}>
+          <div style={{ height: '40px', backgroundColor: '#f2f2f2' }}>
+            <div style={{ marginLeft: '40px', marginTop: '20px', display: 'flex', alignItems: 'center' }}>
+              <h3 style={{ display: 'inline-block', color: '#222' }}>Welcome back, &nbsp; <span style={{ color: '#3b5998' }}>{username}</span></h3>
+              {hoveredButton && (
+                <div className="tooltip-container" style={{ display: 'inline-block', position: 'absolute', left: '50%', transform: 'translateX(-50%)', backgroundColor: '#3b5998', color: '#fff', borderRadius: '5px', padding: '5px' }}>
+                  <h3>{hoveredButton}</h3>
+                </div>
+              )}
+            </div>
+          </div>
+          <div>
+            <div className="icon-container">
+              <button onMouseEnter={() => handleMouseEnter('Log out')} onMouseLeave={handleMouseLeave} onClick={logout}>
+                <Exit className="icon" />
+              </button>
+              <button onMouseEnter={() => handleMouseEnter('Search')} onMouseLeave={handleMouseLeave} onClick={reload}>
+                <SearchIcon className="icon" />
+              </button>
+              <button onMouseEnter={() => handleMouseEnter('Profile')} onMouseLeave={handleMouseLeave} onClick={ToProfile}>
+                <Person className="icon" />
+              </button>
+            </div>
+          </div>
+        </div>
         <hr className="line" />
 
-
-        {/* a nav bar to chose which page the user would like to acces */}
         <div>
-          <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <div className="collapse navbar-collapse container d-flex justify-content-center align-items-center" id="navbarNavAltMarkup ">
+        <nav class="navbar navbar-expand ">
+          <div class="collapse navbar-collapse d-flex justify-content-center align-items-center" id="navbarNavAltMarkup">
               <div className="navbar-nav">
-                <button style={{ margin: '10px' }} type="button" className="btn btn-primary" onClick={toCart}>
-                  Course Cart{' '}
-                </button>
-                <button style={{ margin: '10px' }} type="button" className="btn btn-success" onClick={toSearch}>
-                  Search{' '}
-                </button>
+              <button style={{ margin: '10px', fontSize: '20px', backgroundColor: '#6f42c1', borderColor: '#6f42c1', color: '#fff', padding: '10px 20px' }} type="button" class="btn btn-lg" onClick={toCart}>
+                <FaShoppingCart style={{ marginRight: '5px' }} /> Course Cart
+              </button>
+              <button style={{ margin: '10px', fontSize: '20px', backgroundColor: '#2ecc71', borderColor: '#2ecc71', color: '#fff', padding: '10px 20px' }} type="button" class="btn btn-lg" onClick={toSearch}>
+                <FaSearch style={{ marginRight: '5px' }} /> Search
+              </button>
               </div>
             </div>
           </nav>
@@ -190,7 +224,6 @@ const Search = () => {
           <div className="container d-flex justify-content-center align-items-center" >
             <div className="search" style={{ display: 'block' }}>
               <h6 style={{ display: 'block' }}>Select Search Condition</h6>
-
               <select value={serachByConditon.Conditon} onChange={handleConditonChange}>
                 <option value="courseid"> Course ID </option>
                 <option value="coursename"> Course Name </option>
@@ -205,45 +238,46 @@ const Search = () => {
               {/*input the keywords under the specific search fields: (i) Course ID, (ii) Course Name, (iii) Other */}
               {(serachByConditon.Conditon === "courseid" || serachByConditon.Conditon === "coursename" || serachByConditon.Conditon === "other") &&
                 <div>
+                  <br></br>
                   {serachByConditon.Conditon === "courseid" && <h6 style={{ display: 'block' }}>Please enter the <b>Course ID</b> below...</h6>}
                   {serachByConditon.Conditon === "coursename" && <h6 style={{ display: 'block' }}>Please enter the <b>Course Name</b> below...</h6>}
                   {serachByConditon.Conditon === "other" && <h6 style={{ display: 'block' }}>Please enter the <b>keywords</b> below...</h6>}
 
                   <label>
-                    {serachByConditon.Conditon === "courseid" && 
-                      <input className="search_Input " 
-                        type="type" 
-                        maxLength={4} 
-                        placeholder="Enter the Course ID..." 
-                        required="required" 
-                        style={{ width: '300px' }} 
-                        value={serachByConditon.Value} 
+                    {serachByConditon.Conditon === "courseid" &&
+                      <input className="search_Input "
+                        type="type"
+                        maxLength={4}
+                        placeholder="Enter the Course ID..."
+                        required="required"
+                        style={{ width: '300px' }}
+                        value={serachByConditon.Value}
                         onChange={handleSerachByConditonValueChange}
                         onKeyUp={handleInputKey}>
                       </input>}
-                    {serachByConditon.Conditon === "coursename" && 
-                      <input className="search_Input " 
-                        type="type" 
-                        placeholder="Enter the Course Name..." 
-                        required="required" 
-                        style={{ width: '300px' }} 
-                        value={serachByConditon.Value} 
+                    {serachByConditon.Conditon === "coursename" &&
+                      <input className="search_Input "
+                        type="type"
+                        placeholder="Enter the Course Name..."
+                        required="required"
+                        style={{ width: '300px' }}
+                        value={serachByConditon.Value}
                         onChange={handleSerachByConditonValueChange}
                         onKeyUp={handleInputKey}>
                       </input>}
-                    {serachByConditon.Conditon === "other" && 
-                      <input className="search_Input " 
-                        type="type" 
-                        placeholder="Enter the keyword..." 
-                        required="required" 
-                        style={{ width: '300px' }} 
-                        value={serachByConditon.Value} 
+                    {serachByConditon.Conditon === "other" &&
+                      <input className="search_Input "
+                        type="type"
+                        placeholder="Enter the keyword..."
+                        required="required"
+                        style={{ width: '300px' }}
+                        value={serachByConditon.Value}
                         onChange={handleSerachByConditonValueChange}
                         onKeyUp={handleInputKey}>
                       </input>}
 
                   </label>
-                  <button className="search_button"style={{ width: '30px', height: '30px', padding: '0px' }} onClick={SerachByConditon}> <SearchIcon style={{ width: '40px', height: '40px', padding: '0px' }} /> </button>
+                  <button className="search_button" style={{ width: '30px', height: '30px', padding: '0px' }} onClick={SerachByConditon}> <SearchIcon style={{ width: '40px', height: '40px', padding: '0px' }} /> </button>
 
                   {/*Display notifications for users*/}
                   {serachByConditon.Conditon === "other" && (
@@ -279,7 +313,7 @@ const Search = () => {
                     <option value="Department of Urban Planning and Design"> Department of Urban Planning and Design</option>
                     <option value="General Education"> General Education</option>
                   </select>
-                  <button className="search_button"style={{ width: '30px', height: '30px', padding: '0px' }} onClick={SerachByConditon}> <SearchIcon style={{ width: '40px', height: '40px', padding: '0px' }} /> </button>
+                  <button className="search_button" style={{ width: '30px', height: '30px', padding: '0px' }} onClick={SerachByConditon}> <SearchIcon style={{ width: '40px', height: '40px', padding: '0px' }} /> </button>
                 </div>
               )}
 
@@ -302,7 +336,7 @@ const Search = () => {
                     <option value="Professor DAI Ben"> Professor DAI Ben</option>
                     <option value="Dr. WONG Tat Wing"> Dr. WONG Tat Wing</option>
                   </select>
-                  <button className="search_button"style={{ width: '30px', height: '30px', padding: '0px' }} onClick={SerachByConditon}> <SearchIcon style={{ width: '40px', height: '40px', padding: '0px' }} /> </button>
+                  <button className="search_button" style={{ width: '30px', height: '30px', padding: '0px' }} onClick={SerachByConditon}> <SearchIcon style={{ width: '40px', height: '40px', padding: '0px' }} /> </button>
                 </div>
               )}
 
@@ -318,7 +352,7 @@ const Search = () => {
                     <option value="Thursday">Thursday</option>
                     <option value="Friday">Friday</option>
                   </select>
-                  <button className="search_button"style={{ width: '30px', height: '30px', padding: '0px' }} onClick={SerachByConditon}> <SearchIcon style={{ width: '40px', height: '40px', padding: '0px' }} /> </button>
+                  <button className="search_button" style={{ width: '30px', height: '30px', padding: '0px' }} onClick={SerachByConditon}> <SearchIcon style={{ width: '40px', height: '40px', padding: '0px' }} /> </button>
                 </div>
               )
               }
@@ -339,7 +373,7 @@ const Search = () => {
                     <option value="16:00">16:00</option>
                     <option value="17:00">17:00</option>
                   </select>
-                  <button className="search_button"style={{ width: '30px', height: '30px', padding: '0px' }} onClick={SerachByConditon}> <SearchIcon style={{ width: '40px', height: '40px', padding: '0px' }} /> </button>
+                  <button className="search_button" style={{ width: '30px', height: '30px', padding: '0px' }} onClick={SerachByConditon}> <SearchIcon style={{ width: '40px', height: '40px', padding: '0px' }} /> </button>
                 </div>
               )
               }
@@ -364,7 +398,8 @@ const Search = () => {
                   <th style={{ padding: '10px' }}>Department</th>
                   <th style={{ padding: '10px' }}>Instructor</th>
                   <th style={{ padding: '10px' }}>Capacity</th>
-                  <th style={{ padding: '10px' }}>Available</th>
+                  <th style={{ padding: '10px' }}>Availability</th>
+                  <th style={{ padding: '10px' }}>Add</th>
                 </tr>
               </thead>
               <tbody>
@@ -410,8 +445,8 @@ const Search = () => {
 
       </div>
     )
-  }else{
-    return(
+  } else {
+    return (
       <p>Please login</p>
     )
   }

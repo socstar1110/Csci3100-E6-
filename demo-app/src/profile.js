@@ -10,7 +10,7 @@ import TimeTable from './timetable';
 import cookie from 'react-cookies'
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-
+import { FaHome, FaBook, FaCalendar } from 'react-icons/fa';
 
 
 const Profile = () => {
@@ -41,7 +41,7 @@ const Profile = () => {
     setPage("home")
     const obj = { username: username }
 
-    fetch('http://54.252.45.29/userdata', { // fetch all course information from back-end (aws : http://54.252.45.29. local :http://54.252.45.29
+    fetch('http://localhost:80/userdata', { // fetch all course information from back-end (aws : http://54.252.45.29. local :http://localhost:80
       method: 'POST',
       model: 'cors',
       headers: {
@@ -88,7 +88,7 @@ const Profile = () => {
     if (showPassword) {
       return userdata.password;
     } else {
-      return '*'.repeat(userdata.password.length);
+      return '×'.repeat(userdata.password.length);
     }
   };
 
@@ -128,9 +128,15 @@ const Profile = () => {
         <nav class="navbar navbar-expand ">
           <div class="collapse navbar-collapse d-flex justify-content-center align-items-center" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-              <button style={{ margin: '10px', fontSize: '24px', backgroundColor: '#007bff', borderColor: '#007bff' }} type="button" class="btn btn-primary btn-lg" onClick={sethome}>Home </button>
-              <button style={{ margin: '10px', fontSize: '24px', backgroundColor: '#28a745', borderColor: '#28a745' }} type="button" class="btn btn-success btn-lg" onClick={setSelected}>Select Course </button>
-              <button style={{ margin: '10px', fontSize: '24px', backgroundColor: '#ffc107', borderColor: '#ffc107' }} type="button" class="btn btn-warning btn-lg" onClick={setTimetable}>View Timetable </button>
+              <button style={{ margin: '10px', fontSize: '20px', backgroundColor: '#0077b6', borderColor: '#0077b6', color: '#fff', padding: '10px 20px' }} type="button" class="btn btn-lg" onClick={sethome}>
+                <FaHome style={{ marginRight: '5px' }} /> Home
+              </button>
+              <button style={{ margin: '10px', fontSize: '20px', backgroundColor: '#e63946', borderColor: '#e63946', color: '#fff', padding: '10px 20px' }} type="button" class="btn btn-lg" onClick={setSelected}>
+                <FaBook style={{ marginRight: '5px' }} /> Selected Course
+              </button>
+              <button style={{ margin: '10px', fontSize: '20px', backgroundColor: '#FFA500', borderColor: '#FFA500', color: '#fff', padding: '10px 20px' }} type="button" class="btn btn-lg" onClick={setTimetable}>
+                <FaCalendar style={{ marginRight: '5px' }} /> View Timetable
+              </button>
             </div>
           </div>
         </nav>
@@ -149,13 +155,20 @@ const Profile = () => {
                 </tr>
                 <tr>
                   <td style={{ fontWeight: 'bold', padding: '15px' }}>Password:</td>
-                  <td style={{ padding: '15px' }}>{getPasswordValue()}</td>
-                  <td>
-                    {showPassword ? (
-                      <FaEyeSlash onClick={handleShowPassword} style={{ cursor: 'pointer' }} />
-                    ) : (
-                      <FaEye onClick={handleShowPassword} style={{ cursor: 'pointer' }} />
-                    )}
+                  <td style={{ padding: '15px', position: 'relative' }}>
+                    {getPasswordValue()}{' '}
+                    <span
+                      onClick={handleShowPassword}
+                      style={{
+                        position: 'absolute',
+                        top: '50%',
+                        right: '0',
+                        transform: 'translateY(-50%)',
+                        cursor: 'pointer',
+                        padding: '10px'
+                      }}>
+                      {showPassword ? <FaEyeSlash /> : <FaEye />}
+                    </span>
                   </td>
                 </tr>
                 <tr>

@@ -28,7 +28,7 @@ const Login = () => {
   function login() {
     console.log(username)
     console.log(password)
-    fetch('http://54.252.45.29/login', {
+    fetch('http://localhost:80/login', {
       method: 'POST',
       model: 'cors',
       headers: {
@@ -56,7 +56,6 @@ const Login = () => {
         }
       })
   }
-
   function handleInputKey(event) {
     // Check if the key pressed was the "Enter" key.
     if (event.key === 'Enter') {
@@ -66,16 +65,24 @@ const Login = () => {
   }
 
   return ( // whre the value of the box is changed will updata the username and passowrd  
-    <div>
-      <MDBContainer fluid className='p-4'>
-        <MDBRow>
+    <div className='center'>
+      <MDBContainer fluid className='p-4 center'>
+      <div className='loading'>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          </div>
+        <MDBRow className='center'>
+          
           <MDBCol md='6' className='text-center text-md-start d-flex flex-column justify-content-center'>
 
             <h1 className="my-5 display-3 fw-bold ls-tight px-3 color-change">
               Cusis 2.0  <br />
             </h1>
 
-            <p className='px-3 shocked' style={{ color: 'hsl(217, 10%, 50.8%)' ,fontSize: 20}} >
+            <p className='px-3 shocked' style={{ color: 'hsl(217, 10%, 50.8%)', fontSize: 20}}>
               A better course selection system
             </p>
 
@@ -108,7 +115,9 @@ const Login = () => {
                 </div>
               </MDBCardBody>
             </MDBCard>
+           
           </MDBCol>
+          
         </MDBRow>
       </MDBContainer>
     </div>

@@ -9,18 +9,19 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './style.css'
 import { ReactComponent as Exit } from './icon/box-arrow-in-left.svg';
 import { ReactComponent as SearchIcon } from './icon/search.svg';
-
 import { ReactComponent as AllCourse } from './icon/open-book-study-svgrepo-com.svg';
+import { ReactComponent as AllUser } from './icon/user.svg';
+
 import cookie from 'react-cookies'
 
 
-// fetch all course information from back-end (aws : http://54.252.45.29. local :http://54.252.45.29
+// fetch all course information from back-end (aws : http://54.252.45.29. local :http://localhost:80
 
 const CourseDetail = () => {
   const navigate = useNavigate();
   const [isLoading, setLoading] = useState(true); // set a loading term to make sure the system fetch the required data before return
   const obj = { id: decodeURI(window.location.href.split('/')[4]) }  //get the id by the url
-  fetch('http://54.252.45.29/coursedetail', {
+  fetch('http://localhost:80/coursedetail', {
     method: 'POST',
     model: 'cors',
     headers: {
@@ -43,32 +44,60 @@ const CourseDetail = () => {
         cookie.remove('logged')
         navigate("/")
       })
-
   }
-  if(cookie.load('adminLogged') == "true" || cookie.load('logged') == "true"){
+  const ToUser = () => {
+    navigate("/userlist")
+  }
+
+  const ToCourse = () => {
+    navigate("/courselist")
+  }
+
+  const [hoveredButton, setHoveredButton] = useState(null);
+
+  const handleMouseEnter = (buttonName) => {
+    setHoveredButton(buttonName);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredButton(null);
+  };
+
+  if (cookie.load('adminLogged') == "true" || cookie.load('logged') == "true") {
     return (
       <div>
-        <div className="icon-container"> {/* show the button on top right corner*/}
-          <button>
-          <Exit className="icon" onClick={logout} />
-          </button>
-          <button>
-            <SearchIcon className="icon" />
-          </button>
+
+
+        <div style={{ height: '40px' }}>
+          <div style={{ height: '40px', backgroundColor: '#f2f2f2' }}>
+            <div style={{ marginLeft: '40px', marginTop: '20px', display: 'flex', alignItems: 'center' }}>
+              <h3 style={{ display: 'inline-block', color: '#222' }}>Welcome back, &nbsp; <span style={{ color: '#3b5998' }}>Admin</span></h3>
+              {hoveredButton && (
+                <div className="tooltip-container" style={{ display: 'inline-block', position: 'absolute', left: '50%', transform: 'translateX(-50%)', backgroundColor: '#3b5998', color: '#fff', borderRadius: '5px', padding: '5px' }}>
+                  <h3>{hoveredButton}</h3>
+                </div>
+              )}
+            </div>
+          </div>
+          <div className="icon-container"> {/* show the button on top right corner*/}
+            <button>
+              <Exit className="icon" onClick={logout} />
+            </button>
+            <button onMouseEnter={() => handleMouseEnter('All Course Pages')} onMouseLeave={handleMouseLeave} onClick={ToCourse}>
+              <AllCourse className="icon" />
+            </button>
+            <button onMouseEnter={() => handleMouseEnter('All User Page')} onMouseLeave={handleMouseLeave} onClick={ToUser}>
+              <AllUser className="icon" />
+            </button>
+          </div>
         </div>
-        {cookie.load('adminLogged') == "true" &&
-          <AllCourse className="icon" />
-        }
-        {cookie.load('logged') == "true" &&
-          <h4>{cookie.load('username')}</h4>
-        }
         <hr className="line" />
 
 
         {isLoading == false &&
-          <div style={{ padding: '80px' }}>
-            <p style={{ fontSize: '20px' ,fontWeight: 'bold'}}>{CourseDetail.code}</p>
-            <p style={{ fontSize: '20px' ,fontWeight: 'bold'}}>{CourseDetail.name}</p>
+          <div style={{ paddingLeft: '50px', paddingRight: '50px' }}>
+            <p style={{ fontSize: '20px', fontWeight: 'bold' }}>{CourseDetail.code}</p>
+            <p style={{ fontSize: '20px', fontWeight: 'bold' }}>{CourseDetail.name}</p>
             <hr style={{ height: '2px', backgroundColor: 'black', border: 'none' }} />
             <div className="row">
               <div className="col-lg-6 ">
@@ -117,7 +146,7 @@ const CourseDetail = () => {
               </div>
 
               <div className="col-lg-6 ">
-                <p style={{ fontSize: '20px' ,fontWeight: 'bold'}}>Outline: </p>
+                <p style={{ fontSize: '20px', fontWeight: 'bold' }}>Outline: </p>
                 <p style={{ fontSize: '20px' }}>{CourseDetail.outline}</p>
               </div>
 
@@ -166,8 +195,8 @@ const CourseDetail = () => {
 
       </div>
     )
-  }else{
-    return(
+  } else {
+    return (
       <p>Plese login</p>
     )
   }

@@ -11,6 +11,7 @@ import {
 import 'bootstrap/dist/css/bootstrap.css';
 import './style.css';
 import { Link } from 'react-router-dom'
+import './register.css'
 import CryptoJS from 'crypto-js'
 
 const Register = () => {
@@ -35,7 +36,7 @@ const Register = () => {
     "Faculty of Social Science"
   ];
   const [countryCode, setCountryCode] = useState("");
-
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleDepartmentChange = (e) => {
     setDepartment(e.target.value);
@@ -61,7 +62,7 @@ const Register = () => {
 
     e.preventDefault();
     try {
-      const res = await fetch('http://54.252.45.29/registeringuser', {
+      const res = await fetch('http://localhost:80/registeringuser', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -96,7 +97,7 @@ const Register = () => {
 
     // Check if the username is unique
     try {
-      const res = await fetch('http://54.252.45.29/checkusername', {
+      const res = await fetch('http://localhost:80/checkusername', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -125,7 +126,7 @@ const Register = () => {
 
     // Check if the username is unique
     try {
-      const res = await fetch('http://54.252.45.29/checkusersid', {
+      const res = await fetch('http://localhost:80/checkusersid', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -134,6 +135,7 @@ const Register = () => {
       });
       const data = await res.json()
       if (data.length === 1) {
+        console.log(data)
         console.log("duplicated")
         setIsSidUnique(false);
         //window.PopUpbox('Username is duplicated', 'Please enter another username', 'error', 'OK')
@@ -190,6 +192,11 @@ const Register = () => {
     }
   }
 
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+
   return (
     <MDBContainer fluid>
       <MDBRow className="d-flex justify-content-center align-items-center h-100">
@@ -216,36 +223,51 @@ const Register = () => {
                 )}
               </div>
 
-              <div className="mb-4">
+              <div className="mb-4" style={{
+                borderColor:
+                  passwordStrength === 100
+                    ? '#00C851'
+                    : passwordStrength >= 50
+                      ? '#FF8800'
+                      : '#9e9e9e'
+              }}>
                 <label htmlFor="password">Password</label>
-                <MDBInput
-                  id="password"
-                  type="password"
-                  size="lg"
-                  value={password}
-                  onChange={handlePasswordChange}
-                  onKeyUp={handleInputKey}
-                />
+                <div className="password-input">
+                  <MDBInput
+                    id="password"
+                    type={showPassword ? 'text' : 'password'}
+                    size="lg"
+                    value={password}
+                    onChange={handlePasswordChange}
+                    style={{
+                      borderColor:
+                        passwordStrength === 100
+                          ? '#00C851'
+                          : passwordStrength >= 50
+                            ? '#FF8800'
+                            : '#9e9e9e'
+                    }}
+                  />
+                  <button
+                    className="password-toggle"
+                    onClick={toggleShowPassword}
+                    type="button"
+                  >
+                    {showPassword ? 'Hide' : 'Show'}
+                  </button>
+                </div>
                 {passwordStrength > 0 && (
                   <div className="password-strength">
-                    <MDBProgress
-                      className="my-2 custom-progress"
-                      value={passwordStrength}
-                      height="10px"
-                      color={
-                        passwordStrength === 100
-                          ? 'success'
-                          : passwordStrength >= 50
-                            ? 'warning'
-                            : 'danger'
-                      }
-                    />
                     <p className="text-center mb-0">
-                      {passwordStrength === 100
-                        ? 'Strong'
-                        : passwordStrength >= 50
-                          ? 'Medium'
-                          : 'Weak'}
+                      The strength of password is <span style={{
+                        color:
+                          passwordStrength === 100
+                            ? '#00C851'
+                            : passwordStrength >= 50
+                              ? '#FF8800'
+                              : '#FF4444'
+                      }}>
+                        {passwordStrength === 100 ? 'Strong' : passwordStrength >= 50 ? 'Medium' : 'Weak'}</span>
                     </p>
                   </div>
                 )}

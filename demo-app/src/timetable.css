@@ -102,10 +102,6 @@ select {
   margin-top: 10px;
 }
 
-.navbar-nav {
-  display: flex;
-  align-items: center;
-}
 
 select {
   padding: 10px;

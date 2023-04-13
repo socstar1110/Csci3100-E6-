@@ -13,7 +13,7 @@ const SelectCourse = ({ data }) => {
   const obj ={username:cookie.load('username')} // send to the backend 
   useEffect(() => {
     // This function will execute automatically
-    fetch('http://54.252.45.29/showSelected', {
+    fetch('http://localhost:80/showSelected', {
       method: 'POST',
       model: 'cors',
       headers: {
@@ -33,7 +33,7 @@ const SelectCourse = ({ data }) => {
   function Removecourse(ID) {
     Removeobj.id = ID
     console.log(ID)
-    fetch('http://54.252.45.29/removeSelected', {
+    fetch('http://localhost:80/removeSelected', {
       method: 'POST',
       model: 'cors',
       headers: {
@@ -68,7 +68,8 @@ const SelectCourse = ({ data }) => {
                   <th style={{ padding: '10px' }}>Department</th>
                   <th style={{ padding: '10px' }}>Instructor</th>
                   <th style={{ padding: '10px' }}>Capacity</th>
-                  <th style={{ padding: '10px' }}>Available</th>
+                  <th style={{ padding: '10px' }}>Availability</th>
+                  <th style={{ padding: '10px' }}>Delete</th>        
                 </tr>
               </thead>
               <tbody>

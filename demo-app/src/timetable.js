@@ -12,14 +12,14 @@ const TimeTable = () => {
     Username: cookie.load('username'),
   });
   const [courseInformation, setCourseInfo] = useState([]);
-  const [initialTime, setInitialTime] = useState('9:00');
+  const [initialTime, setInitialTime] = useState('8:00');
   const [endTime, setEndTime] = useState('18:00');
 
   function retrieveRegCourse(event) {
     setCourseInfo([]);
     event.preventDefault();
     setLoading(true);
-    fetch('http://54.252.45.29/timetable', {
+    fetch('http://localhost:80/timetable', {
       method: 'POST',
       mode: 'cors',
       headers: { 'Content-Type': 'application/json' },
@@ -31,8 +31,9 @@ const TimeTable = () => {
           setEmptyResult(true);
           setLoading(false);
         } else {
+          //console.log(data)
           const courseIds = data.map((id) => id.toString());
-          fetch('http://54.252.45.29/retrievecourseinfo', {
+          fetch('http://localhost:80/retrievecourseinfo', {
             method: 'POST',
             mode: 'cors',
             headers: { 'Content-Type': 'application/json' },
@@ -62,7 +63,7 @@ const TimeTable = () => {
 
   // Define the weekdays and times as arrays
   const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-  const times = ['9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
+  const times = ['8:00','9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
 
   // Define a function to filter the course information by weekday and time
   function getCourseInfo(weekday, time) {
@@ -99,6 +100,7 @@ const TimeTable = () => {
   };
 
   const handleMouseOut = () => {
+    console.log(courseInformation)
     setShowInfo(false);
   };
 
