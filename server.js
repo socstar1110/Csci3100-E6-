@@ -17,6 +17,9 @@ const removeSelected = require('./backend/removeSelected');
 const login = require('./backend/login');
 const regCourse = require('./backend/regcourse');
 const dropFromCart = require('./backend/dropfromcart');
+const Timetable = require('./backend/backendtimetable');
+const retrievecourseinfo = require('./backend/retrievecourseinformation');
+
 
 mongoose.connect('mongodb+srv://stu003:p947642W@cluster0.wenbhsm.mongodb.net/stu003');
 app.use(cors({ origin: 'http://localhost:3000', credentials: true })); // cors
@@ -35,6 +38,8 @@ app.use(removeSelected)
 app.use(login)
 app.use(regCourse);
 app.use(dropFromCart);
+app.use(Timetable);
+app.use(retrievecourseinfo);
 
 app.use('/', function (req, res) { // make sure the the server is work
     res.send('backend')

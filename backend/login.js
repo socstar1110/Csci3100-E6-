@@ -12,8 +12,10 @@ router.post('/login', (req, res) => {
     //console.log(typeof(req.body['id']))
     const { encryptedUsername, encryptedPassword } = req.body;
     console.log(CryptoJS.AES.decrypt(encryptedUsername, 'secret_default_key').toString(CryptoJS.enc.Utf8))
+
     const decryptedUsername = CryptoJS.AES.decrypt(encryptedUsername, 'secret_default_key').toString(CryptoJS.enc.Utf8);
     const decryptedPassword = CryptoJS.AES.decrypt(encryptedPassword, 'secret_default_key').toString(CryptoJS.enc.Utf8);
+
     User.findOne({username: decryptedUsername}).then(function(result){
         if(result == null){
             Admin.findOne({adminName: decryptedUsername}).then(function(admin){
@@ -26,7 +28,6 @@ router.post('/login', (req, res) => {
                     }else{
                         res.send("Invaild")
                     }
-
                 }
             })
         }else{

@@ -1,18 +1,33 @@
-const express = require('express')
-const path = require('path')
-const app = express()
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose')
-//const xml2json = require('xml-js')
-//const parseXml = require('xml-js')
-//const convert = require('xml-js')
-const cors = require('cors');
-const cookieParser = require('cookie-parser');
-const { name } = require('ejs');
-const { count } = require('console');
+const express = require('express');
+const router = express.Router();
+const { User, Course } = require('./mongoose');
 
-app.post('/timetable', (req, res)=>{
-    res.send('Timetable set-up successfully.');
+// retrieve the courses that user registered or added to course cart
+router.post('/timetable', (req, res)=>{
+    console.log(req.body);
+    switch(req.body['Condition']){
+        case 'temporary':
+            User.findOne({username: req.body['Username']})
+            .then((result)=>{
+                res.send(result.CartCourse);
+            })
+            .catch((error) => {
+                console.log(error);
+                res.send([]);
+            })
+            break;
+        
+        case 'registered':
+            User.findOne({username: req.body['Username']})
+            .then((result)=>{
+                res.send(result.RegCourse);
+            })
+            .catch((error) => {
+                console.log(error);
+                res.send([]);
+            })
+            break;
+    }
 });
 
-module.exports = app;
+module.exports = router;

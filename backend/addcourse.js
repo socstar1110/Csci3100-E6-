@@ -13,7 +13,7 @@ router.post('/addcourse', (req, res) => { //add a new course
     }
     if (parseInt(req.body['StartTime']) >= parseInt(req.body['EndTime'])) { // check any invaild time ie : ie : 10:30 - 9:15
         res.send('Invaild time')
-    } else if(typeof(req.body['capacity']) != 'number'){
+    } else if(/^[A-Za-z]+$/.test(req.body['Capacity'])){
         res.send('Invaild Capacity')
     }else {
         console.log(typeof(req.body['capacity']))
@@ -27,15 +27,24 @@ router.post('/addcourse', (req, res) => { //add a new course
             EndTime: req.body['EndTime'],
             Department: req.body['department'],
             Instructor: req.body['instructor'],
-            Capacity: req.body['capacity'],
+            Capacity: req.body['Capacity'],
             Outline: req.body['outline']
-        }).then(function (result) {
-            if (result == null) {
-                res.send('Repeated') // this course already exist in this system
+          })
+          .then(function (result) {
+            // If the document was inserted successfully, send a success response
+            res.send('Added');
+          })
+          .catch(function (error) {
+            console.log('duplicate')
+            // If a duplicate key error occurred, send an appropriate error response
+            if (error.name === 'MongoServerError' && error.code === 11000) {
+              res.send('Repeated');
             } else {
-                res.send('Added')
+              // If the error was not a duplicate key error, log it and send a generic error response
+              console.error(error);
+              res.status(500).send('An error occurred while adding the course');
             }
-        })
+          });
     }
 })
 

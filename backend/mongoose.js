@@ -2,7 +2,11 @@ const mongoose = require('mongoose')
 const UserSchema = mongoose.Schema({
     username: { type: String, require: true, unique: true },
     password: { type: String, require: true },
-    permission: { type: Boolean, require: true },
+    Sid:{ type: String, require: true, unique: true },
+    Sex:{ type: String, require: true },
+    Department:{ type: String, require: true },
+    Email:{ type: String, require: true },
+    Phone:{ type: String, require: true },
     CartCourse: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course' }],
     RegCourse: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course'}]
 })
