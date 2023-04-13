@@ -71,7 +71,13 @@ const CourseDetail = () => {
         <div style={{ height: '40px' }}>
           <div style={{ height: '40px', backgroundColor: '#f2f2f2' }}>
             <div style={{ marginLeft: '40px', marginTop: '20px', display: 'flex', alignItems: 'center' }}>
+              {cookie.load('adminLogged') == "true" &&
               <h3 style={{ display: 'inline-block', color: '#222' }}>Welcome back, &nbsp; <span style={{ color: '#3b5998' }}>Admin</span></h3>
+              }
+
+              {cookie.load('logged') == "true" &&
+              <h3 style={{ display: 'inline-block', color: '#222' }}>Welcome back, &nbsp; <span style={{ color: '#3b5998' }}>{cookie.load('username') }</span></h3>
+              }
               {hoveredButton && (
                 <div className="tooltip-container" style={{ display: 'inline-block', position: 'absolute', left: '50%', transform: 'translateX(-50%)', backgroundColor: '#3b5998', color: '#fff', borderRadius: '5px', padding: '5px' }}>
                   <h3>{hoveredButton}</h3>
@@ -83,12 +89,16 @@ const CourseDetail = () => {
             <button>
               <Exit className="icon" onClick={logout} />
             </button>
-            <button onMouseEnter={() => handleMouseEnter('All Course Pages')} onMouseLeave={handleMouseLeave} onClick={ToCourse}>
-              <AllCourse className="icon" />
-            </button>
-            <button onMouseEnter={() => handleMouseEnter('All User Page')} onMouseLeave={handleMouseLeave} onClick={ToUser}>
-              <AllUser className="icon" />
-            </button>
+            {cookie.load('adminLogged') == "true" &&
+            <div>
+              <button onMouseEnter={() => handleMouseEnter('All Course Pages')} onMouseLeave={handleMouseLeave} onClick={ToCourse}>
+                <AllCourse className="icon" />
+              </button>
+              <button onMouseEnter={() => handleMouseEnter('All User Page')} onMouseLeave={handleMouseLeave} onClick={ToUser}>
+                <AllUser className="icon" />
+              </button>
+            </div>
+            }
           </div>
         </div>
         <hr className="line" />

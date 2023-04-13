@@ -159,9 +159,11 @@ const Courselist = () => {
           window.PopUpbox('Duplicate Id/Code/Name', 'Please check carefully', 'error', 'OK')
         } else if (date == 'Invaild Capacity') {
           window.PopUpbox('Invaild Capacity', 'Please check carefully', 'error', 'OK')
+        }else if(data == 'exceed'){
+          window.PopUpbox('Invaild Capacity', 'The new capacity is less than number registered user', 'error', 'OK')
         }
         else { // the time slot is not reasonable 
-          window.PopUpbox('Invaild time slot', 'Please check carefully', 'error', 'OK')
+          window.PopUpbox('Invaild Capacity', 'The new capacity is less than number registered user', 'error', 'OK')
         }
       })
   }
