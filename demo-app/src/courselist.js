@@ -23,9 +23,8 @@ import cookie from 'react-cookies'
 
 const Courselist = () => {
   const navigate = useNavigate();
-  const obj = { useless: '00' } // meaningless body for fetch
   const [isLoading, setLoading] = useState(true); // set a loading term to make sure the system fetch the required data before return
-  const [isModify, setModify] = useState(false); // set a loading term to make sure the system fetch the required data before return
+  const obj = { useless: '00' } // meaningless body for fetch
   useEffect(() => {
     // This function will execute automatically when your access this page 
     fetch('http://localhost:80/allcourse', { // fetch all course information from back-end (aws : http://54.252.45.29. local :http://localhost:80
@@ -43,21 +42,15 @@ const Courselist = () => {
   }, []);
   const data = JSON.parse(sessionStorage.getItem('allCourse')) // fetch back the data from local Storage 
 
-  function showform() { // this function indicate which form will show
-    if (isModify == true) {
-      setModify(false)
-    } else {
-      setModify(true)
-    }
-  }
 
-  const logout = ()=>{
-    window.PopUpbox('Logout successfully','Please click OK to continue','success','OK')
-    .then((result) => {
-      cookie.remove('adminLogged')
-      navigate("/")
+
+  const logout = () => {
+    window.PopUpbox('Logout successfully', 'Please click OK to continue', 'success', 'OK')
+      .then((result) => {
+        cookie.remove('adminLogged')
+        navigate("/")
       })
-    
+
   }
 
   // below a for add a new course 
@@ -71,7 +64,7 @@ const Courselist = () => {
     EndTime: '9:15',
     department: '',
     instructor: '',
-    capacity: 10,
+    Capacity: 10,
     outline: '',
   });
 
@@ -93,12 +86,12 @@ const Courselist = () => {
               window.location.reload()
             })
         } else if (date == 'Repeated') { // the user user try to add existing course into the system
-          window.PopUpbox('The course already exists in the system', 'The adding was unsuccessful', 'error', 'OK')
+          window.PopUpbox('Duplicate Id/Code/Name', 'Please check carefully', 'error', 'OK')
         } else if (date == 'Invaild time') { // the time slot is invaild ie 9:15 - 8:30
           window.PopUpbox('Invaild time slot', 'Please check carefully', 'error', 'OK')
-        } else if (date == 'Invaild Capacity'){
+        } else if (date == 'Invaild Capacity') {
           window.PopUpbox('Invaild Capacity', 'Please check carefully', 'error', 'OK')
-        }else { // some data is missing 
+        } else { // some data is missing 
           date = date.charAt(0).toUpperCase() + date.slice(1)
           window.PopUpbox(date + ' is empty', 'Please check carefully', 'error', 'OK')
         }
@@ -164,7 +157,7 @@ const Courselist = () => {
           window.PopUpbox('Wrong Original CourseID', 'Please check carefully', 'error', 'OK')
         } else if (date == 'duplicate') {
           window.PopUpbox('Duplicate Id/Code/Name', 'Please check carefully', 'error', 'OK')
-        }else if (date == 'Invaild Capacity'){
+        } else if (date == 'Invaild Capacity') {
           window.PopUpbox('Invaild Capacity', 'Please check carefully', 'error', 'OK')
         }
         else { // the time slot is not reasonable 
@@ -192,10 +185,21 @@ const Courselist = () => {
     }));
   }
 
-  const [showDiv, setShowDiv] = useState(false);
-  const toggleDiv = () => {
-    setShowDiv(!showDiv);
-  }
+  const [showModifyForm, setShowModifyForm] = useState(false);
+  const [showAddForm, setShowAddForm] = useState(false);
+
+  const handleModifyClick = () => {
+    setShowModifyForm(!showModifyForm);
+    setShowAddForm(false);
+  };
+
+  const handleAddClick = () => {
+    setShowAddForm(!showAddForm);
+    setShowModifyForm(false);
+  };
+
+
+
 
   // below a for remove a course 
   const Removeobj = { id: '' } // a object contain a course id the admin would like to remove 
@@ -216,12 +220,12 @@ const Courselist = () => {
           })
       })
   }
-  if(cookie.load('adminLogged') == "true"){
+  if (cookie.load('adminLogged') == "true") {
     return (
       <div>
         <div className="icon-container"> {/* show the button on top right corner*/}
           <button>
-            <Exit className="icon" onClick={logout}/>
+            <Exit className="icon" onClick={logout} />
           </button>
           <button>
             <SearchIcon className="icon" />
@@ -236,330 +240,383 @@ const Courselist = () => {
 
         {/* display all course information by a table (the logic of this code is similar to the table of profile )*/}
         {isLoading == false && // make sure we retune the date after fetch the a latest date 
-          <div >
-            <div class="sticky-top" style={{ backgroundColor: 'lavender' }}> {/* fix the form on a position )*/}
-              <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
-                <button className="btn btn-warning " style={{ marginRight: '10px' }} onClick={toggleDiv}>Fold/Expand tools</button>
-              </div>
-              {showDiv && (
-                <div>
-                  <form>
-                    {isModify &&
-                      <div>
-                        <form className=" row col-lg-12 text-center">
-                          <div className="col-lg-4 " >
-                            <button type="submit" class="btn btn-info" onClick={showform}>Add/Modify</button>
-                          </div>
-                          <div className="col-lg-4 " >
-                            <h5 style={{ display: 'inline-block' }}>Modify Course Information</h5>
-                          </div>
-                          <div className="col-lg-4 " >
-                            <button type="submit" className="btn btn-primary" onClick={handleSubmitModifyCourse}>Submit Modification</button>
-                          </div>
-                        </form>
-                        <br></br>
-
-                        <div class="row text-center">
-                          <div className="col-lg-2 " >
-                            <label>
-                              Original CourseID:
-                              <MDBInput type="text" name="oldId" value={modifyCourse.oldId} onChange={handleModifyCourseChange} />  {/* modify modifyCourse.oldId by onChange*/}
-                            </label>
-                            <br></br>
-                            <label>
-                              New CourseID:
-                              <MDBInput type="text" name="CourseId" value={modifyCourse.CourseId} onChange={handleModifyCourseChange} />{/* modify modifyCourse.CourseId by onChange*/}
-                            </label>
-                            <br></br>
-                          </div>
-
-                          <div className="col-lg-2">
-                            <label>
-                              New CourseCode:
-                              <MDBInput type="text" name="CourseCode" value={modifyCourse.CourseCode} onChange={handleModifyCourseChange} />{/* modify modifyCourse.CourseCode by onChange*/}
-                            </label>
-                            <br></br>
-                            <label>
-                              New CourseName:
-                              <MDBInput type="text" name="CourseName" value={modifyCourse.CourseName} onChange={handleModifyCourseChange} />{/* modify modifyCourse.CourseName by onChange*/}
-                            </label>
-                            <br></br>
-                          </div>
-
-
-                          <div className="col-lg-2">
-                            <label>
-                              New Department:
-                              <MDBInput type="text" name="Department" value={modifyCourse.Department} onChange={handleModifyCourseChange} />{/* modify modifyCourse.Department by onChange*/}
-                            </label>
-                            <br></br>
-                            <label>
-                              New Instructor:
-                              <MDBInput type="text" name="Instructor" value={modifyCourse.Instructor} onChange={handleModifyCourseChange} />{/* modify modifyCourse.Instructor by onChange*/}
-                            </label>
-                            <br></br>
-
-                          </div>
-
-                          <div className="col-lg-2">
-                            <label>
-                              New Capacity:
-                              <MDBInput type="text" name="Capacity" value={modifyCourse.Capacity} onChange={handleModifyCourseChange} />{/* modify modifyCourse.Capacity by onChange*/}
-                            </label>
-                            <br></br>
-                            <label>
-                              New Venue:
-                              <MDBInput type="text" name="Venue" value={modifyCourse.Venue} onChange={handleModifyCourseChange} />{/* modify modifyCourse.Venue by onChange*/}
-                            </label>
-                            <br></br>
-
-                          </div>
-
-                          <div className="col-lg-1">
-
-                            <label>
-                              New Date:
-                            </label>
-                            <br></br>
-                            <select name="data" value={modifyCourse.Date} onChange={handleModifyCourseDateChange}> {/* modify modifyCourse.Data by onChange*/}
-                              <option value="Monday">Monday</option>
-                              <option value="Tuesday">Tuesday</option>
-                              <option value="Wednesday">Wednesday</option>
-                              <option value="Thursday">Thursday</option>
-                              <option value="Friday">Friday</option>
-                            </select>
-                            <br></br>
-                            <label>
-                              New Time:
-                            </label>
-                            <br></br>
-                            <select name="starttime" value={modifyCourse.StartTime} onChange={handleModifyCourseStartTimeChange}>{/* modify modifyCourse.StartTime by onChange*/}
-                              <option value="8:30">8:30</option>
-                              <option value="9:30">9:30</option>
-                              <option value="10:30">10:30</option>
-                              <option value="11:30">11:30</option>
-                              <option value="12:30">12:30</option>
-                              <option value="13:30">13:30</option>
-                              <option value="14:30">14:30</option>
-                              <option value="15:30">15:30</option>
-                              <option value="16:30">16:30</option>
-                              <option value="17:30">17:30</option>
-                            </select>
-                            <br></br>
-                            to
-                            <br></br>
-                            <select name="endtime" value={modifyCourse.EndTime} onChange={handleModifyCourseEndTimeChange}>{/* modify modifyCourse.EndTime by onChange*/}
-                              <option value="9:15">9:15</option>
-                              <option value="10:15">10:15</option>
-                              <option value="11:15">11:15</option>
-                              <option value="12:15">12:15</option>
-                              <option value="13:15">13:15</option>
-                              <option value="14:15">14:15</option>
-                              <option value="15:15">15:15</option>
-                              <option value="16:15">16:15</option>
-                              <option value="17:15">17:15</option>
-                              <option value="18:15">18:15</option>
-                            </select>
-                            <br></br>
-
-
-                          </div>
-
-
-                          <div className="col-lg-3">
-                            <label>
-                              New Outline:
-                              <br></br>
-                              <textarea rows={4} cols={30} type="text" name="Outline" value={modifyCourse.Outline} onChange={handleModifyCourseChange} />{/* modify modifyCourse.Outline by onChange*/}
-                            </label>
-                            <br></br>
-
-                          </div>
-                        </div>
-                        <br></br>
-                      </div>
-                    }
-
-                    {isModify == false &&
-                      <div>
-                        <form className=" row col-lg-12 text-center">
-                          <div className="col-lg-4 " >
-                            <button type="submit" class="btn btn-info" onClick={showform}>Add/Modify</button>
-                          </div>
-                          <div className="col-lg-4 " >
-                            <h5 style={{ display: 'inline-block' }}>Add New Course</h5>
-                          </div>
-                          <div className="col-lg-4 " >
-                            <button type="submit" className="btn btn-success" onClick={handleSubmitAddCourse}>Sumbit Addition</button>
-                          </div>
-                        </form>
-                        <br></br>
-
-                        <div class="row text-center">
-                          <div className="col-lg-2 " >
-                            <label>
-                              New CourseID:
-                              <MDBInput type="text" name="id" value={addCourse.id} onChange={handleAddCourseChange} /> {/* modify addCourse. id by onChange*/}
-                            </label>
-                            <br></br>
-                          </div>
-                          <div className="col-lg-2 " >
-                            <label>
-                              New CourseCode:
-                              <MDBInput type="text" name="code" value={addCourse.code} onChange={handleAddCourseChange} />{/* modify addCourse.code by onChange*/}
-                            </label>
-                            <br></br>
-                            <label>
-                              New CourseName:
-                              <MDBInput type="text" name="name" value={addCourse.name} onChange={handleAddCourseChange} />{/* modify addCourse.name by onChange*/}
-                            </label>
-                            <br></br>
-                          </div>
-                          <div className="col-lg-2 " >
-                            <label>
-                              New Department:
-                              <MDBInput type="text" name="department" value={addCourse.department} onChange={handleAddCourseChange} />{/* modify addCourse.instructor by onChange*/}
-                            </label>
-                            <br></br>
-                            <label>
-                              New Instructor:
-                              <MDBInput type="text" name="instructor" value={addCourse.instructor} onChange={handleAddCourseChange} />{/* modify addCourse.instructor by onChange*/}
-                            </label>
-                            <br></br>
-                          </div>
-                          <div className="col-lg-2 " >
-                            <label>
-                              New Capacity:
-                              <MDBInput type="text" name="capacity" value={addCourse.capacity} onChange={handleAddCourseChange} />{/* modify addCourse.capacity by onChange*/}
-                            </label>
-                            <br></br>
-                            <label>
-                              New Venue:
-                              <MDBInput type="text" name="venue" value={addCourse.venue} onChange={handleAddCourseChange} />{/* modify addCourse.venue by onChange*/}
-                            </label>
-                            <br></br>
-                          </div>
-                          <div className="col-lg-1 " >
-                            <label>
-                              New Date:
-                            </label>
-                            <br></br>
-                            <select name="data" value={addCourse.Date} onChange={handleAddCourseDateChange}>{/* modify addCourse.data by onChange*/}
-                              <option value="Monday">Monday</option>
-                              <option value="Tuesday">Tuesday</option>
-                              <option value="Wednesday">Wednesday</option>
-                              <option value="Thursday">Thursday</option>
-                              <option value="Friday">Friday</option>
-                            </select>
-
-                            <br></br>
-                            <label>
-                              New Time:
-                            </label>
-                            <br></br>
-                            <select name="starttime" value={addCourse.StartTime} onChange={handleAddCourseStartTimeChange}>{/* modify addCourse.StartTime by onChange*/}
-                              <option value="8:30">8:30</option>
-                              <option value="9:30">9:30</option>
-                              <option value="10:30">10:30</option>
-                              <option value="11:30">11:30</option>
-                              <option value="12:30">12:30</option>
-                              <option value="13:30">13:30</option>
-                              <option value="14:30">14:30</option>
-                              <option value="15:30">15:30</option>
-                              <option value="16:30">16:30</option>
-                              <option value="17:30">17:30</option>
-                            </select>
-                            <br></br>
-                            to
-                            <br></br>
-                            <select name="endtime" value={addCourse.EndTime} onChange={handleAddCourseEndTimeChange}>{/* modify addCourse.EndTime by onChange*/}
-                              <option value="9:15">9:15</option>
-                              <option value="10:15">10:15</option>
-                              <option value="11:15">11:15</option>
-                              <option value="12:15">12:15</option>
-                              <option value="13:15">13:15</option>
-                              <option value="14:15">14:15</option>
-                              <option value="15:15">15:15</option>
-                              <option value="16:15">16:15</option>
-                              <option value="17:15">17:15</option>
-                              <option value="18:15">18:15</option>
-                            </select>
-                            <br></br>
-                          </div>
-
-                          <div className="col-lg-3 " >
-                            <label>
-                              New Outline:
-                              <br></br>
-                              <textarea rows={4} cols={30} type="text" name="outline" value={addCourse.outline} onChange={handleAddCourseChange} />{/* modify addCourse.outline by onChange*/}
-                            </label>
-
-                          </div>
-                        </div>
-                        <br></br>
-                      </div>
-                    }
-
-                  </form>
-
-                </div>
-
-              )}
+        <div >
+          <div class="sticky-top" style={{ backgroundColor: 'lavender' }}> {/* fix the form on a position )*/}
+            <div className="text-center" style={{ display: 'flex', justifyContent: 'center', padding: '10px' }} >
+              <button
+                type="button"
+                className="btn"
+                onClick={handleModifyClick}
+                style={{
+                  backgroundColor: '#2196f3',
+                  color: '#fff',
+                  borderRadius: '5px',
+                  padding: '10px 20px',
+                  fontWeight: 'bold',
+                  boxShadow: '0 2px 5px rgba(0, 0, 0, 0.2)',
+                  transition: 'all 0.3s ease',
+                  cursor: 'pointer'
+                }}
+              >
+                {showModifyForm ? "Fold modify form" : "Modify Course information"}
+              </button>
+              <button
+                type="button"
+                className="btn"
+                style={{
+                  backgroundColor: '#28a745',
+                  color: '#fff',
+                  borderRadius: '5px',
+                  padding: '10px 20px',
+                  fontWeight: 'bold',
+                  boxShadow: '0 2px 5px rgba(0, 0, 0, 0.2)',
+                  transition: 'all 0.3s ease',
+                  cursor: 'pointer',
+                  marginLeft: '20px'
+                }}
+                onClick={handleAddClick}
+              >
+                {showAddForm ? "Fold add form" : "Add New Course"}
+              </button>
             </div>
 
-            <div className="row">
 
-              <div className="col-lg-12">
-                <h6 style={{ padding: '10px' }}>Course List</h6>
-                <table>
-                  <thead>
+            <div>
+              <form>
+                {showModifyForm &&
+                  <div>
+                    <form className=" row col-lg-12 text-center">
+                      <div className="col-lg-4 " >
+
+                      </div>
+                      <div className="col-lg-4 " >
+                        <h5 style={{ display: 'inline-block', padding: "10px" }}>Modify Course Information</h5>
+                      </div>
+                      <div className="col-lg-4 " >
+                        <button type="submit" className="btn btn-primary" style={{
+                          backgroundColor: '#2196f3',
+                          color: '#fff',
+                          borderRadius: '5px',
+                          padding: '10px 20px',
+                          fontWeight: 'bold',
+                          boxShadow: '0 2px 5px rgba(0, 0, 0, 0.2)',
+                          transition: 'all 0.3s ease',
+                          cursor: 'pointer'
+                        }} onClick={handleSubmitModifyCourse}>Submit Modification</button>
+                      </div>
+                    </form>
+
+                    <div class="row text-center">
+                      <div className="col-lg-2 " >
+                        <label>
+                          Original CourseID:
+                          <MDBInput type="text" name="oldId" value={modifyCourse.oldId} onChange={handleModifyCourseChange} />  {/* modify modifyCourse.oldId by onChange*/}
+                        </label>
+                        <br></br>
+                        <label>
+                          New CourseID:
+                          <MDBInput type="text" name="CourseId" value={modifyCourse.CourseId} onChange={handleModifyCourseChange} />{/* modify modifyCourse.CourseId by onChange*/}
+                        </label>
+                        <br></br>
+                      </div>
+
+                      <div className="col-lg-2">
+                        <label>
+                          New CourseCode:
+                          <MDBInput type="text" name="CourseCode" value={modifyCourse.CourseCode} onChange={handleModifyCourseChange} />{/* modify modifyCourse.CourseCode by onChange*/}
+                        </label>
+                        <br></br>
+                        <label>
+                          New CourseName:
+                          <MDBInput type="text" name="CourseName" value={modifyCourse.CourseName} onChange={handleModifyCourseChange} />{/* modify modifyCourse.CourseName by onChange*/}
+                        </label>
+                        <br></br>
+                      </div>
+
+
+                      <div className="col-lg-2">
+                        <label>
+                          New Department:
+                          <MDBInput type="text" name="Department" value={modifyCourse.Department} onChange={handleModifyCourseChange} />{/* modify modifyCourse.Department by onChange*/}
+                        </label>
+                        <br></br>
+                        <label>
+                          New Instructor:
+                          <MDBInput type="text" name="Instructor" value={modifyCourse.Instructor} onChange={handleModifyCourseChange} />{/* modify modifyCourse.Instructor by onChange*/}
+                        </label>
+                        <br></br>
+
+                      </div>
+
+                      <div className="col-lg-2">
+                        <label>
+                          New Capacity:
+                          <MDBInput type="text" name="Capacity" value={modifyCourse.Capacity} onChange={handleModifyCourseChange} />{/* modify modifyCourse.Capacity by onChange*/}
+                        </label>
+                        <br></br>
+                        <label>
+                          New Venue:
+                          <MDBInput type="text" name="Venue" value={modifyCourse.Venue} onChange={handleModifyCourseChange} />{/* modify modifyCourse.Venue by onChange*/}
+                        </label>
+                        <br></br>
+
+                      </div>
+
+                      <div className="col-lg-1">
+
+                        <label>
+                          New Date:
+                        </label>
+                        <br></br>
+                        <select name="data" value={modifyCourse.Date} onChange={handleModifyCourseDateChange}> {/* modify modifyCourse.Data by onChange*/}
+                          <option value="Monday">Monday</option>
+                          <option value="Tuesday">Tuesday</option>
+                          <option value="Wednesday">Wednesday</option>
+                          <option value="Thursday">Thursday</option>
+                          <option value="Friday">Friday</option>
+                        </select>
+                        <br></br>
+                        <label>
+                          New Time:
+                        </label>
+                        <br></br>
+                        <select name="starttime" value={modifyCourse.StartTime} onChange={handleModifyCourseStartTimeChange}>{/* modify modifyCourse.StartTime by onChange*/}
+                          <option value="8:30">8:30</option>
+                          <option value="9:30">9:30</option>
+                          <option value="10:30">10:30</option>
+                          <option value="11:30">11:30</option>
+                          <option value="12:30">12:30</option>
+                          <option value="13:30">13:30</option>
+                          <option value="14:30">14:30</option>
+                          <option value="15:30">15:30</option>
+                          <option value="16:30">16:30</option>
+                          <option value="17:30">17:30</option>
+                        </select>
+                        <br></br>
+                        to
+                        <br></br>
+                        <select name="endtime" value={modifyCourse.EndTime} onChange={handleModifyCourseEndTimeChange}>{/* modify modifyCourse.EndTime by onChange*/}
+                          <option value="9:15">9:15</option>
+                          <option value="10:15">10:15</option>
+                          <option value="11:15">11:15</option>
+                          <option value="12:15">12:15</option>
+                          <option value="13:15">13:15</option>
+                          <option value="14:15">14:15</option>
+                          <option value="15:15">15:15</option>
+                          <option value="16:15">16:15</option>
+                          <option value="17:15">17:15</option>
+                          <option value="18:15">18:15</option>
+                        </select>
+                        <br></br>
+
+
+                      </div>
+
+
+                      <div className="col-lg-3">
+                        <label>
+                          New Outline:
+                          <br></br>
+                          <textarea rows={4} cols={30} type="text" name="Outline" value={modifyCourse.Outline} onChange={handleModifyCourseChange} />{/* modify modifyCourse.Outline by onChange*/}
+                        </label>
+                        <br></br>
+
+                      </div>
+                    </div>
+                    <br></br>
+                  </div>
+                }
+
+                {showAddForm && (
+                  <div>
+                    <form className=" row col-lg-12 text-center">
+                      <div className="col-lg-4 " >
+
+                      </div>
+                      <div className="col-lg-4 " >
+                        <h5 style={{ display: 'inline-block' , padding: "10px" }}>Add New Course</h5>
+                      </div>
+                      <div className="col-lg-4 " >
+                        <button type="submit" className="btn btn-success" style={{
+                          backgroundColor: '#28a745',
+                          color: '#fff',
+                          borderRadius: '5px',
+                          padding: '10px 20px',
+                          fontWeight: 'bold',
+                          boxShadow: '0 2px 5px rgba(0, 0, 0, 0.2)',
+                          transition: 'all 0.3s ease',
+                          cursor: 'pointer',
+                          marginLeft: '20px'
+                        }} onClick={handleSubmitAddCourse}>Sumbit Addition</button>
+                      </div>
+                    </form>
+
+                    <div class="row text-center">
+                      <div className="col-lg-2 " >
+                        <label>
+                          New CourseID:
+                          <MDBInput type="text" name="id" value={addCourse.id} onChange={handleAddCourseChange} /> {/* modify addCourse. id by onChange*/}
+                        </label>
+                        <br></br>
+                      </div>
+                      <div className="col-lg-2 " >
+                        <label>
+                          New CourseCode:
+                          <MDBInput type="text" name="code" value={addCourse.code} onChange={handleAddCourseChange} />{/* modify addCourse.code by onChange*/}
+                        </label>
+                        <br></br>
+                        <label>
+                          New CourseName:
+                          <MDBInput type="text" name="name" value={addCourse.name} onChange={handleAddCourseChange} />{/* modify addCourse.name by onChange*/}
+                        </label>
+                        <br></br>
+                      </div>
+                      <div className="col-lg-2 " >
+                        <label>
+                          New Department:
+                          <MDBInput type="text" name="department" value={addCourse.department} onChange={handleAddCourseChange} />{/* modify addCourse.instructor by onChange*/}
+                        </label>
+                        <br></br>
+                        <label>
+                          New Instructor:
+                          <MDBInput type="text" name="instructor" value={addCourse.instructor} onChange={handleAddCourseChange} />{/* modify addCourse.instructor by onChange*/}
+                        </label>
+                        <br></br>
+                      </div>
+                      <div className="col-lg-2 " >
+                        <label>
+                          New Capacity:
+                          <MDBInput type="text" name="Capacity" value={addCourse.Capacity} onChange={handleAddCourseChange} />{/* modify addCourse.capacity by onChange*/}
+                        </label>
+                        <br></br>
+                        <label>
+                          New Venue:
+                          <MDBInput type="text" name="venue" value={addCourse.venue} onChange={handleAddCourseChange} />{/* modify addCourse.venue by onChange*/}
+                        </label>
+                        <br></br>
+                      </div>
+                      <div className="col-lg-1 " >
+                        <label>
+                          New Date:
+                        </label>
+                        <br></br>
+                        <select name="data" value={addCourse.Date} onChange={handleAddCourseDateChange}>{/* modify addCourse.data by onChange*/}
+                          <option value="Monday">Monday</option>
+                          <option value="Tuesday">Tuesday</option>
+                          <option value="Wednesday">Wednesday</option>
+                          <option value="Thursday">Thursday</option>
+                          <option value="Friday">Friday</option>
+                        </select>
+
+                        <br></br>
+                        <label>
+                          New Time:
+                        </label>
+                        <br></br>
+                        <select name="starttime" value={addCourse.StartTime} onChange={handleAddCourseStartTimeChange}>{/* modify addCourse.StartTime by onChange*/}
+                          <option value="8:30">8:30</option>
+                          <option value="9:30">9:30</option>
+                          <option value="10:30">10:30</option>
+                          <option value="11:30">11:30</option>
+                          <option value="12:30">12:30</option>
+                          <option value="13:30">13:30</option>
+                          <option value="14:30">14:30</option>
+                          <option value="15:30">15:30</option>
+                          <option value="16:30">16:30</option>
+                          <option value="17:30">17:30</option>
+                        </select>
+                        <br></br>
+                        to
+                        <br></br>
+                        <select name="endtime" value={addCourse.EndTime} onChange={handleAddCourseEndTimeChange}>{/* modify addCourse.EndTime by onChange*/}
+                          <option value="9:15">9:15</option>
+                          <option value="10:15">10:15</option>
+                          <option value="11:15">11:15</option>
+                          <option value="12:15">12:15</option>
+                          <option value="13:15">13:15</option>
+                          <option value="14:15">14:15</option>
+                          <option value="15:15">15:15</option>
+                          <option value="16:15">16:15</option>
+                          <option value="17:15">17:15</option>
+                          <option value="18:15">18:15</option>
+                        </select>
+                        <br></br>
+                      </div>
+
+                      <div className="col-lg-3 " >
+                        <label>
+                          New Outline:
+                          <br></br>
+                          <textarea rows={4} cols={30} type="text" name="outline" value={addCourse.outline} onChange={handleAddCourseChange} />{/* modify addCourse.outline by onChange*/}
+                        </label>
+
+                      </div>
+                    </div>
+                    <br></br>
+                  </div>)
+                }
+
+              </form>
+
+            </div>
+
+
+          </div>
+
+          <div className="row">
+
+            <div className="col-lg-12">
+              <h6 style={{ padding: '10px' }}>Course List</h6>
+              <table>
+                <thead>
+                  <tr>
+                    <th style={{ padding: '10px' }}>CourseCode</th>
+                    <th style={{ padding: '10px' }}>CourseName</th>
+                    <th style={{ padding: '10px' }}>CourseID</th>
+                    <th style={{ padding: '10px' }}>Venue</th>
+                    <th style={{ padding: '10px' }}>Date</th>
+                    <th style={{ padding: '10px' }}>StartTime</th>
+                    <th style={{ padding: '10px' }}>EndTime</th>
+                    <th style={{ padding: '10px' }}>Department</th>
+                    <th style={{ padding: '10px' }}>Instructor</th>
+                    <th style={{ padding: '10px' }}>Capacity</th>
+                    <th style={{ padding: '10px' }}>Available</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data.map((course) => (
                     <tr>
-                      <th style={{ padding: '10px' }}>CourseCode</th>
-                      <th style={{ padding: '10px' }}>CourseName</th>
-                      <th style={{ padding: '10px' }}>CourseID</th>
-                      <th style={{ padding: '10px' }}>Venue</th>
-                      <th style={{ padding: '10px' }}>Date</th>
-                      <th style={{ padding: '10px' }}>StartTime</th>
-                      <th style={{ padding: '10px' }}>EndTime</th>
-                      <th style={{ padding: '10px' }}>Department</th>
-                      <th style={{ padding: '10px' }}>Instructor</th>
-                      <th style={{ padding: '10px' }}>Capacity</th>
-                      <th style={{ padding: '10px' }}>Available</th>
+                      <td style={{ padding: '10px' }}><Link to={'/coursedetail/' + course.id}>{course.code}</Link></td>
+                      <td style={{ padding: '10px' }}>{course.name}</td>
+                      <td style={{ padding: '10px' }}>{course.id}</td>
+                      <td style={{ padding: '10px' }}>{course.venue}</td>
+                      <td style={{ padding: '10px' }}>{course.Date}</td>
+                      <td style={{ padding: '10px' }}>{course.StartTime}</td>
+                      <td style={{ padding: '10px' }}>{course.EndTime}</td>
+                      <td style={{ padding: '10px' }}>{course.department}</td>
+                      <td style={{ padding: '10px' }}>{course.instructor}</td>
+                      <td style={{ padding: '10px' }}>{course.capacity}</td>
+                      <td style={{ padding: '10px' }}>{course.available}</td>
+                      <td style={{ padding: '10px' }}>
+                        <button className="dropCrouse" style={{ width: '40px', height: '40px', padding: '0px' }} onClick={(() => Removecourse(course.id))}>
+                          <Drop className="icon" />
+                        </button>
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    {data.map((course) => (
-                      <tr>
-                        <td style={{ padding: '10px' }}><Link to={'/coursedetail/' + course.id}>{course.code}</Link></td>
-                        <td style={{ padding: '10px' }}>{course.name}</td>
-                        <td style={{ padding: '10px' }}>{course.id}</td>
-                        <td style={{ padding: '10px' }}>{course.venue}</td>
-                        <td style={{ padding: '10px' }}>{course.Date}</td>
-                        <td style={{ padding: '10px' }}>{course.StartTime}</td>
-                        <td style={{ padding: '10px' }}>{course.EndTime}</td>
-                        <td style={{ padding: '10px' }}>{course.department}</td>
-                        <td style={{ padding: '10px' }}>{course.instructor}</td>
-                        <td style={{ padding: '10px' }}>{course.capacity}</td>
-                        <td style={{ padding: '10px' }}>{course.available}</td>
-                        <td style={{ padding: '10px' }}>
-                          <button className="dropCrouse" style={{ width: '40px', height: '40px', padding: '0px' }} onClick={(() => Removecourse(course.id))}>
-                            <Drop className="icon" />
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-
+                  ))}
+                </tbody>
+              </table>
             </div>
 
           </div>
-        }
+
+        </div>
+      }
+
       </div>
     )
-  }else{
-    return(
+  } else {
+    return (
       <p>Please login as admin</p>
     )
   }
