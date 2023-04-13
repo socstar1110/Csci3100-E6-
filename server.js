@@ -23,10 +23,9 @@ const showcart = require('./backend/showcart');
 const registeringuser = require('./backend/registeringuser');
 const checkusername = require('./backend/checkusername');
 const checkusersid = require('./backend/checkusersid');
-
-
-
-
+const userdata = require('./backend/userdata');
+const changePassword = require('./backend/changePassword');
+const checkingprocessForgetPw = require('./backend/checkingprocessForgetPw');
 
 mongoose.connect('mongodb+srv://stu003:p947642W@cluster0.wenbhsm.mongodb.net/stu003');
 app.use(cors({ origin: 'http://localhost:3000', credentials: true })); // cors
@@ -51,8 +50,9 @@ app.use(showcart)
 app.use(registeringuser)
 app.use(checkusername)
 app.use(checkusersid)
-
-
+app.use(userdata)
+app.use(changePassword)
+app.use(checkingprocessForgetPw)
 
 app.use('/', function (req, res) { // make sure the the server is work
     res.send('backend')
