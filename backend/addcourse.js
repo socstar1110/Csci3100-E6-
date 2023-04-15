@@ -28,7 +28,7 @@ router.post('/addcourse', (req, res) => { //add a new course
             Department: req.body['department'],
             Instructor: req.body['instructor'],
             Capacity: req.body['Capacity'],
-            Outline: req.body['outline']
+            Outline: req.body['Outline']
           })
           .then(function (result) {
             // If the document was inserted successfully, send a success response

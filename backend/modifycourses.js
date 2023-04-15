@@ -7,7 +7,7 @@ router.post('/modifycourse', (req, res) => {
     //console.log(req.body['oldId'])
 
     Course.findOne({ CourseId: req.body['oldId'] }).then(function (result) {
-        console.log(parseInt(req.body['Capacity']) < result['RegUser'].length)
+        //console.log(parseInt(req.body['Capacity']) < result['RegUser'].length)
         if (result == null) {
             res.send('Not exist') // this course is not in the system 
         }else if(/^[A-Za-z]+$/.test(req.body['Capacity'])){

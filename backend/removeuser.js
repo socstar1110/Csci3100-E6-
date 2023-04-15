@@ -28,6 +28,9 @@ router.post('/removeuser', async (req, res) => {
     }
     */
     User.findOne({ username: req.body['id'] }).then(function (user){
+      if(user == null){
+        res.send('No exit user')
+      }
         console.log(user)
         Course.find().then(function(course){
           for (let i = 0; i < course.length; i++){
