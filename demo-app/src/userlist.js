@@ -187,7 +187,7 @@ const Userlist = () => {
     { key: 'RegCourse', label: 'Reg Course' }
   ];
 
-  const [selectedColumns, setSelectedColumns] = useState(['username', 'password', 'username']);
+  const [selectedColumns, setSelectedColumns] = useState(['username', 'password',"SID"]);
 
   function handleColumnToggle(columnKey) {
     if (selectedColumns.includes(columnKey)) {

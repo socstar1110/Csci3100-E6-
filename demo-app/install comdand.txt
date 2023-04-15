@@ -1,3 +1,6 @@
 npm i mdb-react-ui-kit 
 npm install bootstrap --save
 npm install bootstrap-icons
+npm install --save cdbreact
+npm i crypto-js
+npm install react-icons
