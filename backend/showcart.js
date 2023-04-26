@@ -1,4 +1,3 @@
-
 const express = require('express');
 const router = express.Router();
 const { User, Course } = require('./mongoose');
@@ -15,6 +14,7 @@ router.get("/cartcourse/:username", function(req, res) {
       }
       // Otherwise, format the courses in the cart and return them
       else {
+        // Map the user's courses in the cart to a new array with only the desired fields
         const cartCourses = user.CartCourse.map((course) => ({
           courseName: course.CourseName,
           courseId: course.CourseId,
@@ -26,16 +26,13 @@ router.get("/cartcourse/:username", function(req, res) {
           department: course.Department,
           instructor: course.Instructor,
           capacity: course.Capacity,
-          availability: course.Capacity-course.RegUser.length
+          availability: course.Capacity-course.RegUser.length // Calculate the number of available spots in the course
         }));
+        // Return the formatted courses in the cart
         res.json(cartCourses);
       }
     })
     .catch(function(err) {
       // If there is an error, return a 500 Internal Server Error response
       console.error(err);
-      res.status(500).send("Error finding user: " + req.params.username);
-    });
-});
-
-  module.exports = router;
+      res.status(500).send("Error finding user: " + req.params.username
