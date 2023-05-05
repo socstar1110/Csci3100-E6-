@@ -4,21 +4,20 @@ import { ReactComponent as Drop } from './icon/dash.svg';
 import cookie from 'react-cookies'
 import { useEffect, useState } from 'react';
 
-
-
 const SelectCourse = ({ data }) => {
   const [SelectedCourse, setSelectedCourse] = useState();
   const [isLoading, setLoading] = useState(true); // set a loading term to make sure the system fetch the required data before return
 
   const obj ={username:cookie.load('username')} // send to the backend 
   useEffect(() => {
-    // This function will execute automatically
+    // This function will execute automatically when the component mounts
     fetch('http://localhost:80/showSelected', {
       method: 'POST',
       model: 'cors',
       headers: {
         'Content-Type': 'application/json'
-      }, credentials: 'include', // for receive cookies
+      }, 
+      credentials: 'include', // for receiving cookies
       body: JSON.stringify((obj))
     })
       .then(res => res.json())
@@ -29,7 +28,7 @@ const SelectCourse = ({ data }) => {
       })
   }, []);
 
-  const Removeobj = { username: cookie.load('username'), id: '123' } // a object contain a course id the admin would like to remove 
+  const Removeobj = { username: cookie.load('username'), id: '123' } // an object that contains a course id the admin would like to remove 
   function Removecourse(ID) {
     Removeobj.id = ID
     console.log(ID)
@@ -38,7 +37,8 @@ const SelectCourse = ({ data }) => {
       model: 'cors',
       headers: {
         'Content-Type': 'application/json'
-      }, body: JSON.stringify((Removeobj))
+      }, 
+      body: JSON.stringify((Removeobj))
     })
       .then(res => res.text())
       .then(data => {
@@ -75,7 +75,7 @@ const SelectCourse = ({ data }) => {
               <tbody>
                 {SelectedCourse.map((course) => (
                   <tr key={course.id}>
-                    <td style={{ padding: '10px' }}><Link to={'/coursedetail/' + course.CourseId}>{course.CourseCode}</Link></td> {/* a link to a acces crouse detail )*/}
+                    <td style={{ padding: '10px' }}><Link to={'/coursedetail/' + course.CourseId}>{course.CourseCode}</Link></td> {/* a link to access course detail )*/}
                     <td style={{ padding: '10px' }}>{course.CourseName}</td>
                     <td style={{ padding: '10px' }}>{course.CourseId}</td>
                     <td style={{ padding: '10px' }}>{course.Venue}</td>
