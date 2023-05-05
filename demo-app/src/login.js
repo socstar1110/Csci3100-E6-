@@ -18,22 +18,25 @@ import ForgotPassword from './forgetPassword';
 import { set } from 'mongoose';
 
 const Login = () => {
-  const [username, setUsername] = useState(''); /* define two variable in the functional component, this value of two variable will be send to backend */
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState(''); // State variable for username
+  const [password, setPassword] = useState(''); // State variable for password
   const navigate = useNavigate();
 
+  // Encrypt username and password using CryptoJS
   const encryptedUsername = CryptoJS.AES.encrypt(username, 'secret_default_key').toString();
   const encryptedPassword = CryptoJS.AES.encrypt(password, 'secret_default_key').toString();
 
   function login() {
     console.log(username)
     console.log(password)
+    // Send a POST request to the backend with encrypted username and password
     fetch('http://localhost:80/login', {
       method: 'POST',
       model: 'cors',
       headers: {
         'Content-Type': 'application/json'
-      }, credentials: 'include', // for receive cookies
+      }, 
+      credentials: 'include', // Send cookies along with the request
       body: JSON.stringify({
         encryptedUsername,
         encryptedPassword
@@ -41,51 +44,51 @@ const Login = () => {
     })
       .then(res => res.text())
       .then(data => {
+        // Display a pop-up box with a success or error message depending on the response
         if (data === 'userVaild') {
           window.PopUpbox('Login successfully', 'Please click OK to continue', 'success', 'OK')
             .then((result) => {
-              navigate("/profile")
+              navigate("/profile") // Navigate to the profile page if the user is valid
             })
         } else if (data === 'adminVaild') {
           window.PopUpbox('Login successfully', 'Please click OK to continue', 'success', 'OK')
             .then((result) => {
-              navigate("/admin")
+              navigate("/admin") // Navigate to the admin page if the admin is valid
             })
         } else {
-          window.PopUpbox('Login unsuccessfully', 'Please check carefully', 'error', 'OK')
+          window.PopUpbox('Login unsuccessfully', 'Please check carefully', 'error', 'OK') // Display an error message if the login is unsuccessful
         }
       })
   }
+
   function handleInputKey(event) {
     // Check if the key pressed was the "Enter" key.
     if (event.key === 'Enter') {
       // Activate the search button.
-      login();
+      login(); // Call the login function if the "Enter" key is pressed
     }
   }
 
-  return ( // whre the value of the box is changed will updata the username and passowrd  
+  return (
+    // Render the login page with input fields for username and password,
+    // a login button, and links for registration and forgot password pages
     <div className='center'>
       <MDBContainer fluid className='p-4 center'>
-      <div className='loading'>
+        <div className='loading'>
           <span></span>
           <span></span>
           <span></span>
           <span></span>
           <span></span>
-          </div>
+        </div>
         <MDBRow className='center'>
-          
           <MDBCol md='6' className='text-center text-md-start d-flex flex-column justify-content-center'>
-
             <h1 className="my-5 display-3 fw-bold ls-tight px-3 color-change">
               Cusis 2.0  <br />
             </h1>
-
             <p className='px-3 shocked' style={{ color: 'hsl(217, 10%, 50.8%)', fontSize: 20}}>
               A better course selection system
             </p>
-
           </MDBCol>
           <MDBCol md='6'>
             <MDBCard className='my-5 box'>
@@ -94,12 +97,12 @@ const Login = () => {
                   <MDBCol col='6'>
                     <label htmlFor="form1">Username</label>
                     <MDBInput wrapperClass='mb-4' id='form1' type='text' value={username} onChange={(e) => setUsername(e.target.value)} onKeyUp={handleInputKey}/>
-                    {/* change the value of username base on the value of this box */}
+                    {/* Update the username state variable with the value of this input field */}
                   </MDBCol>
                 </MDBRow>
                 <label htmlFor="form2">Password</label>
                 <MDBInput wrapperClass='mb-4' id='form2' type='password' value={password} onChange={(e) => setPassword(e.target.value)} onKeyUp={handleInputKey}/>
-                {/* change the value of password base on the value of this box */}
+                {/* Update the password state variable with the value of this input field */}
                 <button onClick={() => login()} className='btn btn-primary fw-bold py-3 px-5 rounded-pill shadow-lg'>
                   Login
                 </button>
@@ -115,12 +118,11 @@ const Login = () => {
                 </div>
               </MDBCardBody>
             </MDBCard>
-           
           </MDBCol>
-          
         </MDBRow>
       </MDBContainer>
     </div>
   )
 }
+
 export default Login;
