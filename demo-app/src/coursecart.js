@@ -16,10 +16,9 @@ import { ReactComponent as AddIcon } from './icon/plus.svg';
 import './courseCart.css';
 import cookie from 'react-cookies'
 
-
 const Coursecart =() =>{
   const username = cookie.load('username');
-  const [isLoading, setLoading] = useState(true); // set a loading term to make sure the system fetch the required data before return
+  const [isLoading, setLoading] = useState(true); // set a loading term to make sure the system fetch the required data before returning
   const [temp, setFinalData] = useState([]);
   //checkIDs
   const [checkedIds, setCheckedIds] = useState([]);
@@ -31,6 +30,8 @@ const Coursecart =() =>{
       setCheckedIds([...checkedIds, id]);
     }
   };
+
+  /* Function to register courses in the cart */
   const regCourses = async (courseIDs) => {
     const responses = [];
     try {
@@ -69,6 +70,7 @@ const Coursecart =() =>{
     }
   };
 
+  /* Function to remove a course from the cart */
   const dropFromCart = async (courseID, windowPop = true) => {
     setLoading(true);
     let payload = {
@@ -101,6 +103,7 @@ const Coursecart =() =>{
   };
 
   useEffect(() => {
+    /* Fetch cart courses for the current user on page load */
     fetch('http://localhost:80/cartcourse/'+username, {
       method: "GET",
       headers: {
@@ -116,6 +119,7 @@ const Coursecart =() =>{
       })
       .catch(error => console.error(error));
   }, [isLoading]);
+  
   //console.log(temp);
   
   // select All boxes
