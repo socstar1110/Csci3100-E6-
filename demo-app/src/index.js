@@ -20,9 +20,9 @@ import CourseDetail from './coursedetail.js';
 import Search from './search.js';
 import ForgetPassword from './forgetPassword.js';
 
-
-/* use window. to create a global function */
-window.PopUpbox = async function(title, text, icon, confirmButtonText) {  /* a box will show up when the function is called */
+/* Create a global function PopUpbox using the 'window' object */
+window.PopUpbox = async function(title, text, icon, confirmButtonText) {  
+  /* Use SweetAlert2 to display a pop-up box with the given title, text, icon, and confirm button text */
   const result = await Swal.fire({
     title: title,
     text: text,
@@ -34,7 +34,8 @@ window.PopUpbox = async function(title, text, icon, confirmButtonText) {  /* a b
 };
 
 function App() {
-  return ( /* BrowserRouter asign each functional component as a link, each component will render a page */
+  return ( 
+    /* Use BrowserRouter to define the routes for the app */
     <BrowserRouter> 
       <Routes>
         <Route path="/" element={<RenderLogin />} />
@@ -51,6 +52,7 @@ function App() {
   );
 }
 
+/* Define functional components for each route, which will render the corresponding page */
 const RenderForestPassword = ()=>{
   return(
     <div>
@@ -115,7 +117,7 @@ const RenderCourseDetail =() =>{
       <CourseDetail/>
     </div>
   )
-  }
+}
 
 
 const RenderSearch =() =>{
@@ -126,5 +128,6 @@ const RenderSearch =() =>{
   )
 }
 
+/* Use ReactDOM to render the root element of the app */
 const root = ReactDOM.createRoot(document.querySelector('#app'));
 root.render(<App />);
