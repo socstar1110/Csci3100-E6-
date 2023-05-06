@@ -2,10 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const { User, Course } = require('./mongoose');
-  // const temp = [ //temp data for display //9867
-  // {name:"Software Engineering", id:"7894",code: 'Csci3100', venue:"Lsk", time:"12:30 - 2:15",department:"Computer Science",instructor:"Micheal",capacity:200},
-  // {name:"Data Structures", id:"4469",code: 'Csci2100', venue:"Yia", time:"9:30 - 11:15",department:"Computer Science",instructor:"Allen",capacity:200}
-  // ];
+
 
 const parseTimeString = (timeString) => { //parse String to time 
   if (typeof timeString !== "string") {
@@ -127,7 +124,13 @@ router.post("/regCourse", async function (req, res) {
       // Check for time clash with registered courses
       const result = await checkTimeClash(courseDay, starttime, endtime, username);
       if (result.clash) {
-        return res.status(400).send(course.CourseCode + ": Time clash with registered course " + result.clashCourse.CourseCode);
+          // If user has already registered for the course, return 400 Bad Request response
+          if (result.clashCourse.CourseCode==course.CourseCode){
+            return res.status(400).send("You have already registered for the course " + course.CourseCode);
+          }
+          else{
+            return res.status(400).send(course.CourseCode + ": Time clash with registered course " + result.clashCourse.CourseCode);
+          }
       }
       // Check for time clash with cart courses
       else {
@@ -144,10 +147,7 @@ router.post("/regCourse", async function (req, res) {
           if (user == null) {
             return res.send("no such user:" + username);
           }
-          // If user has already registered for the course, return 400 Bad Request response
-          else if (user.RegCourse.includes(course._id)) {
-            return res.status(400).send("You have already registered for the course " + course.CourseCode);
-          }
+
           // If user is eligible for registration, update course and user information
           else {
             course.RegUser.push(user);
